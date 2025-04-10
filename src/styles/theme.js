@@ -39,7 +39,7 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: [
-      'Inter',
+      'Open Sans',
       '-apple-system',
       'BlinkMacSystemFont',
       '"Segoe UI"',
@@ -100,6 +100,36 @@ const theme = createTheme({
         root: {
           borderRadius: 8,
           padding: '8px 16px',
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: '#1C2226',
+          color: '#FFFFFF',
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#FFFFFF',
+          color: '#1C2226',
+        },
+      },
+    },
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          color: '#FFFFFF',
+        },
+      },
+    },
+    MuiListItemText: {
+      styleOverrides: {
+        primary: {
+          color: '#FFFFFF',
         },
       },
     },
