@@ -1,0 +1,317 @@
+[
+  {
+    "id": "TRN001",
+    "athleteId": "ATH001",
+    "athleteName": "James Wilson",
+    "date": "2025-04-08",
+    "duration": 90,
+    "sessionType": "Team Training",
+    "location": "Training Ground",
+    "weather": {
+      "condition": "Sunny",
+      "temperature": 18,
+      "humidity": 65,
+      "windSpeed": 8
+    },
+    "metrics": {
+      "totalDistance": 7250,
+      "highIntensityDistance": 1200,
+      "sprintDistance": 320,
+      "topSpeed": 32.5,
+      "accelerations": 24,
+      "decelerations": 28,
+      "playerLoad": 850,
+      "heartRate": {
+        "average": 145,
+        "max": 188,
+        "timeAbove85Percent": 15
+      },
+      "rpe": 7
+    },
+    "technicalStats": {
+      "passes": 85,
+      "passAccuracy": 88,
+      "shots": 12,
+      "shotsOnTarget": 8,
+      "tackles": 4,
+      "duelsWon": 7
+    },
+    "wellnessPreSession": {
+      "fatigue": 2,
+      "sleep": 8,
+      "mood": 4,
+      "soreness": 2,
+      "readiness": 4
+    },
+    "notes": "Good session, focused on attacking patterns and finishing"
+  },
+  {
+    "id": "TRN002",
+    "athleteId": "ATH002",
+    "athleteName": "Sarah Johnson",
+    "date": "2025-04-08",
+    "duration": 90,
+    "sessionType": "Team Training",
+    "location": "Training Ground",
+    "weather": {
+      "condition": "Sunny",
+      "temperature": 18,
+      "humidity": 65,
+      "windSpeed": 8
+    },
+    "metrics": {
+      "totalDistance": 8100,
+      "highIntensityDistance": 1450,
+      "sprintDistance": 280,
+      "topSpeed": 30.2,
+      "accelerations": 32,
+      "decelerations": 35,
+      "playerLoad": 920,
+      "heartRate": {
+        "average": 152,
+        "max": 185,
+        "timeAbove85Percent": 22
+      },
+      "rpe": 8
+    },
+    "technicalStats": {
+      "passes": 110,
+      "passAccuracy": 92,
+      "shots": 5,
+      "shotsOnTarget": 3,
+      "tackles": 8,
+      "duelsWon": 12
+    },
+    "wellnessPreSession": {
+      "fatigue": 3,
+      "sleep": 7,
+      "mood": 4,
+      "soreness": 2,
+      "readiness": 4
+    },
+    "notes": "High intensity session, excellent technical performance"
+  },
+  {
+    "id": "TRN003",
+    "athleteId": "ATH003",
+    "athleteName": "Carlos Mendez",
+    "date": "2025-04-08",
+    "duration": 90,
+    "sessionType": "Team Training",
+    "location": "Training Ground",
+    "weather": {
+      "condition": "Sunny",
+      "temperature": 18,
+      "humidity": 65,
+      "windSpeed": 8
+    },
+    "metrics": {
+      "totalDistance": 7500,
+      "highIntensityDistance": 950,
+      "sprintDistance": 180,
+      "topSpeed": 29.8,
+      "accelerations": 18,
+      "decelerations": 22,
+      "playerLoad": 880,
+      "heartRate": {
+        "average": 140,
+        "max": 178,
+        "timeAbove85Percent": 12
+      },
+      "rpe": 7
+    },
+    "technicalStats": {
+      "passes": 95,
+      "passAccuracy": 90,
+      "shots": 2,
+      "shotsOnTarget": 1,
+      "tackles": 15,
+      "duelsWon": 14
+    },
+    "wellnessPreSession": {
+      "fatigue": 2,
+      "sleep": 8,
+      "mood": 5,
+      "soreness": 1,
+      "readiness": 5
+    },
+    "notes": "Strong defensive performance in small-sided games"
+  },
+  {
+    "id": "TRN004",
+    "athleteId": "ATH005",
+    "athleteName": "David Okonkwo",
+    "date": "2025-04-09",
+    "duration": 75,
+    "sessionType": "Recovery Session",
+    "location": "Indoor Facility",
+    "weather": {
+      "condition": "N/A",
+      "temperature": 22,
+      "humidity": 50,
+      "windSpeed": 0
+    },
+    "metrics": {
+      "totalDistance": 3200,
+      "highIntensityDistance": 0,
+      "sprintDistance": 0,
+      "topSpeed": 18.5,
+      "accelerations": 8,
+      "decelerations": 10,
+      "playerLoad": 320,
+      "heartRate": {
+        "average": 115,
+        "max": 135,
+        "timeAbove85Percent": 0
+      },
+      "rpe": 3
+    },
+    "technicalStats": {
+      "passes": 65,
+      "passAccuracy": 95,
+      "shots": 0,
+      "shotsOnTarget": 0,
+      "tackles": 0,
+      "duelsWon": 0
+    },
+    "wellnessPreSession": {
+      "fatigue": 4,
+      "sleep": 6,
+      "mood": 3,
+      "soreness": 3,
+      "readiness": 3
+    },
+    "notes": "Light recovery session following match, focus on mobility and technical work"
+  },
+  {
+    "id": "TRN005",
+    "athleteId": "ATH006",
+    "athleteName": "Sophia Martinez",
+    "date": "2025-04-09",
+    "duration": 60,
+    "sessionType": "Individual Training",
+    "location": "Gym",
+    "weather": {
+      "condition": "N/A",
+      "temperature": 22,
+      "humidity": 50,
+      "windSpeed": 0
+    },
+    "metrics": {
+      "totalDistance": 0,
+      "highIntensityDistance": 0,
+      "sprintDistance": 0,
+      "topSpeed": 0,
+      "accelerations": 0,
+      "decelerations": 0,
+      "playerLoad": 450,
+      "heartRate": {
+        "average": 135,
+        "max": 165,
+        "timeAbove85Percent": 8
+      },
+      "rpe": 6
+    },
+    "technicalStats": null,
+    "wellnessPreSession": {
+      "fatigue": 2,
+      "sleep": 9,
+      "mood": 4,
+      "soreness": 2,
+      "readiness": 4
+    },
+    "notes": "Strength and conditioning session, focus on lower body power"
+  },
+  {
+    "id": "TRN006",
+    "athleteId": "ATH007",
+    "athleteName": "Lucas Kim",
+    "date": "2025-04-09",
+    "duration": 90,
+    "sessionType": "Team Training",
+    "location": "Training Ground",
+    "weather": {
+      "condition": "Cloudy",
+      "temperature": 16,
+      "humidity": 70,
+      "windSpeed": 12
+    },
+    "metrics": {
+      "totalDistance": 7800,
+      "highIntensityDistance": 1100,
+      "sprintDistance": 220,
+      "topSpeed": 31.2,
+      "accelerations": 26,
+      "decelerations": 30,
+      "playerLoad": 870,
+      "heartRate": {
+        "average": 148,
+        "max": 182,
+        "timeAbove85Percent": 18
+      },
+      "rpe": 7
+    },
+    "technicalStats": {
+      "passes": 92,
+      "passAccuracy": 89,
+      "shots": 3,
+      "shotsOnTarget": 1,
+      "tackles": 12,
+      "duelsWon": 9
+    },
+    "wellnessPreSession": {
+      "fatigue": 2,
+      "sleep": 8,
+      "mood": 5,
+      "soreness": 2,
+      "readiness": 5
+    },
+    "notes": "Good defensive work in positional drills"
+  },
+  {
+    "id": "TRN007",
+    "athleteId": "ATH004",
+    "athleteName": "Emma Chen",
+    "date": "2025-04-09",
+    "duration": 90,
+    "sessionType": "Goalkeeper Training",
+    "location": "Training Ground",
+    "weather": {
+      "condition": "Cloudy",
+      "temperature": 16,
+      "humidity": 70,
+      "windSpeed": 12
+    },
+    "metrics": {
+      "totalDistance": 3500,
+      "highIntensityDistance": 450,
+      "sprintDistance": 120,
+      "topSpeed": 25.8,
+      "accelerations": 35,
+      "decelerations": 38,
+      "playerLoad": 680,
+      "heartRate": {
+        "average": 132,
+        "max": 172,
+        "timeAbove85Percent": 8
+      },
+      "rpe": 8
+    },
+    "technicalStats": {
+      "saves": 28,
+      "savePercentage": 85,
+      "highClaims": 12,
+      "distributions": 35,
+      "distributionAccuracy": 80,
+      "oneOnOnes": 8
+    },
+    "wellnessPreSession": {
+      "fatigue": 2,
+      "sleep": 8,
+      "mood": 4,
+      "soreness": 2,
+      "readiness": 4
+    },
+    "notes": "Intensive shot-stopping session, worked on distribution under pressure"
+  }
+]

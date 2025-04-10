@@ -1,0 +1,220 @@
+[
+  {
+    "id": "TRT001",
+    "injuryId": "INJ001",
+    "athleteId": "ATH001",
+    "athleteName": "James Wilson",
+    "treatmentType": "Physiotherapy",
+    "startDate": "2024-11-16",
+    "endDate": "2025-01-05",
+    "frequency": "3x per week",
+    "provider": "Dr. Lisa Chen",
+    "location": "Team Medical Facility",
+    "protocol": "Progressive hamstring rehabilitation program",
+    "phases": [
+      {
+        "phase": 1,
+        "duration": "2 weeks",
+        "focus": "Pain management and initial healing",
+        "activities": ["RICE protocol", "Gentle stretching", "Isometric exercises"]
+      },
+      {
+        "phase": 2,
+        "duration": "3 weeks",
+        "focus": "Strength building",
+        "activities": ["Progressive resistance training", "Functional movement patterns", "Proprioception exercises"]
+      },
+      {
+        "phase": 3,
+        "duration": "3 weeks",
+        "focus": "Return to sport",
+        "activities": ["Sport-specific drills", "Speed and agility training", "Controlled scrimmage participation"]
+      }
+    ],
+    "outcomes": {
+      "painLevel": "0/10",
+      "functionalAssessment": "Full function restored",
+      "strengthTests": "95% compared to uninjured side",
+      "returnToPlayReadiness": "Cleared"
+    },
+    "notes": "Excellent adherence to program, full recovery achieved"
+  },
+  {
+    "id": "TRT002",
+    "injuryId": "INJ003",
+    "athleteId": "ATH002",
+    "athleteName": "Sarah Johnson",
+    "treatmentType": "Post-Surgical Rehabilitation",
+    "startDate": "2024-10-05",
+    "endDate": "2025-04-15",
+    "frequency": "5x per week initially, tapering to 3x per week",
+    "provider": "Dr. James Wilson, Dr. Emma Roberts (PT)",
+    "location": "Sports Medicine Center, Team Facility",
+    "protocol": "ACL reconstruction rehabilitation protocol",
+    "phases": [
+      {
+        "phase": 1,
+        "duration": "6 weeks",
+        "focus": "Reduce swelling, restore range of motion, protect graft",
+        "activities": ["Gentle ROM exercises", "Quadriceps activation", "Weight bearing as tolerated", "Cryotherapy"]
+      },
+      {
+        "phase": 2,
+        "duration": "6 weeks",
+        "focus": "Progressive strengthening, normal gait",
+        "activities": ["Closed chain exercises", "Balance training", "Stationary cycling", "Swimming"]
+      },
+      {
+        "phase": 3,
+        "duration": "12 weeks",
+        "focus": "Advanced strengthening, neuromuscular control",
+        "activities": ["Plyometrics", "Agility drills", "Sport-specific movement patterns", "Running progression"]
+      },
+      {
+        "phase": 4,
+        "duration": "12 weeks",
+        "focus": "Return to sport",
+        "activities": ["Cutting drills", "Deceleration training", "Scrimmage participation", "Psychological readiness"]
+      }
+    ],
+    "outcomes": {
+      "painLevel": "0/10",
+      "functionalAssessment": "Full function restored",
+      "strengthTests": "90% compared to uninjured side",
+      "returnToPlayReadiness": "Cleared with ongoing monitoring"
+    },
+    "notes": "Exemplary rehabilitation process, cleared all return-to-play assessments"
+  },
+  {
+    "id": "TRT003",
+    "injuryId": "INJ002",
+    "athleteId": "ATH003",
+    "athleteName": "Carlos Mendez",
+    "treatmentType": "Physiotherapy",
+    "startDate": "2025-02-04",
+    "endDate": "2025-02-17",
+    "frequency": "Daily initially, then every other day",
+    "provider": "Dr. Michael Thompson",
+    "location": "Team Medical Facility",
+    "protocol": "Ankle sprain rehabilitation protocol",
+    "phases": [
+      {
+        "phase": 1,
+        "duration": "3 days",
+        "focus": "Pain and swelling management",
+        "activities": ["RICE protocol", "Gentle ROM exercises", "Non-weight bearing"]
+      },
+      {
+        "phase": 2,
+        "duration": "4 days",
+        "focus": "Restore mobility and initial strengthening",
+        "activities": ["Progressive weight bearing", "Ankle mobilization", "Isometric exercises"]
+      },
+      {
+        "phase": 3,
+        "duration": "1 week",
+        "focus": "Functional strengthening and return to activity",
+        "activities": ["Balance training", "Resistance band exercises", "Sport-specific movements"]
+      }
+    ],
+    "outcomes": {
+      "painLevel": "0/10",
+      "functionalAssessment": "Full function restored",
+      "strengthTests": "100% compared to uninjured side",
+      "returnToPlayReadiness": "Cleared"
+    },
+    "notes": "Quick recovery, responded well to treatment"
+  },
+  {
+    "id": "TRT004",
+    "injuryId": "INJ004",
+    "athleteId": "ATH005",
+    "athleteName": "David Okonkwo",
+    "treatmentType": "Concussion Management",
+    "startDate": "2025-03-12",
+    "endDate": "2025-03-22",
+    "frequency": "Daily monitoring",
+    "provider": "Dr. Sarah Williams (Neurologist)",
+    "location": "Sports Medicine Center",
+    "protocol": "Graduated return-to-play concussion protocol",
+    "phases": [
+      {
+        "phase": 1,
+        "duration": "2-3 days",
+        "focus": "Physical and cognitive rest",
+        "activities": ["Limited screen time", "Adequate sleep", "Symptom monitoring"]
+      },
+      {
+        "phase": 2,
+        "duration": "1-2 days",
+        "focus": "Light aerobic exercise",
+        "activities": ["Walking", "Light stationary cycling", "No resistance training"]
+      },
+      {
+        "phase": 3,
+        "duration": "1-2 days",
+        "focus": "Sport-specific exercise",
+        "activities": ["Running drills", "Passing drills", "No head impact activities"]
+      },
+      {
+        "phase": 4,
+        "duration": "1-2 days",
+        "focus": "Non-contact training",
+        "activities": ["Progressive training drills", "Coordination exercises", "Cognitive load"]
+      },
+      {
+        "phase": 5,
+        "duration": "1 day",
+        "focus": "Full contact practice",
+        "activities": ["Normal training activities", "Medical clearance required"]
+      },
+      {
+        "phase": 6,
+        "duration": "N/A",
+        "focus": "Return to competition",
+        "activities": ["Normal game play"]
+      }
+    ],
+    "outcomes": {
+      "painLevel": "0/10",
+      "functionalAssessment": "Normal cognitive function",
+      "strengthTests": "N/A",
+      "returnToPlayReadiness": "Cleared after passing all assessments"
+    },
+    "notes": "No lingering symptoms, passed all cognitive testing"
+  },
+  {
+    "id": "TRT005",
+    "injuryId": "INJ007",
+    "athleteId": "ATH006",
+    "athleteName": "Sophia Martinez",
+    "treatmentType": "Manual Therapy & Exercise",
+    "startDate": "2025-03-05",
+    "endDate": "2025-03-19",
+    "frequency": "3x per week",
+    "provider": "Dr. Robert Chen (Physiotherapist)",
+    "location": "Team Medical Facility",
+    "protocol": "Lower back pain management protocol",
+    "phases": [
+      {
+        "phase": 1,
+        "duration": "1 week",
+        "focus": "Pain management and tissue healing",
+        "activities": ["Manual therapy", "Gentle stretching", "Modified training load"]
+      },
+      {
+        "phase": 2,
+        "duration": "1 week",
+        "focus": "Core stability and movement pattern correction",
+        "activities": ["Core stabilization exercises", "Movement re-education", "Gradual load progression"]
+      }
+    ],
+    "outcomes": {
+      "painLevel": "1/10 (occasional)",
+      "functionalAssessment": "Full function restored",
+      "strengthTests": "Improved core endurance",
+      "returnToPlayReadiness": "Cleared with ongoing maintenance program"
+    },
+    "notes": "Implemented ongoing prevention program due to recurrent nature"
+  }
+]
