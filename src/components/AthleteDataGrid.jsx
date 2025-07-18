@@ -9,6 +9,8 @@ import {
   GridToolbarFilterButton, 
   GridToolbarDensitySelector,
   GridToolbarExport,
+  GridToolbarQuickFilter,
+  GridPagination,
   gridClasses
 } from '@mui/x-data-grid-premium';
 import { 
@@ -102,6 +104,7 @@ const CustomToolbar = React.forwardRef((props, ref) => {
         backgroundColor: 'var(--color-background-secondary)',
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'space-between',
       }}
     >
       <Box sx={{ 
@@ -124,6 +127,17 @@ const CustomToolbar = React.forwardRef((props, ref) => {
         <GridToolbarDensitySelector />
         <GridToolbarExport />
       </Box>
+      <GridToolbarQuickFilter 
+        sx={{
+          '& .MuiInputBase-root': {
+            backgroundColor: 'var(--color-background-primary)',
+            borderRadius: '4px',
+            height: '36px',
+            width: '240px',
+          }
+        }}
+        debounceMs={150}
+      />
     </Box>
   );
 });
@@ -285,6 +299,7 @@ const AthleteDataGrid = ({
     },
     '& .MuiDataGrid-footerContainer': {
       borderTop: '1px solid var(--color-border-primary)',
+      justifyContent: 'flex-start',
     },
   };
 
@@ -301,8 +316,19 @@ const AthleteDataGrid = ({
         density="comfortable"
         rowSelectionModel={selectedRows}
         onRowSelectionModelChange={setSelectedRows}
+        pagination
         slots={{
           toolbar: CustomToolbarComponent,
+          pagination: GridPagination,
+        }}
+        slotProps={{
+          pagination: {
+            sx: {
+              '& .MuiTablePagination-toolbar': {
+                justifyContent: 'flex-start',
+              },
+            },
+          },
         }}
         initialState={{
           pagination: { 
