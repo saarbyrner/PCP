@@ -133,9 +133,9 @@ function MainNavigation({
             sx={{
               height: 40,
               justifyContent: isCollapsed ? 'center' : 'initial',
-              px: 2,
+              pl: 2,
               py: 1,
-              mx: 1,
+              ml: 1, mr: 0,
               mb: 0.5,
               position: 'relative',
               backgroundColor: isActive ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
@@ -264,7 +264,10 @@ function MainNavigation({
       sx={{
         width: isOpen ? DRAWER_WIDTH : DRAWER_WIDTH_COLLAPSED,
         flexShrink: 0,
+        mr: 0,
         '& .MuiDrawer-paper': {
+          marginRight: 0,
+
           width: isOpen ? DRAWER_WIDTH : DRAWER_WIDTH_COLLAPSED,
           boxSizing: 'border-box',
           border: 'none',

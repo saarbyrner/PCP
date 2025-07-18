@@ -10,7 +10,8 @@ import {
   Menu,
   MenuItem,
   Badge,
-  Select
+  Select,
+  CssBaseline
 } from '@mui/material'
 import { 
   Notifications
@@ -76,7 +77,9 @@ function MedinahLayoutWithMainNav({ children }) {
   }
 
   return (
-    <Box sx={{ display: 'flex', height: '100vh', bgcolor: '#f8f9fa' }}>
+    <>
+      <CssBaseline />
+      <Box sx={{ display: 'flex', gap: 0, height: '100vh', bgcolor: '#f8f9fa' }}>
       {/* Main Navigation */}
       <MainNavigation 
         isOpen={isNavOpen}
@@ -209,6 +212,7 @@ function MedinahLayoutWithMainNav({ children }) {
         </Box>
       </Box>
     </Box>
+    </>
   )
 }
 
