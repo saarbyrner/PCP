@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router-dom'
-import KitmanLogo from '/public/assets/logos/Kitman Labs base.png'
+import { useView } from '../contexts/ViewContext'
 import {
   Drawer,
   Box,
@@ -24,7 +24,12 @@ import {
   SettingsOutlined,
   HelpOutlined,
   ChevronLeftOutlined,
-  ChevronRightOutlined
+  ChevronRightOutlined,
+  GroupsOutlined,
+  DashboardOutlined,
+  TrendingUpOutlined,
+  VerifiedUserOutlined,
+  BadgeOutlined
 } from '@mui/icons-material'
 import '../styles/design-tokens.css'
 
@@ -108,6 +113,7 @@ function MainNavigation({
 }) {
   const location = useLocation()
   const navigate = useNavigate()
+  const { currentTheme, toggleView, isLeagueView } = useView()
 
   const handleItemClick = (path) => {
     navigate(path)
@@ -189,13 +195,13 @@ function MainNavigation({
       sx={{
         width: isOpen ? DRAWER_WIDTH : DRAWER_WIDTH_COLLAPSED,
         height: '100vh',
-        background: 'linear-gradient(180deg, #000000 0%, #111111 40%, #000000 70%, #040037ff 90%, #040037ff 100%)',
+        background: currentTheme.gradientBackground,
         color: '#ffffff',
         display: 'flex',
         flexDirection: 'column'
       }}
     >
-      {/* Header with Logo */}
+      {/* Header with Logo - Clickable to toggle views */}
       <Box
         sx={{
           display: 'flex',
@@ -205,25 +211,36 @@ function MainNavigation({
           minHeight: 32
         }}
       >
-        <Box
-          sx={{
-            width: isOpen ? 'auto' : 32,
-            height: 32,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
+        <Tooltip 
+          title={`Switch to ${isLeagueView ? 'Club' : 'League'} View`} 
+          placement="right"
         >
-          <img
-            src={KitmanLogo}
-            alt="Kitman Labs"
-            style={{
-              height: '100%',
-              width: 'auto',
-              objectFit: 'contain'
+          <Box
+            onClick={toggleView}
+            sx={{
+              width: isOpen ? 'auto' : 32,
+              height: 32,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease',
+              '&:hover': {
+                transform: 'scale(1.05)'
+              }
             }}
-          />
-        </Box>
+          >
+            <img
+              src={currentTheme.logoSrc}
+              alt={currentTheme.name}
+              style={{
+                height: '100%',
+                width: 'auto',
+                objectFit: 'contain'
+              }}
+            />
+          </Box>
+        </Tooltip>
       </Box>
 
       {/* Main Navigation Items */}

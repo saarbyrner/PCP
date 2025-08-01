@@ -1,0 +1,210 @@
+{
+  "leagueData": {
+    "kpis": [
+      { "title": "Total Coaches", "value": 8450 },
+      { "title": "Average Age", "value": 40.5 },
+      { "title": "Female Coaches", "value": 8.5 },
+      { "title": "Ethnicity (Non-White)", "value": 15.2 }
+    ],
+    "genderDistribution": [
+      { "name": "Male", "value": 91.5 },
+      { "name": "Female", "value": 8.5 }
+    ],
+    "ethnicityDistribution": {
+      "breakdown": [
+        { "name": "White/White British", "value": 84.8 },
+        { "name": "Black/Black British", "value": 7.0 },
+        { "name": "Asian/Asian British", "value": 5.0 },
+        { "name": "Mixed", "value": 2.0 },
+        { "name": "Other", "value": 1.2 }
+      ],
+      "missingData": {
+        "lca": "12%",
+        "lma": "77%"
+      }
+    },
+    "qualificationsTrend": [
+      { "season": "2020", "uefaB": 500, "uefaA": 220, "uefaPro": 20 },
+      { "season": "2021", "uefaB": 521, "uefaA": 223, "uefaPro": 21 },
+      { "season": "2022", "uefaB": 542, "uefaA": 226, "uefaPro": 21 },
+      { "season": "2023", "uefaB": 563, "uefaA": 229, "uefaPro": 22 },
+      { "season": "2024", "uefaB": 584, "uefaA": 232, "uefaPro": 22 }
+    ],
+    "regionalDistribution": [
+      { "region": "North West", "coachesPerMillion": 124 },
+      { "region": "East Midlands", "coachesPerMillion": 122 },
+      { "region": "South East & London", "coachesPerMillion": 84 },
+      { "region": "West Midlands", "coachesPerMillion": 105 },
+      { "region": "Yorkshire & The Humber", "coachesPerMillion": 98 },
+      { "region": "Other", "coachesPerMillion": 110 }
+    ],
+    "interventionImpact": [
+      { "season": "2021", "percentage": 5.2 },
+      { "season": "2022", "percentage": 5.4 },
+      { "season": "2023", "percentage": 5.6 },
+      { "season": "2024", "percentage": 5.8 },
+      { "season": "2025", "percentage": 6.5 },
+      { "season": "2026", "percentage": 7.8 },
+      { "season": "2027", "percentage": 9.1 }
+    ],
+    "positionTypeDistribution": [
+      { "name": "Full-Time", "value": 45.0 },
+      { "name": "Part-Time", "value": 53.4 },
+      { "name": "Other", "value": 1.6 }
+    ],
+    "careerFlowData": {
+      "nodes": [
+        { "id": "Academy Coach" },
+        { "id": "First Team Assistant" },
+        { "id": "Head Coach" },
+        { "id": "Other" }
+      ],
+      "links": [
+        { "source": "Academy Coach", "target": "First Team Assistant", "value": 150 },
+        { "source": "Academy Coach", "target": "Other", "value": 350 },
+        { "source": "First Team Assistant", "target": "Head Coach", "value": 20 },
+        { "source": "First Team Assistant", "target": "Other", "value": 130 }
+      ]
+    }
+  },
+  "coachesData": [
+    {
+      "id": "coach_1",
+      "profile": {
+        "name": "Alex Smith",
+        "ethnicity": "Black/Black British",
+        "club": "Liverpool FC",
+        "role": "Academy Coach"
+      },
+      "timeline": [
+        {
+          "type": "job",
+          "title": "Academy Coach",
+          "club": "Liverpool FC",
+          "level": "Senior",
+          "role": "Full-Time",
+          "season": "2018/19",
+          "division": "Premier League Academy",
+          "startDate": "2018-07-01",
+          "endDate": "2023-06-30"
+        },
+        {
+          "type": "accreditation",
+          "title": "UEFA A License",
+          "dateOfIssue": "2020-04-15"
+        },
+        {
+          "type": "accreditation",
+          "title": "UEFA B License",
+          "dateOfIssue": "2019-03-10"
+        },
+        {
+          "type": "success",
+          "title": "Academy Trophy Win",
+          "date": "2022-05-20"
+        }
+      ],
+      "compliance": {
+        "safeguarding": { "status": "Active", "expiryDate": "2026-08-01" },
+        "emergencyAid": { "status": "Expired", "expiryDate": "2023-11-20" }
+      },
+      "impactMetrics": {
+        "playersGraduated": 3,
+        "firstTeamMinutesCoached": 540,
+        "trophiesWon": 1
+      }
+    },
+    {
+      "id": "coach_2",
+      "profile": {
+        "name": "Jane Doe",
+        "ethnicity": "Asian/Asian British",
+        "club": "Liverpool FC",
+        "role": "First Team Assistant"
+      },
+      "timeline": [
+        {
+          "type": "job",
+          "title": "First Team Assistant",
+          "club": "Liverpool FC",
+          "level": "Senior",
+          "role": "Full-Time",
+          "season": "2022/23",
+          "division": "Premier League",
+          "startDate": "2022-07-01",
+          "endDate": null
+        },
+        {
+          "type": "accreditation",
+          "title": "UEFA Pro License",
+          "dateOfIssue": "2022-10-10"
+        },
+        {
+          "type": "accreditation",
+          "title": "UEFA A License",
+          "dateOfIssue": "2018-05-22"
+        },
+        {
+          "type": "success",
+          "title": "League Cup Trophy",
+          "date": "2023-02-26"
+        }
+      ],
+      "compliance": {
+        "safeguarding": { "status": "Active", "expiryDate": "2025-06-15" },
+        "emergencyAid": { "status": "Active", "expiryDate": "2024-12-01" }
+      },
+      "impactMetrics": {
+        "playersGraduated": 12,
+        "firstTeamMinutesCoached": 1500,
+        "trophiesWon": 2
+      }
+    },
+    {
+      "id": "coach_3",
+      "profile": {
+        "name": "Mark Taylor",
+        "ethnicity": "White British",
+        "club": "Liverpool FC",
+        "role": "Head of Youth Development"
+      },
+      "timeline": [
+        {
+          "type": "job",
+          "title": "Head of Youth Development",
+          "club": "Liverpool FC",
+          "level": "Senior",
+          "role": "Full-Time",
+          "season": "2021/22",
+          "division": "Premier League Academy",
+          "startDate": "2021-08-01",
+          "endDate": null
+        },
+        {
+          "type": "accreditation",
+          "title": "UEFA Pro License",
+          "dateOfIssue": "2017-09-01"
+        },
+        {
+          "type": "accreditation",
+          "title": "UEFA A License",
+          "dateOfIssue": "2015-05-15"
+        },
+        {
+          "type": "success",
+          "title": "Youth FA Cup Win",
+          "date": "2023-04-29"
+        }
+      ],
+      "compliance": {
+        "safeguarding": { "status": "Active", "expiryDate": "2026-03-10" },
+        "emergencyAid": { "status": "Expired", "expiryDate": "2023-09-05" }
+      },
+      "impactMetrics": {
+        "playersGraduated": 5,
+        "firstTeamMinutesCoached": 800,
+        "trophiesWon": 1
+      }
+    }
+  ]
+}
