@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { 
   Box, 
@@ -10,19 +10,38 @@ import {
 import { ArrowBackOutlined } from '@mui/icons-material'
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar, Cell } from 'recharts'
 import DashboardCard from '../components/DashboardCard'
+import FilterButton from '../components/FilterButton'
+import FilterDrawer from '../components/FilterDrawer'
 import SankeyDiagram from '../components/SankeyDiagram'
+import { useFilteredData } from '../hooks/useFilteredData'
 import pcpData from '../data/pcp.json'
 
 const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0']
 
 function DevelopmentPathwaysDashboard() {
   const navigate = useNavigate()
+  const [filters, setFilters] = useState({})
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
 
-  const qualificationsTrend = pcpData.leagueData.qualificationsTrend
+  // Use filtered data based on current filter selections
+  const filteredData = useFilteredData(pcpData.leagueData, filters)
+
+  const qualificationsTrend = filteredData.qualificationsTrend || pcpData.leagueData.qualificationsTrend
   const careerFlowData = pcpData.leagueData.careerFlowData
-  const positionData = pcpData.leagueData.positionTypeDistribution
+  const positionData = filteredData.positionTypeDistribution || pcpData.leagueData.positionTypeDistribution
 
-  // Transform career flow data for D3 Sankey
+  const handleFiltersChange = (newFilters) => {
+    setFilters(newFilters)
+  }
+
+  const getActiveFiltersCount = () => {
+    return Object.values(filters).filter(value => 
+      Array.isArray(value) && value.length > 0
+    ).length
+  }
+
+  // Transform career flow data for D3 Sankey with filter multiplier
+  const filterMultiplier = filteredData._filterMultiplier || 1.0
   const sankeyData = {
     nodes: [
       { id: 0, name: 'Academy Coach' },
@@ -32,11 +51,11 @@ function DevelopmentPathwaysDashboard() {
       { id: 4, name: 'Other' }
     ],
     links: [
-      { source: 0, target: 1, value: 150 },
-      { source: 0, target: 3, value: 350 },
-      { source: 1, target: 2, value: 20 },
-      { source: 1, target: 4, value: 130 },
-      { source: 3, target: 4, value: 350 }
+      { source: 0, target: 1, value: Math.max(1, Math.round(150 * filterMultiplier)) },
+      { source: 0, target: 3, value: Math.max(1, Math.round(350 * filterMultiplier)) },
+      { source: 1, target: 2, value: Math.max(1, Math.round(20 * filterMultiplier)) },
+      { source: 1, target: 4, value: Math.max(1, Math.round(130 * filterMultiplier)) },
+      { source: 3, target: 4, value: Math.max(1, Math.round(350 * filterMultiplier)) }
     ]
   }
 
@@ -48,9 +67,16 @@ function DevelopmentPathwaysDashboard() {
   ]
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ display: 'flex' }}>
+      <Box sx={{ 
+        flexGrow: 1, 
+        p: 2,
+        transition: 'margin 0.225s cubic-bezier(0.0, 0, 0.2, 1) 0ms',
+        marginRight: filterDrawerOpen ? '16px' : 0
+      }}>
       {/* Header */}
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <IconButton onClick={() => navigate('/analysis')} sx={{ mr: 1, p: 1 }}>
           <ArrowBackOutlined fontSize="small" />
         </IconButton>
@@ -62,17 +88,22 @@ function DevelopmentPathwaysDashboard() {
             Career progression analysis and development journey mapping across the workforce
           </Typography>
         </Box>
+        </Box>
+        <FilterButton 
+          onClick={() => setFilterDrawerOpen(true)}
+          activeFiltersCount={getActiveFiltersCount()}
+        />
       </Box>
 
       <Grid container spacing={2}>
         {/* Career Flow Sankey Diagram */}
         <Grid item xs={12} md={8}>
-          <DashboardCard title="Career Progression Flow (Sankey Diagram)" height="320px">
-            <Box sx={{ height: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <DashboardCard title="Career Progression Flow (Sankey Diagram)" height="360px">
+            <Box sx={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <SankeyDiagram 
                 data={sankeyData} 
-                width={520} 
-                height={240} 
+                width={560} 
+                height={280} 
               />
             </Box>
           </DashboardCard>
@@ -80,8 +111,8 @@ function DevelopmentPathwaysDashboard() {
 
         {/* Cohort Impact Metrics */}
         <Grid item xs={12} md={4}>
-          <DashboardCard title="Cohort Impact Metrics" height="320px">
-            <ResponsiveContainer width="100%" height={260}>
+          <DashboardCard title="Cohort Impact Metrics" height="360px">
+            <ResponsiveContainer width="100%" height={300}>
               <BarChart data={cohortMetrics} margin={{ top: 10, right: 30, left: 20, bottom: 40 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis 
@@ -211,6 +242,15 @@ function DevelopmentPathwaysDashboard() {
           </DashboardCard>
         </Grid>
       </Grid>
+      </Box>
+
+      {/* Filter Drawer */}
+      <FilterDrawer
+        open={filterDrawerOpen}
+        onClose={() => setFilterDrawerOpen(false)}
+        onFiltersChange={handleFiltersChange}
+        filters={filters}
+      />
     </Box>
   )
 }

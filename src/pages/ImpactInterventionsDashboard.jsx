@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { 
   Box, 
@@ -15,17 +15,35 @@ import {
 import { ArrowBackOutlined } from '@mui/icons-material'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell } from 'recharts'
 import DashboardCard from '../components/DashboardCard'
+import FilterButton from '../components/FilterButton'
+import FilterDrawer from '../components/FilterDrawer'
 import UKMap from '../components/UKMap'
+import { useFilteredData } from '../hooks/useFilteredData'
 import pcpData from '../data/pcp.json'
 
 const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0']
 
 function ImpactInterventionsDashboard() {
   const navigate = useNavigate()
+  const [filters, setFilters] = useState({})
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
 
-  const interventionData = pcpData.leagueData.interventionImpact
-  const regionalData = pcpData.leagueData.regionalDistribution
+  // Use filtered data based on current filter selections
+  const filteredData = useFilteredData(pcpData.leagueData, filters)
+
+  const interventionData = filteredData.interventionImpact || pcpData.leagueData.interventionImpact
+  const regionalData = filteredData.regionalDistribution || pcpData.leagueData.regionalDistribution
   const ethnicityData = pcpData.leagueData.ethnicityDistribution
+
+  const handleFiltersChange = (newFilters) => {
+    setFilters(newFilters)
+  }
+
+  const getActiveFiltersCount = () => {
+    return Object.values(filters).filter(value => 
+      Array.isArray(value) && value.length > 0
+    ).length
+  }
 
   // Mock comparison data
   const comparisonData = [
@@ -34,9 +52,16 @@ function ImpactInterventionsDashboard() {
   ]
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ display: 'flex' }}>
+      <Box sx={{ 
+        flexGrow: 1, 
+        p: 2,
+        transition: 'margin 0.225s cubic-bezier(0.0, 0, 0.2, 1) 0ms',
+        marginRight: filterDrawerOpen ? '16px' : 0
+      }}>
       {/* Header */}
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <IconButton onClick={() => navigate('/analysis')} sx={{ mr: 1, p: 1 }}>
           <ArrowBackOutlined fontSize="small" />
         </IconButton>
@@ -48,6 +73,11 @@ function ImpactInterventionsDashboard() {
             Intervention effectiveness tracking with geographical distribution analysis
           </Typography>
         </Box>
+        </Box>
+        <FilterButton 
+          onClick={() => setFilterDrawerOpen(true)}
+          activeFiltersCount={getActiveFiltersCount()}
+        />
       </Box>
 
       <Grid container spacing={2}>
@@ -236,6 +266,15 @@ function ImpactInterventionsDashboard() {
           </DashboardCard>
         </Grid>
       </Grid>
+      </Box>
+
+      {/* Filter Drawer */}
+      <FilterDrawer
+        open={filterDrawerOpen}
+        onClose={() => setFilterDrawerOpen(false)}
+        onFiltersChange={handleFiltersChange}
+        filters={filters}
+      />
     </Box>
   )
 }

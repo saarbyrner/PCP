@@ -85,16 +85,30 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
       .text(d => `${d.name}\n${d.value}`)
       .each(function(d) {
         const text = d3.select(this)
-        const words = [`${d.name}`, `${d.value || ''} coaches`]
+        
+        // Calculate total input for percentage calculation
+        const totalInput = d.sourceLinks.reduce((sum, link) => sum + link.value, 0) || 
+                          d.targetLinks.reduce((sum, link) => sum + link.value, 0) || 
+                          d.value || 0
+        
+        // Calculate percentage of total coaches (approximate total based on data)
+        const totalCoaches = 1000 // Approximate total from the flow data
+        const percentage = totalInput > 0 ? Math.round((totalInput / totalCoaches) * 100) : 0
+        
+        // Improved accessibility: larger text, better contrast, fewer lines
+        const words = [
+          `${d.name}`, 
+          `${d.value || totalInput} coaches (${percentage}%)`
+        ]
         text.text('')
         
         words.forEach((word, i) => {
           text.append('tspan')
-            .attr('x', d.x0 < innerWidth / 2 ? d.x1 + 6 : d.x0 - 6)
-            .attr('dy', i === 0 ? 0 : '1.2em')
-            .style('font-size', i === 0 ? '11px' : '9px')
-            .style('font-weight', i === 0 ? '500' : '400')
-            .style('fill', i === 0 ? '#333' : '#666')
+            .attr('x', d.x0 < innerWidth / 2 ? d.x1 + 8 : d.x0 - 8)
+            .attr('dy', i === 0 ? 0 : '1.4em')
+            .style('font-size', i === 0 ? '13px' : '11px')
+            .style('font-weight', i === 0 ? '600' : '500')
+            .style('fill', i === 0 ? '#222' : '#444')
             .text(word)
         })
       })

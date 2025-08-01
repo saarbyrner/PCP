@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { 
   Box, 
@@ -9,18 +9,36 @@ import {
 import { ArrowBackOutlined } from '@mui/icons-material'
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, LineChart, Line, Tooltip } from 'recharts'
 import DashboardCard from '../components/DashboardCard'
+import FilterButton from '../components/FilterButton'
+import FilterDrawer from '../components/FilterDrawer'
+import { useFilteredData } from '../hooks/useFilteredData'
 import pcpData from '../data/pcp.json'
 
 const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0']
 
 function WorkforceOverviewDashboard() {
   const navigate = useNavigate()
+  const [filters, setFilters] = useState({})
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
 
-  const kpis = pcpData.leagueData.kpis
-  const genderData = pcpData.leagueData.genderDistribution
-  const ethnicityData = pcpData.leagueData.ethnicityDistribution.breakdown
-  const qualificationsTrend = pcpData.leagueData.qualificationsTrend
-  const positionData = pcpData.leagueData.positionTypeDistribution
+  // Use filtered data based on current filter selections
+  const filteredData = useFilteredData(pcpData.leagueData, filters)
+
+  const kpis = filteredData.kpis || pcpData.leagueData.kpis
+  const genderData = filteredData.genderDistribution || pcpData.leagueData.genderDistribution
+  const ethnicityData = filteredData.ethnicityDistribution?.breakdown || pcpData.leagueData.ethnicityDistribution.breakdown
+  const qualificationsTrend = filteredData.qualificationsTrend || pcpData.leagueData.qualificationsTrend
+  const positionData = filteredData.positionTypeDistribution || pcpData.leagueData.positionTypeDistribution
+
+  const handleFiltersChange = (newFilters) => {
+    setFilters(newFilters)
+  }
+
+  const getActiveFiltersCount = () => {
+    return Object.values(filters).filter(value => 
+      Array.isArray(value) && value.length > 0
+    ).length
+  }
 
   // Transform ethnicity data for multi-bar chart
   const ethnicityChartData = [{
@@ -32,20 +50,32 @@ function WorkforceOverviewDashboard() {
   }]
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ display: 'flex' }}>
+      <Box sx={{ 
+        flexGrow: 1, 
+        p: 2,
+        transition: 'margin 0.225s cubic-bezier(0.0, 0, 0.2, 1) 0ms',
+        marginRight: filterDrawerOpen ? '16px' : 0
+      }}>
       {/* Header */}
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-        <IconButton onClick={() => navigate('/analysis')} sx={{ mr: 1, p: 1 }}>
-          <ArrowBackOutlined fontSize="small" />
-        </IconButton>
-        <Box>
-          <Typography variant="h5" sx={{ fontWeight: 600, fontSize: '20px', mb: 0.5 }}>
-            Workforce Overview
-          </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
-            High-level statistics and demographic analysis of the entire coaching workforce
-          </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton onClick={() => navigate('/analysis')} sx={{ mr: 1, p: 1 }}>
+            <ArrowBackOutlined fontSize="small" />
+          </IconButton>
+          <Box>
+            <Typography variant="h5" sx={{ fontWeight: 600, fontSize: '20px', mb: 0.5 }}>
+              Workforce Overview
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
+              High-level statistics and demographic analysis of the entire coaching workforce
+            </Typography>
+          </Box>
         </Box>
+        <FilterButton 
+          onClick={() => setFilterDrawerOpen(true)}
+          activeFiltersCount={getActiveFiltersCount()}
+        />
       </Box>
 
       {/* KPI Cards */}
@@ -204,6 +234,15 @@ function WorkforceOverviewDashboard() {
           </DashboardCard>
         </Grid>
       </Grid>
+      </Box>
+
+      {/* Filter Drawer */}
+      <FilterDrawer
+        open={filterDrawerOpen}
+        onClose={() => setFilterDrawerOpen(false)}
+        onFiltersChange={handleFiltersChange}
+        filters={filters}
+      />
     </Box>
   )
 }

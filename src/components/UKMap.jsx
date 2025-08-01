@@ -61,40 +61,51 @@ function UKMap({ data, width = 600, height = 400 }) {
   }, [])
 
   useEffect(() => {
-    if (!geoData) {
-      console.log('UKMap: No geoData available')
-      return
-    }
-
-    console.log('UKMap: Rendering with data:', geoData.features?.length, 'features')
+    if (!geoData) return
 
     const svg = d3.select(svgRef.current)
     svg.selectAll("*").remove()
 
     // Set up dimensions and projection
     const projection = d3.geoMercator()
-      .fitSize([width - 40, height - 60], geoData)
+      .fitSize([width - 20, height - 40], geoData)
 
     const path = d3.geoPath().projection(projection)
-    
-    console.log('UKMap: Projection and path ready')
 
-    const g = svg
+    // Create container group for zooming
+    const container = svg
       .attr('width', width)
       .attr('height', height)
       .append('g')
 
-    // Add test rectangle to verify SVG is working
-    g.append('rect')
-      .attr('x', 10)
-      .attr('y', 10)
-      .attr('width', 30)
-      .attr('height', 20)
-      .attr('fill', 'red')
-      .attr('stroke', 'black')
+    const g = container.append('g')
+
+    // Set up zoom behavior
+    const zoom = d3.zoom()
+      .scaleExtent([1, 8])
+      .on('zoom', (event) => {
+        g.attr('transform', event.transform)
+      })
+
+    svg.call(zoom)
+
+    // Create tooltip div
+    const tooltip = d3.select('body').selectAll('.uk-map-tooltip')
+      .data([0])
+      .join('div')
+      .attr('class', 'uk-map-tooltip')
+      .style('position', 'absolute')
+      .style('background', 'rgba(0, 0, 0, 0.8)')
+      .style('color', 'white')
+      .style('padding', '8px 12px')
+      .style('border-radius', '4px')
+      .style('font-size', '12px')
+      .style('pointer-events', 'none')
+      .style('opacity', 0)
+      .style('z-index', 1000)
 
     // Add regions
-    g.selectAll('path')
+    const regions = g.selectAll('path')
       .data(geoData.features)
       .enter()
       .append('path')
@@ -108,45 +119,145 @@ function UKMap({ data, width = 600, height = 400 }) {
         return '#e0e0e0'
       })
       .attr('stroke', '#ffffff')
-      .attr('stroke-width', 1)
+      .attr('stroke-width', 0.5)
       .style('cursor', 'pointer')
       .on('mouseover', function(event, d) {
-        d3.select(this).attr('fill', '#1976d2')
+        const regionData = getRegionData(d.properties.name)
+        
+        // Highlight region
+        d3.select(this)
+          .attr('fill', '#1976d2')
+          .attr('stroke-width', 2)
+        
+        // Show tooltip
+        tooltip
+          .style('opacity', 1)
+          .html(`
+            <div style="font-weight: 600; margin-bottom: 4px;">${d.properties.name}</div>
+            <div>${regionData ? `${regionData.coachesPerMillion} coaches per million` : 'No data available'}</div>
+            ${regionData ? `<div style="margin-top: 4px; font-size: 10px; opacity: 0.8;">Region: ${regionData.region}</div>` : ''}
+          `)
+          .style('left', (event.pageX + 10) + 'px')
+          .style('top', (event.pageY - 10) + 'px')
       })
       .on('mouseout', function(event, d) {
         const regionData = getRegionData(d.properties.name)
-        if (regionData) {
-          const intensity = getColorIntensity(regionData.coachesPerMillion)
-          d3.select(this).attr('fill', `rgba(25, 118, 210, ${0.3 + intensity * 0.7})`)
-        } else {
-          d3.select(this).attr('fill', '#f0f0f0')
-        }
+        
+        // Reset region appearance
+        d3.select(this)
+          .attr('stroke-width', 0.5)
+          .attr('fill', () => {
+            if (regionData) {
+              const intensity = getColorIntensity(regionData.coachesPerMillion)
+              return `rgba(25, 118, 210, ${0.4 + intensity * 0.6})`
+            }
+            return '#e0e0e0'
+          })
+        
+        // Hide tooltip
+        tooltip.style('opacity', 0)
       })
-      .append('title')
-      .text((d) => {
-        const regionData = getRegionData(d.properties.name)
-        return regionData 
-          ? `${d.properties.name}: ${regionData.coachesPerMillion} coaches per million`
-          : `${d.properties.name}: No data`
+      .on('mousemove', function(event) {
+        tooltip
+          .style('left', (event.pageX + 10) + 'px')
+          .style('top', (event.pageY - 10) + 'px')
       })
 
     // Add title
-    g.append('text')
+    container.append('text')
       .attr('x', width / 2)
-      .attr('y', 25)
+      .attr('y', 20)
       .attr('text-anchor', 'middle')
       .attr('font-size', '14px')
       .attr('font-weight', '600')
       .attr('fill', '#333')
+      .style('pointer-events', 'none')
       .text('UK Regional Distribution')
 
-    g.append('text')
+    container.append('text')
       .attr('x', width / 2)
-      .attr('y', 40)
+      .attr('y', 35)
       .attr('text-anchor', 'middle')
       .attr('font-size', '10px')
       .attr('fill', '#666')
-      .text('Coaches per Million Population')
+      .style('pointer-events', 'none')
+      .text('Coaches per Million Population • Scroll to zoom • Hover for details')
+
+    // Add zoom controls
+    const controls = container.append('g')
+      .attr('class', 'zoom-controls')
+      .attr('transform', `translate(${width - 60}, 50)`)
+
+    // Zoom in button
+    const zoomInButton = controls.append('g')
+      .style('cursor', 'pointer')
+      .on('click', () => {
+        svg.transition().duration(300).call(zoom.scaleBy, 1.5)
+      })
+
+    zoomInButton.append('rect')
+      .attr('width', 24)
+      .attr('height', 24)
+      .attr('fill', 'rgba(255, 255, 255, 0.9)')
+      .attr('stroke', '#ccc')
+      .attr('rx', 3)
+
+    zoomInButton.append('text')
+      .attr('x', 12)
+      .attr('y', 16)
+      .attr('text-anchor', 'middle')
+      .attr('font-size', '16px')
+      .attr('font-weight', 'bold')
+      .attr('fill', '#333')
+      .text('+')
+
+    // Zoom out button
+    const zoomOutButton = controls.append('g')
+      .attr('transform', 'translate(0, 28)')
+      .style('cursor', 'pointer')
+      .on('click', () => {
+        svg.transition().duration(300).call(zoom.scaleBy, 0.67)
+      })
+
+    zoomOutButton.append('rect')
+      .attr('width', 24)
+      .attr('height', 24)
+      .attr('fill', 'rgba(255, 255, 255, 0.9)')
+      .attr('stroke', '#ccc')
+      .attr('rx', 3)
+
+    zoomOutButton.append('text')
+      .attr('x', 12)
+      .attr('y', 16)
+      .attr('text-anchor', 'middle')
+      .attr('font-size', '16px')
+      .attr('font-weight', 'bold')
+      .attr('fill', '#333')
+      .text('−')
+
+    // Reset zoom button
+    const resetButton = controls.append('g')
+      .attr('transform', 'translate(0, 56)')
+      .style('cursor', 'pointer')
+      .on('click', () => {
+        svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity)
+      })
+
+    resetButton.append('rect')
+      .attr('width', 24)
+      .attr('height', 24)
+      .attr('fill', 'rgba(255, 255, 255, 0.9)')
+      .attr('stroke', '#ccc')
+      .attr('rx', 3)
+
+    resetButton.append('text')
+      .attr('x', 12)
+      .attr('y', 16)
+      .attr('text-anchor', 'middle')
+      .attr('font-size', '10px')
+      .attr('font-weight', 'bold')
+      .attr('fill', '#333')
+      .text('⌂')
 
   }, [geoData, data, width, height])
 
@@ -181,7 +292,7 @@ function UKMap({ data, width = 600, height = 400 }) {
             <div style={{
               width: '12px',
               height: '12px',
-              backgroundColor: `rgba(25, 118, 210, ${0.3 + getColorIntensity(region.coachesPerMillion) * 0.7})`,
+              backgroundColor: `rgba(25, 118, 210, ${0.4 + getColorIntensity(region.coachesPerMillion) * 0.6})`,
               marginRight: '8px',
               border: '1px solid #ccc',
               borderRadius: '2px'
