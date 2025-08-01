@@ -9,6 +9,7 @@ import {
 import { ArrowBackOutlined } from '@mui/icons-material'
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, LineChart, Line, Tooltip } from 'recharts'
 import DashboardCard from '../components/DashboardCard'
+import MapTest from '../components/MapTest'
 import pcpData from '../data/pcp.json'
 
 const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0']
@@ -202,6 +203,11 @@ function WorkforceOverviewDashboard() {
               </PieChart>
             </ResponsiveContainer>
           </DashboardCard>
+        </Grid>
+
+        {/* Map Test Component */}
+        <Grid item xs={12}>
+          <MapTest />
         </Grid>
       </Grid>
     </Box>

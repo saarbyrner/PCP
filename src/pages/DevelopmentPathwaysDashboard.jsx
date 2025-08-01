@@ -10,6 +10,7 @@ import {
 import { ArrowBackOutlined } from '@mui/icons-material'
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar, Cell } from 'recharts'
 import DashboardCard from '../components/DashboardCard'
+import SankeyDiagram from '../components/SankeyDiagram'
 import pcpData from '../data/pcp.json'
 
 const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0']
@@ -21,11 +22,29 @@ function DevelopmentPathwaysDashboard() {
   const careerFlowData = pcpData.leagueData.careerFlowData
   const positionData = pcpData.leagueData.positionTypeDistribution
 
+  // Transform career flow data for D3 Sankey
+  const sankeyData = {
+    nodes: [
+      { id: 0, name: 'Academy Coach' },
+      { id: 1, name: 'First Team Assistant' },
+      { id: 2, name: 'Head Coach' },
+      { id: 3, name: 'Other Roles' },
+      { id: 4, name: 'Other' }
+    ],
+    links: [
+      { source: 0, target: 1, value: 150 },
+      { source: 0, target: 3, value: 350 },
+      { source: 1, target: 2, value: 20 },
+      { source: 1, target: 4, value: 130 },
+      { source: 3, target: 4, value: 350 }
+    ]
+  }
+
   // Mock cohort data for impact metrics
   const cohortMetrics = [
-    { label: 'Avg Players Graduated', value: '8.2', cohort: 'UEFA Pro Coaches' },
-    { label: 'Avg Trophies Won', value: '2.5', cohort: 'UEFA Pro Coaches' },
-    { label: 'Career Progression Rate', value: '73%', cohort: 'All Coaches' }
+    { label: 'Avg Players Graduated', value: '8.2', numericValue: 8.2, cohort: 'UEFA Pro Coaches' },
+    { label: 'Avg Trophies Won', value: '2.5', numericValue: 2.5, cohort: 'UEFA Pro Coaches' },
+    { label: 'Career Progression Rate', value: '73%', numericValue: 73, cohort: 'All Coaches' }
   ]
 
   return (
@@ -49,115 +68,12 @@ function DevelopmentPathwaysDashboard() {
         {/* Career Flow Sankey Diagram */}
         <Grid item xs={12} md={8}>
           <DashboardCard title="Career Progression Flow (Sankey Diagram)" height="320px">
-            <Box sx={{ height: '260px', position: 'relative', display: 'flex', alignItems: 'center' }}>
-              {/* Simplified Sankey representation */}
-              <Box sx={{ width: '100%', height: '220px', position: 'relative' }}>
-                {/* Left column - Source */}
-                <Box sx={{ position: 'absolute', left: '8%', top: '25%' }}>
-                  <Box sx={{ 
-                    width: '100px', 
-                    height: '50px', 
-                    backgroundColor: '#1976d2', 
-                    borderRadius: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontSize: '10px',
-                    textAlign: 'center'
-                  }}>
-                    Academy Coach<br/>500 coaches
-                  </Box>
-                </Box>
-
-                {/* Middle column - Intermediate */}
-                <Box sx={{ position: 'absolute', left: '42%', top: '15%' }}>
-                  <Box sx={{ 
-                    width: '100px', 
-                    height: '35px', 
-                    backgroundColor: '#ff6b35', 
-                    borderRadius: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontSize: '10px',
-                    textAlign: 'center'
-                  }}>
-                    First Team Asst<br/>150 coaches
-                  </Box>
-                </Box>
-
-                <Box sx={{ position: 'absolute', left: '42%', top: '60%' }}>
-                  <Box sx={ {
-                    width: '100px', 
-                    height: '65px', 
-                    backgroundColor: '#9e9e9e', 
-                    borderRadius: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontSize: '10px',
-                    textAlign: 'center'
-                  }}>
-                    Other Roles<br/>350 coaches
-                  </Box>
-                </Box>
-
-                {/* Right column - Destinations */}
-                <Box sx={{ position: 'absolute', right: '8%', top: '10%' }}>
-                  <Box sx={{ 
-                    width: '85px', 
-                    height: '25px', 
-                    backgroundColor: '#4caf50', 
-                    borderRadius: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontSize: '9px',
-                    textAlign: 'center'
-                  }}>
-                    Head Coach<br/>20
-                  </Box>
-                </Box>
-
-                <Box sx={{ position: 'absolute', right: '8%', top: '50%' }}>
-                  <Box sx={{ 
-                    width: '85px', 
-                    height: '50px', 
-                    backgroundColor: '#9e9e9e', 
-                    borderRadius: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontSize: '9px',
-                    textAlign: 'center'
-                  }}>
-                    Other<br/>480
-                  </Box>
-                </Box>
-
-                {/* Flow lines */}
-                <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
-                  <defs>
-                    <linearGradient id="flowGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#1976d2" stopOpacity="0.6"/>
-                      <stop offset="100%" stopColor="#ff6b35" stopOpacity="0.6"/>
-                    </linearGradient>
-                    <linearGradient id="flowGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#ff6b35" stopOpacity="0.6"/>
-                      <stop offset="100%" stopColor="#4caf50" stopOpacity="0.6"/>
-                    </linearGradient>
-                  </defs>
-                  <path d="M 125 50 Q 250 50 285 35" stroke="url(#flowGradient1)" strokeWidth="12" fill="none" opacity="0.7"/>
-                  <path d="M 125 65 Q 250 100 285 100" stroke="#9e9e9e" strokeWidth="28" fill="none" opacity="0.5"/>
-                  <path d="M 385 35 Q 420 35 445 25" stroke="url(#flowGradient2)" strokeWidth="6" fill="none" opacity="0.7"/>
-                  <path d="M 385 45 Q 420 65 445 70" stroke="#9e9e9e" strokeWidth="10" fill="none" opacity="0.5"/>
-                </svg>
-              </Box>
+            <Box sx={{ height: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <SankeyDiagram 
+                data={sankeyData} 
+                width={520} 
+                height={240} 
+              />
             </Box>
           </DashboardCard>
         </Grid>
@@ -165,24 +81,32 @@ function DevelopmentPathwaysDashboard() {
         {/* Cohort Impact Metrics */}
         <Grid item xs={12} md={4}>
           <DashboardCard title="Cohort Impact Metrics" height="320px">
-            <Box sx={{ height: '260px' }}>
-              {cohortMetrics.map((metric, index) => (
-                <Box key={index} sx={{ mb: 3, p: 1.5, backgroundColor: '#f8f9fa', borderRadius: '6px' }}>
-                  <Typography variant="h4" sx={{ fontWeight: 600, color: '#1976d2', mb: 0.5, fontSize: '24px' }}>
-                    {metric.value}
-                  </Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 500, mb: 1, fontSize: '11px' }}>
-                    {metric.label}
-                  </Typography>
-                  <Chip 
-                    label={metric.cohort}
-                    size="small"
-                    variant="outlined"
-                    sx={{ fontSize: '9px', height: '20px' }}
-                  />
-                </Box>
-              ))}
-            </Box>
+            <ResponsiveContainer width="100%" height={260}>
+              <BarChart data={cohortMetrics} margin={{ top: 10, right: 30, left: 20, bottom: 40 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis 
+                  dataKey="label" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fontSize: 9, fill: '#666' }}
+                  angle={-45}
+                  textAnchor="end"
+                  height={50}
+                />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#666' }} />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#fff', 
+                    border: '1px solid #ccc', 
+                    borderRadius: '4px',
+                    fontSize: '11px'
+                  }}
+                  formatter={(value) => [value, 'Value']}
+                  labelFormatter={(label) => `${label}`}
+                />
+                <Bar dataKey="numericValue" fill="#1976d2" radius={[2, 2, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </DashboardCard>
         </Grid>
 
