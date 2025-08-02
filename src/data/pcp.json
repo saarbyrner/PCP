@@ -65,6 +65,350 @@
         { "source": "First Team Assistant", "target": "Head Coach", "value": 20 },
         { "source": "First Team Assistant", "target": "Other", "value": 130 }
       ]
+    },
+    "advancedProgressionData": {
+      "careerProgression": {
+        "nodes": [
+          { "id": "entry_level", "name": "Entry Level", "level": 0 },
+          { "id": "academy_coach", "name": "Academy Coach", "level": 1 },
+          { "id": "development_coach", "name": "Development Coach", "level": 1 },
+          { "id": "assistant_coach", "name": "Assistant Coach", "level": 2 },
+          { "id": "first_team_assistant", "name": "First Team Assistant", "level": 2 },
+          { "id": "head_coach", "name": "Head Coach", "level": 3 },
+          { "id": "technical_director", "name": "Technical Director", "level": 3 },
+          { "id": "other_roles", "name": "Other Roles", "level": 2 },
+          { "id": "exit", "name": "Exit Football", "level": 4 }
+        ],
+        "links": [
+          { "source": "entry_level", "target": "academy_coach", "value": 1200, "demographics": {
+            "gender": { "male": 1098, "female": 102 },
+            "ethnicity": { "white": 1020, "black": 84, "asian": 60, "mixed": 24, "other": 12 },
+            "region": { "north-west": 180, "east-midlands": 156, "south-east-london": 240, "west-midlands": 144, "yorkshire-humber": 120, "other": 360 },
+            "ageGroup": { "18-25": 144, "26-35": 336, "36-45": 420, "46-55": 240, "56+": 60 },
+            "position": { "head-coach": 96, "assistant-coach": 300, "academy-coach": 540, "development-coach": 180, "other": 84 },
+            "employmentType": { "full-time": 720, "part-time": 300, "contract": 120, "volunteer": 60 }
+          }},
+          { "source": "entry_level", "target": "development_coach", "value": 800, "demographics": {
+            "gender": { "male": 732, "female": 68 },
+            "ethnicity": { "white": 680, "black": 56, "asian": 40, "mixed": 16, "other": 8 },
+            "region": { "north-west": 120, "east-midlands": 104, "south-east-london": 160, "west-midlands": 96, "yorkshire-humber": 80, "other": 240 },
+            "ageGroup": { "18-25": 96, "26-35": 224, "36-45": 280, "46-55": 160, "56+": 40 },
+            "position": { "head-coach": 64, "assistant-coach": 200, "academy-coach": 360, "development-coach": 120, "other": 56 },
+            "employmentType": { "full-time": 480, "part-time": 200, "contract": 80, "volunteer": 40 }
+          }},
+          { "source": "academy_coach", "target": "assistant_coach", "value": 350, "demographics": {
+            "gender": { "male": 320, "female": 30 },
+            "ethnicity": { "white": 298, "black": 25, "asian": 17, "mixed": 7, "other": 3 },
+            "region": { "north-west": 53, "east-midlands": 46, "south-east-london": 70, "west-midlands": 42, "yorkshire-humber": 35, "other": 104 },
+            "ageGroup": { "18-25": 42, "26-35": 98, "36-45": 123, "46-55": 70, "56+": 17 },
+            "position": { "head-coach": 28, "assistant-coach": 88, "academy-coach": 158, "development-coach": 53, "other": 23 },
+            "employmentType": { "full-time": 210, "part-time": 88, "contract": 35, "volunteer": 17 }
+          }},
+          { "source": "academy_coach", "target": "first_team_assistant", "value": 180, "demographics": {
+            "gender": { "male": 165, "female": 15 },
+            "ethnicity": { "white": 153, "black": 13, "asian": 9, "mixed": 4, "other": 1 },
+            "region": { "north-west": 27, "east-midlands": 23, "south-east-london": 36, "west-midlands": 22, "yorkshire-humber": 18, "other": 54 }
+          }},
+          { "source": "academy_coach", "target": "other_roles", "value": 420, "demographics": {
+            "gender": { "male": 384, "female": 36 },
+            "ethnicity": { "white": 357, "black": 29, "asian": 21, "mixed": 8, "other": 5 },
+            "region": { "north-west": 63, "east-midlands": 55, "south-east-london": 84, "west-midlands": 50, "yorkshire-humber": 42, "other": 126 }
+          }},
+          { "source": "academy_coach", "target": "exit", "value": 250, "demographics": {
+            "gender": { "male": 228, "female": 22 },
+            "ethnicity": { "white": 213, "black": 18, "asian": 12, "mixed": 5, "other": 2 },
+            "region": { "north-west": 38, "east-midlands": 33, "south-east-london": 50, "west-midlands": 30, "yorkshire-humber": 25, "other": 74 }
+          }},
+          { "source": "development_coach", "target": "assistant_coach", "value": 240, "demographics": {
+            "gender": { "male": 219, "female": 21 },
+            "ethnicity": { "white": 204, "black": 17, "asian": 12, "mixed": 5, "other": 2 },
+            "region": { "north-west": 36, "east-midlands": 31, "south-east-london": 48, "west-midlands": 29, "yorkshire-humber": 24, "other": 72 }
+          }},
+          { "source": "development_coach", "target": "academy_coach", "value": 160, "demographics": {
+            "gender": { "male": 146, "female": 14 },
+            "ethnicity": { "white": 136, "black": 11, "asian": 8, "mixed": 3, "other": 2 },
+            "region": { "north-west": 24, "east-midlands": 21, "south-east-london": 32, "west-midlands": 19, "yorkshire-humber": 16, "other": 48 }
+          }},
+          { "source": "development_coach", "target": "other_roles", "value": 280, "demographics": {
+            "gender": { "male": 256, "female": 24 },
+            "ethnicity": { "white": 238, "black": 20, "asian": 14, "mixed": 6, "other": 2 },
+            "region": { "north-west": 42, "east-midlands": 36, "south-east-london": 56, "west-midlands": 34, "yorkshire-humber": 28, "other": 84 }
+          }},
+          { "source": "development_coach", "target": "exit", "value": 120, "demographics": {
+            "gender": { "male": 110, "female": 10 },
+            "ethnicity": { "white": 102, "black": 8, "asian": 6, "mixed": 3, "other": 1 },
+            "region": { "north-west": 18, "east-midlands": 16, "south-east-london": 24, "west-midlands": 14, "yorkshire-humber": 12, "other": 36 }
+          }},
+          { "source": "assistant_coach", "target": "first_team_assistant", "value": 120, "demographics": {
+            "gender": { "male": 110, "female": 10 },
+            "ethnicity": { "white": 102, "black": 8, "asian": 6, "mixed": 3, "other": 1 },
+            "region": { "north-west": 18, "east-midlands": 16, "south-east-london": 24, "west-midlands": 14, "yorkshire-humber": 12, "other": 36 }
+          }},
+          { "source": "assistant_coach", "target": "head_coach", "value": 45, "demographics": {
+            "gender": { "male": 41, "female": 4 },
+            "ethnicity": { "white": 38, "black": 3, "asian": 2, "mixed": 1, "other": 1 },
+            "region": { "north-west": 7, "east-midlands": 6, "south-east-london": 9, "west-midlands": 5, "yorkshire-humber": 5, "other": 13 }
+          }},
+          { "source": "assistant_coach", "target": "other_roles", "value": 320, "demographics": {
+            "gender": { "male": 293, "female": 27 },
+            "ethnicity": { "white": 272, "black": 22, "asian": 16, "mixed": 6, "other": 4 },
+            "region": { "north-west": 48, "east-midlands": 42, "south-east-london": 64, "west-midlands": 38, "yorkshire-humber": 32, "other": 96 }
+          }},
+          { "source": "assistant_coach", "target": "exit", "value": 105, "demographics": {
+            "gender": { "male": 96, "female": 9 },
+            "ethnicity": { "white": 89, "black": 7, "asian": 5, "mixed": 3, "other": 1 },
+            "region": { "north-west": 16, "east-midlands": 14, "south-east-london": 21, "west-midlands": 13, "yorkshire-humber": 11, "other": 30 }
+          }},
+          { "source": "first_team_assistant", "target": "head_coach", "value": 85, "demographics": {
+            "gender": { "male": 78, "female": 7 },
+            "ethnicity": { "white": 72, "black": 6, "asian": 4, "mixed": 2, "other": 1 },
+            "region": { "north-west": 13, "east-midlands": 11, "south-east-london": 17, "west-midlands": 10, "yorkshire-humber": 9, "other": 25 }
+          }},
+          { "source": "first_team_assistant", "target": "technical_director", "value": 25, "demographics": {
+            "gender": { "male": 23, "female": 2 },
+            "ethnicity": { "white": 21, "black": 2, "asian": 1, "mixed": 1, "other": 0 },
+            "region": { "north-west": 4, "east-midlands": 3, "south-east-london": 5, "west-midlands": 3, "yorkshire-humber": 3, "other": 7 }
+          }},
+          { "source": "first_team_assistant", "target": "other_roles", "value": 155, "demographics": {
+            "gender": { "male": 142, "female": 13 },
+            "ethnicity": { "white": 132, "black": 11, "asian": 8, "mixed": 3, "other": 1 },
+            "region": { "north-west": 23, "east-midlands": 20, "south-east-london": 31, "west-midlands": 19, "yorkshire-humber": 16, "other": 46 }
+          }},
+          { "source": "first_team_assistant", "target": "exit", "value": 35, "demographics": {
+            "gender": { "male": 32, "female": 3 },
+            "ethnicity": { "white": 30, "black": 2, "asian": 2, "mixed": 1, "other": 0 },
+            "region": { "north-west": 5, "east-midlands": 5, "south-east-london": 7, "west-midlands": 4, "yorkshire-humber": 4, "other": 10 }
+          }},
+          { "source": "head_coach", "target": "technical_director", "value": 35, "demographics": {
+            "gender": { "male": 32, "female": 3 },
+            "ethnicity": { "white": 30, "black": 2, "asian": 2, "mixed": 1, "other": 0 },
+            "region": { "north-west": 5, "east-midlands": 5, "south-east-london": 7, "west-midlands": 4, "yorkshire-humber": 4, "other": 10 }
+          }},
+          { "source": "head_coach", "target": "other_roles", "value": 65, "demographics": {
+            "gender": { "male": 59, "female": 6 },
+            "ethnicity": { "white": 55, "black": 5, "asian": 3, "mixed": 2, "other": 0 },
+            "region": { "north-west": 10, "east-midlands": 8, "south-east-london": 13, "west-midlands": 8, "yorkshire-humber": 7, "other": 19 }
+          }},
+          { "source": "head_coach", "target": "exit", "value": 30, "demographics": {
+            "gender": { "male": 28, "female": 2 },
+            "ethnicity": { "white": 25, "black": 2, "asian": 2, "mixed": 1, "other": 0 },
+            "region": { "north-west": 5, "east-midlands": 4, "south-east-london": 6, "west-midlands": 4, "yorkshire-humber": 3, "other": 8 }
+          }},
+          { "source": "other_roles", "target": "exit", "value": 640, "demographics": {
+            "gender": { "male": 586, "female": 54 },
+            "ethnicity": { "white": 544, "black": 45, "asian": 32, "mixed": 13, "other": 6 },
+            "region": { "north-west": 96, "east-midlands": 83, "south-east-london": 128, "west-midlands": 77, "yorkshire-humber": 64, "other": 192 }
+          }},
+          { "source": "technical_director", "target": "exit", "value": 40, "demographics": {
+            "gender": { "male": 37, "female": 3 },
+            "ethnicity": { "white": 34, "black": 3, "asian": 2, "mixed": 1, "other": 0 },
+            "region": { "north-west": 6, "east-midlands": 5, "south-east-london": 8, "west-midlands": 5, "yorkshire-humber": 4, "other": 12 }
+          }}
+        ]
+      },
+      "progressionByDemographics": {
+        "gender": {
+          "male": {
+            "entryToAcademy": 0.55,
+            "academyToAssistant": 0.29,
+            "assistantToHead": 0.08,
+            "headToTechnical": 0.27,
+            "retentionRate": 0.68
+          },
+          "female": {
+            "entryToAcademy": 0.60,
+            "academyToAssistant": 0.25,
+            "assistantToHead": 0.12,
+            "headToTechnical": 0.33,
+            "retentionRate": 0.72
+          }
+        },
+        "ethnicity": {
+          "white": {
+            "entryToAcademy": 0.56,
+            "academyToAssistant": 0.30,
+            "assistantToHead": 0.08,
+            "headToTechnical": 0.28,
+            "retentionRate": 0.69
+          },
+          "black": {
+            "entryToAcademy": 0.52,
+            "academyToAssistant": 0.26,
+            "assistantToHead": 0.06,
+            "headToTechnical": 0.22,
+            "retentionRate": 0.65
+          },
+          "asian": {
+            "entryToAcademy": 0.54,
+            "academyToAssistant": 0.28,
+            "assistantToHead": 0.07,
+            "headToTechnical": 0.25,
+            "retentionRate": 0.67
+          },
+          "mixed": {
+            "entryToAcademy": 0.53,
+            "academyToAssistant": 0.27,
+            "assistantToHead": 0.07,
+            "headToTechnical": 0.24,
+            "retentionRate": 0.66
+          },
+          "other": {
+            "entryToAcademy": 0.51,
+            "academyToAssistant": 0.25,
+            "assistantToHead": 0.06,
+            "headToTechnical": 0.20,
+            "retentionRate": 0.64
+          }
+        },
+        "region": {
+          "north-west": {
+            "entryToAcademy": 0.58,
+            "academyToAssistant": 0.31,
+            "assistantToHead": 0.09,
+            "headToTechnical": 0.29,
+            "retentionRate": 0.71
+          },
+          "east-midlands": {
+            "entryToAcademy": 0.57,
+            "academyToAssistant": 0.30,
+            "assistantToHead": 0.08,
+            "headToTechnical": 0.28,
+            "retentionRate": 0.70
+          },
+          "south-east-london": {
+            "entryToAcademy": 0.55,
+            "academyToAssistant": 0.29,
+            "assistantToHead": 0.08,
+            "headToTechnical": 0.27,
+            "retentionRate": 0.68
+          },
+          "west-midlands": {
+            "entryToAcademy": 0.56,
+            "academyToAssistant": 0.29,
+            "assistantToHead": 0.08,
+            "headToTechnical": 0.27,
+            "retentionRate": 0.69
+          },
+          "yorkshire-humber": {
+            "entryToAcademy": 0.54,
+            "academyToAssistant": 0.28,
+            "assistantToHead": 0.07,
+            "headToTechnical": 0.26,
+            "retentionRate": 0.67
+          },
+          "other": {
+            "entryToAcademy": 0.53,
+            "academyToAssistant": 0.27,
+            "assistantToHead": 0.07,
+            "headToTechnical": 0.25,
+            "retentionRate": 0.66
+          }
+        },
+        "ageGroup": {
+          "18-25": {
+            "entryToAcademy": 0.62,
+            "academyToAssistant": 0.33,
+            "assistantToHead": 0.09,
+            "headToTechnical": 0.31,
+            "retentionRate": 0.74
+          },
+          "26-35": {
+            "entryToAcademy": 0.58,
+            "academyToAssistant": 0.31,
+            "assistantToHead": 0.08,
+            "headToTechnical": 0.29,
+            "retentionRate": 0.71
+          },
+          "36-45": {
+            "entryToAcademy": 0.54,
+            "academyToAssistant": 0.28,
+            "assistantToHead": 0.07,
+            "headToTechnical": 0.26,
+            "retentionRate": 0.67
+          },
+          "46-55": {
+            "entryToAcademy": 0.51,
+            "academyToAssistant": 0.25,
+            "assistantToHead": 0.06,
+            "headToTechnical": 0.23,
+            "retentionRate": 0.63
+          },
+          "56+": {
+            "entryToAcademy": 0.47,
+            "academyToAssistant": 0.22,
+            "assistantToHead": 0.05,
+            "headToTechnical": 0.20,
+            "retentionRate": 0.58
+          }
+        },
+        "position": {
+          "head-coach": {
+            "entryToAcademy": 0.48,
+            "academyToAssistant": 0.35,
+            "assistantToHead": 0.12,
+            "headToTechnical": 0.35,
+            "retentionRate": 0.75
+          },
+          "assistant-coach": {
+            "entryToAcademy": 0.56,
+            "academyToAssistant": 0.32,
+            "assistantToHead": 0.09,
+            "headToTechnical": 0.28,
+            "retentionRate": 0.70
+          },
+          "academy-coach": {
+            "entryToAcademy": 0.59,
+            "academyToAssistant": 0.27,
+            "assistantToHead": 0.06,
+            "headToTechnical": 0.24,
+            "retentionRate": 0.66
+          },
+          "development-coach": {
+            "entryToAcademy": 0.57,
+            "academyToAssistant": 0.29,
+            "assistantToHead": 0.07,
+            "headToTechnical": 0.26,
+            "retentionRate": 0.68
+          },
+          "other": {
+            "entryToAcademy": 0.52,
+            "academyToAssistant": 0.26,
+            "assistantToHead": 0.06,
+            "headToTechnical": 0.22,
+            "retentionRate": 0.64
+          }
+        },
+        "employmentType": {
+          "full-time": {
+            "entryToAcademy": 0.58,
+            "academyToAssistant": 0.31,
+            "assistantToHead": 0.08,
+            "headToTechnical": 0.28,
+            "retentionRate": 0.70
+          },
+          "part-time": {
+            "entryToAcademy": 0.53,
+            "academyToAssistant": 0.27,
+            "assistantToHead": 0.07,
+            "headToTechnical": 0.25,
+            "retentionRate": 0.66
+          },
+          "contract": {
+            "entryToAcademy": 0.51,
+            "academyToAssistant": 0.25,
+            "assistantToHead": 0.06,
+            "headToTechnical": 0.23,
+            "retentionRate": 0.64
+          },
+          "volunteer": {
+            "entryToAcademy": 0.49,
+            "academyToAssistant": 0.23,
+            "assistantToHead": 0.05,
+            "headToTechnical": 0.21,
+            "retentionRate": 0.61
+          }
+        }
+      }
     }
   },
   "coachesData": [

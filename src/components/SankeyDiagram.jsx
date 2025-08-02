@@ -86,19 +86,23 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
       .each(function(d) {
         const text = d3.select(this)
         
-        // Calculate total input for percentage calculation
-        const totalInput = d.sourceLinks.reduce((sum, link) => sum + link.value, 0) || 
-                          d.targetLinks.reduce((sum, link) => sum + link.value, 0) || 
-                          d.value || 0
+        // Calculate node value from links
+        const nodeValue = d.sourceLinks.reduce((sum, link) => sum + link.value, 0) || 
+                         d.targetLinks.reduce((sum, link) => sum + link.value, 0) || 
+                         d.value || 0
         
-        // Calculate percentage of total coaches (approximate total based on data)
-        const totalCoaches = 1000 // Approximate total from the flow data
-        const percentage = totalInput > 0 ? Math.round((totalInput / totalCoaches) * 100) : 0
+        // Calculate total coaches from all entry-level flows (first column nodes)
+        const entryNodes = graph.nodes.filter(node => node.x0 === 1) // First column
+        const totalCoaches = entryNodes.reduce((sum, node) => {
+          return sum + (node.sourceLinks.reduce((linkSum, link) => linkSum + link.value, 0) || 0)
+        }, 0) || 2000 // Fallback to reasonable total
+        
+        const percentage = nodeValue > 0 ? Math.round((nodeValue / totalCoaches) * 100) : 0
         
         // Improved accessibility: larger text, better contrast, fewer lines
         const words = [
           `${d.name}`, 
-          `${d.value || totalInput} coaches (${percentage}%)`
+          `${nodeValue} coaches (${percentage}%)`
         ]
         text.text('')
         

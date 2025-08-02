@@ -14,7 +14,8 @@ import {
   DashboardOutlined, 
   TrendingUpOutlined, 
   AnalyticsOutlined,
-  ArrowForwardOutlined 
+  ArrowForwardOutlined,
+  AccountTreeOutlined
 } from '@mui/icons-material'
 import pcpData from '../data/pcp.json'
 
@@ -58,6 +59,19 @@ function AnalysisPage() {
         { label: 'Career Flows', value: '4' }
       ],
       tags: ['Pathways', 'Qualifications', 'Career']
+    },
+    {
+      id: 'career-progression-flow',
+      title: 'Career Progression Flow Analysis',
+      description: 'In-depth career pathway analysis with demographic breakdowns and progression insights',
+      icon: AccountTreeOutlined,
+      route: '/analysis/career-progression-flow',
+      metrics: [
+        { label: 'Career Stages', value: '9' },
+        { label: 'Flow Paths', value: '18' },
+        { label: 'Demographics', value: '3' }
+      ],
+      tags: ['Sankey', 'Demographics', 'Flow Analysis']
     },
     {
       id: 'impact-interventions',
