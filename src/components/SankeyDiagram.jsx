@@ -28,8 +28,8 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
 
     // Create sankey generator
     const sankeyGenerator = sankeyLib.sankey()
-      .nodeWidth(15)
-      .nodePadding(10)
+      .nodeWidth(18)
+      .nodePadding(8)
       .extent([[1, 1], [innerWidth - 1, innerHeight - 5]])
 
     // Process the data
@@ -58,7 +58,7 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
       .join('path')
       .attr('d', sankeyLib.sankeyLinkHorizontal())
       .attr('stroke', d => color(d.source.name))
-      .attr('stroke-width', d => Math.max(1, d.width))
+      .attr('stroke-width', d => Math.max(2, d.width))
       .attr('fill', 'none')
       .attr('opacity', 0.6)
       .attr('class', 'sankey-link')
@@ -119,7 +119,7 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
       .join('rect')
       .attr('x', d => d.x0)
       .attr('y', d => d.y0)
-      .attr('height', d => d.y1 - d.y0)
+      .attr('height', d => Math.max(12, d.y1 - d.y0))
       .attr('width', d => d.x1 - d.x0)
       .attr('fill', d => color(d.name))
       .attr('rx', 3)
@@ -139,12 +139,21 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
         
         const percentage = nodeValue > 0 ? Math.round((nodeValue / totalCoaches) * 100) : 0
         
-        // Show tooltip
+        // Show tooltip with smart positioning
+        const tooltipWidth = 200 // Estimated tooltip width
+        const tooltipHeight = 60 // Estimated tooltip height
+        const leftPos = event.pageX + 10 + tooltipWidth > window.innerWidth 
+          ? event.pageX - tooltipWidth - 10 
+          : event.pageX + 10
+        const topPos = event.pageY - 10 - tooltipHeight < 0 
+          ? event.pageY + 20 
+          : event.pageY - 10
+        
         tooltip
           .style('visibility', 'visible')
           .html(`<strong>${d.name}</strong><br/>${nodeValue.toLocaleString()} coaches (${percentage}%)`)
-          .style('left', (event.pageX + 10) + 'px')
-          .style('top', (event.pageY - 10) + 'px')
+          .style('left', leftPos + 'px')
+          .style('top', topPos + 'px')
         
         // Get connected elements for highlighting
         const connected = getConnectedElements(d)
@@ -160,9 +169,18 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
           .style('font-size', node => connected.nodes.has(node) ? '12px' : '8px')
       })
       .on('mousemove', function(event) {
+        const tooltipWidth = 200
+        const tooltipHeight = 60
+        const leftPos = event.pageX + 10 + tooltipWidth > window.innerWidth 
+          ? event.pageX - tooltipWidth - 10 
+          : event.pageX + 10
+        const topPos = event.pageY - 10 - tooltipHeight < 0 
+          ? event.pageY + 20 
+          : event.pageY - 10
+        
         tooltip
-          .style('left', (event.pageX + 10) + 'px')
-          .style('top', (event.pageY - 10) + 'px')
+          .style('left', leftPos + 'px')
+          .style('top', topPos + 'px')
       })
       .on('mouseout', function() {
         tooltip.style('visibility', 'hidden')

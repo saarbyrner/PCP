@@ -52,7 +52,7 @@ function CareerProgressionSankeyDashboard() {
     const baseSankeyData = coachData.sankeyData
     const demographicViews = activeViews
     
-    // If no views are selected, default to coaching role
+    // If no views are selected, return basic career progression
     if (demographicViews.length === 0) {
       return baseSankeyData
     }
@@ -61,58 +61,113 @@ function CareerProgressionSankeyDashboard() {
     const demographicCombinations = generateDemographicCombinations(demographicViews)
     console.log('Generated demographic combinations:', demographicCombinations)
 
-    // Create nodes for each demographic + career stage combination
+    // Create a proper career progression flow with demographic breakdown
     const newNodes = []
     const nodeMap = new Map()
     
-    baseSankeyData.nodes.forEach(stageNode => {
-      demographicCombinations.forEach((demoCombination, demoIndex) => {
-        const nodeId = `${stageNode.id}_${demoIndex}`
-        const nodeName = `${demoCombination.label}\n${stageNode.name}`
-        
+    // Create career stage nodes (right side - destinations)
+    const careerStages = ['academy_coach', 'assistant_coach', 'head_coach', 'technical_director', 'other_roles']
+    careerStages.forEach((stage, stageIndex) => {
+      const stageData = baseSankeyData.nodes.find(n => n.id === stage)
+      if (stageData) {
+        const nodeIndex = newNodes.length
         newNodes.push({
-          id: nodeId,
-          name: nodeName,
-          level: stageNode.level,
-          demographic: demoCombination
+          id: `career_${stage}`,
+          name: stageData.name,
+          level: 1, // Right side
+          type: 'career'
         })
-        
-        nodeMap.set(`${stageNode.id}_${demoIndex}`, newNodes.length - 1)
-      })
+        nodeMap.set(`career_${stage}`, nodeIndex)
+      }
     })
 
-    // Create links between demographic-specific nodes
+    // Create demographic nodes (left side - sources)
+    demographicCombinations.forEach((demoCombination, demoIndex) => {
+      const nodeIndex = newNodes.length
+      newNodes.push({
+        id: `demo_${demoIndex}`,
+        name: demoCombination.label,
+        level: 0, // Left side
+        type: 'demographic',
+        demographic: demoCombination
+      })
+      nodeMap.set(`demo_${demoIndex}`, nodeIndex)
+    })
+
+    // Create links from demographic groups to career stages
     const newLinks = []
     
-    baseSankeyData.links.forEach(link => {
-      demographicCombinations.forEach((demoCombination, demoIndex) => {
-        // Calculate the value for this specific demographic combination
-        const demographicValue = calculateDemographicValue(link, demoCombination)
-        
-        if (demographicValue > 0) {
-          const sourceNodeIndex = nodeMap.get(`${baseSankeyData.nodes[link.source].id}_${demoIndex}`)
-          const targetNodeIndex = nodeMap.get(`${baseSankeyData.nodes[link.target].id}_${demoIndex}`)
-          
-          if (sourceNodeIndex !== undefined && targetNodeIndex !== undefined) {
-            newLinks.push({
-              source: sourceNodeIndex,
-              target: targetNodeIndex,
-              value: Math.max(1, Math.round(demographicValue)),
-              originalValue: link.value,
-              demographics: link.demographics,
-              demographicCombo: demoCombination
-            })
-          }
+    demographicCombinations.forEach((demoCombination, demoIndex) => {
+      const sourceIndex = nodeMap.get(`demo_${demoIndex}`)
+      
+      // Calculate how many coaches from this demographic are in each career stage
+      const coachesInDemo = coachData.coaches.filter(coach => {
+        return Object.entries(demoCombination.values).every(([key, value]) => {
+          const coachProperty = getCoachProperty(coach, key)
+          return coachProperty === value
+        })
+      })
+
+      // Group by current career stage
+      const stageGroups = {}
+      coachesInDemo.forEach(coach => {
+        const stage = coach.currentStage
+        stageGroups[stage] = (stageGroups[stage] || 0) + 1
+      })
+
+      // Create links to each career stage that has coaches
+      Object.entries(stageGroups).forEach(([stage, count]) => {
+        const targetIndex = nodeMap.get(`career_${stage}`)
+        if (targetIndex !== undefined && count > 0) {
+          newLinks.push({
+            source: sourceIndex,
+            target: targetIndex,
+            value: Math.max(5, count * 2), // Scale for visibility
+            originalValue: count,
+            demographic: demoCombination
+          })
         }
       })
     })
 
-    console.log('Generated Sankey data:', { nodes: newNodes.length, links: newLinks.length })
+    // Apply intelligent scaling to improve visual representation
+    const filteredLinks = newLinks.filter(link => link.value > 0)
+    
+    if (filteredLinks.length > 0) {
+      const maxValue = Math.max(...filteredLinks.map(link => link.value))
+      const minValue = Math.min(...filteredLinks.map(link => link.value))
+      
+      // If values are too similar (all very small), apply additional scaling
+      if (maxValue < 15 || (maxValue - minValue) < 8) {
+        const scaleFactor = Math.max(2, 20 / maxValue)
+        filteredLinks.forEach(link => {
+          link.value = Math.max(8, Math.round(link.value * scaleFactor))
+        })
+      }
+    }
+
+    console.log('Generated Sankey data:', { nodes: newNodes.length, links: filteredLinks.length })
     
     return {
       nodes: newNodes,
-      links: newLinks.filter(link => link.value > 0)
+      links: filteredLinks
     }
+  }
+
+  // Helper function to get coach property (moved from useCoachData for access)
+  function getCoachProperty(coach, filterKey) {
+    const propertyMap = {
+      season: coach.season,
+      region: coach.region,
+      ethnicity: coach.ethnicity,
+      gender: coach.gender,
+      primaryCoachingRole: coach.primaryCoachingRole,
+      level: coach.level,
+      positionType: coach.positionType,
+      division: coach.division,
+      ageGroup: coach.ageGroup
+    }
+    return propertyMap[filterKey]
   }
 
   // Generate all combinations of selected demographics
@@ -212,71 +267,10 @@ function CareerProgressionSankeyDashboard() {
     return allOptions[view] || [] // Return all options instead of limiting to 2
   }
 
-  // Calculate the value for a specific demographic combination
-  const calculateDemographicValue = (link, demoCombination) => {
-    if (!link.demographics) return link.value
-    
-    let value = link.value
-    
-    Object.entries(demoCombination.values).forEach(([view, demoValue]) => {
-      const demographicData = link.demographics[view]
-      if (demographicData) {
-        const totalForView = Object.values(demographicData).reduce((sum, val) => sum + val, 0)
-        const specificValue = demographicData[demoValue] || 0
-        const proportion = totalForView > 0 ? specificValue / totalForView : 0
-        value *= proportion
-      }
-    })
-    
-    return Math.round(value)
-  }
 
 
   const sankeyData = useMemo(() => generateSankeyData(), [activeViews, filters, coachData])
 
-  // Calculate key metrics for the current view based on actual coach data
-  const calculateMetrics = () => {
-    const totalCoaches = coachData.totalCoaches
-    if (totalCoaches === 0) {
-      return {
-        entryToAcademy: 0,
-        academyToAssistant: 0,
-        assistantToHead: 0,
-        headToTechnical: 0,
-        retentionRate: 0
-      }
-    }
-
-    // Calculate actual progression rates from the coach data
-    const stages = {
-      entry: coachData.coaches.filter(c => c.currentStage === 'entry_level').length,
-      academy: coachData.coaches.filter(c => c.currentStage === 'academy_coach').length,
-      assistant: coachData.coaches.filter(c => c.currentStage === 'assistant_coach').length,
-      head: coachData.coaches.filter(c => c.currentStage === 'head_coach').length,
-      technical: coachData.coaches.filter(c => c.currentStage === 'technical_director').length
-    }
-
-    // Calculate realistic progression rates based on current coach distribution
-    const entryToAcademy = stages.entry > 0 ? Math.min(0.85, stages.academy / (stages.entry + stages.academy)) : 0.55
-    const academyToAssistant = stages.academy > 0 ? Math.min(0.40, stages.assistant / (stages.academy + stages.assistant)) : 0.29
-    const assistantToHead = stages.assistant > 0 ? Math.min(0.15, stages.head / (stages.assistant + stages.head)) : 0.08
-    const headToTechnical = stages.head > 0 ? Math.min(0.35, stages.technical / (stages.head + stages.technical)) : 0.27
-    
-    // Overall retention (coaches not in exit stage)
-    const exitCoaches = coachData.coaches.filter(c => c.currentStage === 'exit').length
-    const retentionRate = totalCoaches > 0 ? (totalCoaches - exitCoaches) / totalCoaches : 0.68
-
-    return {
-      entryToAcademy,
-      academyToAssistant,
-      assistantToHead,
-      headToTechnical,
-      retentionRate
-    }
-  }
-
-  // Metrics calculation available if needed for future features
-  // const currentMetrics = useMemo(() => calculateMetrics(), [coachData])
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -296,6 +290,9 @@ function CareerProgressionSankeyDashboard() {
               <Typography variant="h5" sx={{ fontWeight: 600, fontSize: '20px', mb: 0.5 }}>
                 Career Progression Flow Analysis
               </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
+                Toggle buttons select demographic dimensions to analyze • Filters narrow data within selected dimensions
+              </Typography>
             </Box>
           </Box>
           <FilterButton 
@@ -306,6 +303,14 @@ function CareerProgressionSankeyDashboard() {
 
         {/* View Mode Selection - Multi-select */}
         <Box sx={{ mb: 3 }}>
+          <Typography variant="body2" sx={{ 
+            fontSize: '13px', 
+            fontWeight: 600, 
+            color: '#333', 
+            mb: 1.5
+          }}>
+            Select Demographic Dimensions to Analyze
+          </Typography>
           <ToggleButtonGroup
             value={activeViews}
             onChange={handleViewModeChange}
@@ -344,15 +349,15 @@ function CareerProgressionSankeyDashboard() {
 
         {/* Active Filters Display */}
         {getActiveFiltersCount() > 0 && (
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="caption" sx={{ 
-              fontSize: '11px', 
+          <Box sx={{ mb: 3, p: 2, backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+            <Typography variant="body2" sx={{ 
+              fontSize: '13px', 
               fontWeight: 600, 
-              color: '#666', 
+              color: '#333', 
               mb: 1,
               display: 'block'
             }}>
-              Active Filters
+              Active Data Filters (narrowing selected dimensions)
             </Typography>
             <Stack direction="row" spacing={1} flexWrap="wrap">
               {Object.entries(filters).map(([key, values]) => 
@@ -377,7 +382,7 @@ function CareerProgressionSankeyDashboard() {
               <SankeyDiagram 
                 key={JSON.stringify(activeViews) + JSON.stringify(filters)}
                 data={sankeyData} 
-                width={Math.min(1200, window.innerWidth - 120)} 
+                width={Math.min(1100, window.innerWidth - 320)} 
                 height={780} 
               />
             </Box>
