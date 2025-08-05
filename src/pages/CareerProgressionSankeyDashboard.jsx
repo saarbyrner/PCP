@@ -137,11 +137,8 @@ function CareerProgressionSankeyDashboard() {
     views.forEach(view => {
       const newCombinations = []
       const activeFilters = filters[view] || []
-      const demographicOptions = activeFilters.length > 0 ? 
-        activeFilters : 
-        ['male', 'female'] // Default options for each demographic type
-        
-      // For simplicity, use default options based on view type
+      
+      // Use filtered options if filters are applied, otherwise use all options
       const options = getDemographicOptions(view, activeFilters)
       
       combinations.forEach(combo => {
@@ -156,7 +153,9 @@ function CareerProgressionSankeyDashboard() {
       combinations = newCombinations
     })
     
-    return combinations.slice(0, 8) // Limit to 8 combinations to avoid clutter
+    // Only limit combinations if there are too many (more than 20)
+    // This ensures all data is shown unless it becomes unwieldy
+    return combinations.length > 20 ? combinations.slice(0, 20) : combinations
   }
 
   // Get demographic options for a view
@@ -169,23 +168,53 @@ function CareerProgressionSankeyDashboard() {
       ethnicity: [
         { value: 'white', label: 'White' },
         { value: 'black', label: 'Black' },
-        { value: 'asian', label: 'Asian' }
+        { value: 'asian', label: 'Asian' },
+        { value: 'mixed', label: 'Mixed' },
+        { value: 'other', label: 'Other' }
       ],
       region: [
+        { value: 'london', label: 'London' },
+        { value: 'south-east', label: 'South East' },
+        { value: 'south-west', label: 'South West' },
+        { value: 'west-midlands', label: 'West Midlands' },
+        { value: 'east-midlands', label: 'East Midlands' },
+        { value: 'east-england', label: 'East of England' },
+        { value: 'yorkshire-humber', label: 'Yorkshire & The Humber' },
         { value: 'north-west', label: 'North West' },
-        { value: 'south-east-london', label: 'South East' }
+        { value: 'north-east', label: 'North East' },
+        { value: 'scotland', label: 'Scotland' },
+        { value: 'wales', label: 'Wales' },
+        { value: 'northern-ireland', label: 'Northern Ireland' }
       ],
       ageGroup: [
+        { value: '18-25', label: '18-25' },
         { value: '26-35', label: '26-35' },
-        { value: '36-45', label: '36-45' }
+        { value: '36-45', label: '36-45' },
+        { value: '46-55', label: '46-55' },
+        { value: '56+', label: '56+' }
       ],
-      position: [
-        { value: 'academy-coach', label: 'Academy' },
-        { value: 'assistant-coach', label: 'Assistant' }
+      primaryCoachingRole: [
+        { value: 'head-coach', label: 'Head Coach' },
+        { value: 'assistant-coach', label: 'Assistant Coach' },
+        { value: '1st-team-coach', label: '1st Team Coach' },
+        { value: 'academy-coach', label: 'Academy Coach' },
+        { value: 'goalkeeping-coach', label: 'Goalkeeping Coach' },
+        { value: 'cross-club-coach', label: 'Cross-Club Coach' }
       ],
-      employmentType: [
-        { value: 'full-time', label: 'Full-time' },
-        { value: 'part-time', label: 'Part-time' }
+      level: [
+        { value: 'senior', label: 'Senior' },
+        { value: 'junior', label: 'Junior' }
+      ],
+      positionType: [
+        { value: 'full-time', label: 'Full-Time' },
+        { value: 'part-time', label: 'Part-Time' }
+      ],
+      division: [
+        { value: 'premier-league', label: 'Premier League' },
+        { value: 'efl', label: 'EFL' },
+        { value: 'womens-super-league', label: "Women's Super League" },
+        { value: 'womens-championship', label: "Women's Championship" },
+        { value: 'academy', label: 'Academy' }
       ]
     }
     
@@ -193,7 +222,7 @@ function CareerProgressionSankeyDashboard() {
       return allOptions[view]?.filter(option => activeFilters.includes(option.value)) || []
     }
     
-    return allOptions[view]?.slice(0, 2) || [] // Limit to 2 options per demographic
+    return allOptions[view] || [] // Return all options instead of limiting to 2
   }
 
   // Calculate the value for a specific demographic combination
@@ -302,9 +331,6 @@ function CareerProgressionSankeyDashboard() {
               <Typography variant="h5" sx={{ fontWeight: 600, fontSize: '20px', mb: 0.5 }}>
                 Career Progression Flow Analysis
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
-                In-depth career pathway analysis with demographic breakdowns and progression insights
-              </Typography>
             </Box>
           </Box>
           <FilterButton 
@@ -315,15 +341,6 @@ function CareerProgressionSankeyDashboard() {
 
         {/* View Mode Selection - Multi-select */}
         <Box sx={{ mb: 3 }}>
-          <Typography variant="caption" sx={{ 
-            fontSize: '11px', 
-            fontWeight: 600, 
-            color: '#666', 
-            mb: 1,
-            display: 'block'
-          }}>
-            Analysis Views (Multi-select to layer demographics)
-          </Typography>
           <ToggleButtonGroup
             value={activeViews}
             onChange={handleViewModeChange}
@@ -354,12 +371,11 @@ function CareerProgressionSankeyDashboard() {
             <ToggleButton value="ethnicity">Ethnicity</ToggleButton>
             <ToggleButton value="region">Region</ToggleButton>
             <ToggleButton value="ageGroup">Age Group</ToggleButton>
-            <ToggleButton value="position">Position</ToggleButton>
-            <ToggleButton value="employmentType">Employment Type</ToggleButton>
+            <ToggleButton value="primaryCoachingRole">Coaching Role</ToggleButton>
+            <ToggleButton value="level">Level</ToggleButton>
+            <ToggleButton value="positionType">Position Type</ToggleButton>
+            <ToggleButton value="division">Division</ToggleButton>
           </ToggleButtonGroup>
-          <Typography variant="caption" color="text.secondary" sx={{ fontSize: '10px', mt: 0.5, display: 'block' }}>
-            Select multiple views to see intersected demographic flows. Use filters to narrow down specific groups.
-          </Typography>
         </Box>
 
         {/* Active Filters Display */}
@@ -390,105 +406,19 @@ function CareerProgressionSankeyDashboard() {
           </Box>
         )}
 
-        <Grid container spacing={2}>
-          {/* Main Sankey Diagram - Full Width */}
-          <Grid item xs={12}>
-            <Card sx={{ borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)' }}>
-              <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                  <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '16px' }}>
-                    Career Progression Flow {activeViews.length > 1 || !activeViews.includes('overall') ? 
-                      `- ${activeViews.filter(v => v !== 'overall').map(v => v.charAt(0).toUpperCase() + v.slice(1)).join(' + ')} Analysis` : ''}
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary" sx={{ fontSize: '11px' }}>
-                    {activeViews.length > 1 ? 'Intersected demographic flows' : 'Flow shows coach movement between career stages over time'}
-                  </Typography>
-                </Box>
-                <Divider sx={{ mb: 3 }} />
-                <Box sx={{ height: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <SankeyDiagram 
-                    key={JSON.stringify(activeViews) + JSON.stringify(filters)}
-                    data={sankeyData} 
-                    width={1100} 
-                    height={480} 
-                  />
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Key Progression Metrics */}
-          <Grid item xs={12} md={6}>
-            <Card sx={{ borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)', height: '240px' }}>
-              <CardContent sx={{ p: 3, height: '100%' }}>
-                <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '16px', mb: 2 }}>
-                  Key Progression Rates
-                </Typography>
-                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2, height: 'calc(100% - 40px)' }}>
-                  {[
-                    { label: 'Entry → Academy', value: currentMetrics.entryToAcademy, color: '#1976d2' },
-                    { label: 'Academy → Assistant', value: currentMetrics.academyToAssistant, color: '#ff6b35' },
-                    { label: 'Assistant → Head Coach', value: currentMetrics.assistantToHead, color: '#4caf50' },
-                    { label: 'Overall Retention', value: currentMetrics.retentionRate, color: '#9c27b0' }
-                  ].map((metric, index) => (
-                    <Box key={index} sx={{ textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                      <Typography 
-                        variant="h4" 
-                        sx={{ 
-                          fontWeight: 600, 
-                          color: metric.color,
-                          fontSize: '24px',
-                          mb: 0.5
-                        }}
-                      >
-                        {(metric.value * 100).toFixed(0)}%
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary" sx={{ fontSize: '10px' }}>
-                        {metric.label}
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Flow Summary */}
-          <Grid item xs={12} md={6}>
-            <Card sx={{ borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)', height: '240px' }}>
-              <CardContent sx={{ p: 3, height: '100%' }}>
-                <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '16px', mb: 2 }}>
-                  Flow Summary
-                </Typography>
-                <Box sx={{ height: 'calc(100% - 40px)', overflowY: 'auto' }}>
-                  {sankeyData.links
-                    .sort((a, b) => b.value - a.value)
-                    .slice(0, 8)
-                    .map((link, index) => {
-                      const sourceName = sankeyData.nodes[link.source]?.name || 'Unknown'
-                      const targetName = sankeyData.nodes[link.target]?.name || 'Unknown'
-                      return (
-                        <Box key={index} sx={{ 
-                          display: 'flex', 
-                          justifyContent: 'space-between', 
-                          alignItems: 'center',
-                          py: 0.5,
-                          borderBottom: index < 7 ? '1px solid #f0f0f0' : 'none'
-                        }}>
-                          <Typography variant="body2" sx={{ fontSize: '11px', flex: 1 }}>
-                            {sourceName} → {targetName}
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontSize: '11px', fontWeight: 600, color: '#1976d2' }}>
-                            {link.value.toLocaleString()}
-                          </Typography>
-                        </Box>
-                      )
-                    })}
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+        {/* Main Sankey Diagram - Full Width */}
+        <Card sx={{ borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)' }}>
+          <CardContent sx={{ p: 3 }}>
+            <Box sx={{ height: '700px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <SankeyDiagram 
+                key={JSON.stringify(activeViews) + JSON.stringify(filters)}
+                data={sankeyData} 
+                width={Math.min(1100, window.innerWidth - 120)} 
+                height={680} 
+              />
+            </Box>
+          </CardContent>
+        </Card>
       </Box>
 
       {/* Filter Drawer */}

@@ -20,19 +20,26 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {} }) {
   // Filter options
   const filterOptions = {
     seasons: [
-      { value: '2024', label: '2024' },
-      { value: '2023', label: '2023' },
-      { value: '2022', label: '2022' },
-      { value: '2021', label: '2021' },
-      { value: '2020', label: '2020' }
+      { value: '24/25', label: '24/25' },
+      { value: '23/24', label: '23/24' },
+      { value: '22/23', label: '22/23' },
+      { value: '21/22', label: '21/22' },
+      { value: '20/21', label: '20/21' },
+      { value: '19/20', label: '19/20' }
     ],
     regions: [
-      { value: 'north-west', label: 'North West' },
-      { value: 'east-midlands', label: 'East Midlands' },
-      { value: 'south-east-london', label: 'South East & London' },
+      { value: 'london', label: 'London' },
+      { value: 'south-east', label: 'South East' },
+      { value: 'south-west', label: 'South West' },
       { value: 'west-midlands', label: 'West Midlands' },
+      { value: 'east-midlands', label: 'East Midlands' },
+      { value: 'east-england', label: 'East of England' },
       { value: 'yorkshire-humber', label: 'Yorkshire & The Humber' },
-      { value: 'other', label: 'Other' }
+      { value: 'north-west', label: 'North West' },
+      { value: 'north-east', label: 'North East' },
+      { value: 'scotland', label: 'Scotland' },
+      { value: 'wales', label: 'Wales' },
+      { value: 'northern-ireland', label: 'Northern Ireland' }
     ],
     ethnicities: [
       { value: 'white', label: 'White/White British' },
@@ -45,12 +52,28 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {} }) {
       { value: 'male', label: 'Male' },
       { value: 'female', label: 'Female' }
     ],
-    positions: [
+    primaryCoachingRoles: [
       { value: 'head-coach', label: 'Head Coach' },
       { value: 'assistant-coach', label: 'Assistant Coach' },
+      { value: '1st-team-coach', label: '1st Team Coach' },
       { value: 'academy-coach', label: 'Academy Coach' },
-      { value: 'development-coach', label: 'Development Coach' },
-      { value: 'other', label: 'Other' }
+      { value: 'goalkeeping-coach', label: 'Goalkeeping Coach' },
+      { value: 'cross-club-coach', label: 'Cross-Club Coach' }
+    ],
+    levels: [
+      { value: 'senior', label: 'Senior' },
+      { value: 'junior', label: 'Junior' }
+    ],
+    positionTypes: [
+      { value: 'full-time', label: 'Full-Time' },
+      { value: 'part-time', label: 'Part-Time' }
+    ],
+    divisions: [
+      { value: 'premier-league', label: 'Premier League' },
+      { value: 'efl', label: 'EFL' },
+      { value: 'womens-super-league', label: "Women's Super League" },
+      { value: 'womens-championship', label: "Women's Championship" },
+      { value: 'academy', label: 'Academy' }
     ],
     ageGroups: [
       { value: '18-25', label: '18-25' },
@@ -58,12 +81,6 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {} }) {
       { value: '36-45', label: '36-45' },
       { value: '46-55', label: '46-55' },
       { value: '56+', label: '56+' }
-    ],
-    employmentTypes: [
-      { value: 'full-time', label: 'Full-time' },
-      { value: 'part-time', label: 'Part-time' },
-      { value: 'contract', label: 'Contract' },
-      { value: 'volunteer', label: 'Volunteer' }
     ]
   }
 
@@ -86,9 +103,11 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {} }) {
       region: [],
       ethnicity: [],
       gender: [],
-      position: [],
-      ageGroup: [],
-      employmentType: []
+      primaryCoachingRole: [],
+      level: [],
+      positionType: [],
+      division: [],
+      ageGroup: []
     }
     setLocalFilters(resetFilters)
     onFiltersChange(resetFilters)
@@ -217,9 +236,11 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {} }) {
           <FilterSection title="Regions" filterKey="region" options={filterOptions.regions} />
           <FilterSection title="Ethnicities" filterKey="ethnicity" options={filterOptions.ethnicities} />
           <FilterSection title="Genders" filterKey="gender" options={filterOptions.genders} />
-          <FilterSection title="Positions" filterKey="position" options={filterOptions.positions} />
-          <FilterSection title="Age groups" filterKey="ageGroup" options={filterOptions.ageGroups} />
-          <FilterSection title="Employment types" filterKey="employmentType" options={filterOptions.employmentTypes} />
+          <FilterSection title="Primary Coaching Roles" filterKey="primaryCoachingRole" options={filterOptions.primaryCoachingRoles} />
+          <FilterSection title="Level" filterKey="level" options={filterOptions.levels} />
+          <FilterSection title="Position Type" filterKey="positionType" options={filterOptions.positionTypes} />
+          <FilterSection title="Division" filterKey="division" options={filterOptions.divisions} />
+          <FilterSection title="Age Groups" filterKey="ageGroup" options={filterOptions.ageGroups} />
         </Box>
 
         {/* Footer Actions */}

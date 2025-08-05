@@ -31,12 +31,45 @@
       { "season": "2024", "uefaB": 584, "uefaA": 232, "uefaPro": 22 }
     ],
     "regionalDistribution": [
-      { "region": "North West", "coachesPerMillion": 124 },
-      { "region": "East Midlands", "coachesPerMillion": 122 },
-      { "region": "South East & London", "coachesPerMillion": 84 },
+      { "region": "London", "coachesPerMillion": 145 },
+      { "region": "South East", "coachesPerMillion": 132 },
+      { "region": "South West", "coachesPerMillion": 98 },
       { "region": "West Midlands", "coachesPerMillion": 105 },
+      { "region": "East Midlands", "coachesPerMillion": 122 },
+      { "region": "East of England", "coachesPerMillion": 89 },
       { "region": "Yorkshire & The Humber", "coachesPerMillion": 98 },
-      { "region": "Other", "coachesPerMillion": 110 }
+      { "region": "North West", "coachesPerMillion": 124 },
+      { "region": "North East", "coachesPerMillion": 87 },
+      { "region": "Scotland", "coachesPerMillion": 76 },
+      { "region": "Wales", "coachesPerMillion": 64 },
+      { "region": "Northern Ireland", "coachesPerMillion": 43 }
+    ],
+    "seasonDistribution": [
+      { "season": "24/25", "coaches": 8450 },
+      { "season": "23/24", "coaches": 8120 },
+      { "season": "22/23", "coaches": 7890 },
+      { "season": "21/22", "coaches": 7650 },
+      { "season": "20/21", "coaches": 7420 },
+      { "season": "19/20", "coaches": 7200 }
+    ],
+    "primaryCoachingRoleDistribution": [
+      { "role": "Head Coach", "value": 12.3 },
+      { "role": "Assistant Coach", "value": 28.7 },
+      { "role": "1st Team Coach", "value": 15.2 },
+      { "role": "Academy Coach", "value": 31.8 },
+      { "role": "Goalkeeping Coach", "value": 8.4 },
+      { "role": "Cross-Club Coach", "value": 3.6 }
+    ],
+    "levelDistribution": [
+      { "level": "Senior", "value": 67.2 },
+      { "level": "Junior", "value": 32.8 }
+    ],
+    "divisionDistribution": [
+      { "division": "Premier League", "value": 8.1 },
+      { "division": "EFL", "value": 34.5 },
+      { "division": "Women's Super League", "value": 4.2 },
+      { "division": "Women's Championship", "value": 6.7 },
+      { "division": "Academy", "value": 46.5 }
     ],
     "interventionImpact": [
       { "season": "2021", "percentage": 5.2 },
@@ -83,18 +116,22 @@
           { "source": "entry_level", "target": "academy_coach", "value": 1200, "demographics": {
             "gender": { "male": 1098, "female": 102 },
             "ethnicity": { "white": 1020, "black": 84, "asian": 60, "mixed": 24, "other": 12 },
-            "region": { "north-west": 180, "east-midlands": 156, "south-east-london": 240, "west-midlands": 144, "yorkshire-humber": 120, "other": 360 },
+            "region": { "london": 156, "south-east": 132, "south-west": 96, "west-midlands": 144, "east-midlands": 108, "east-england": 84, "yorkshire-humber": 120, "north-west": 180, "north-east": 72, "scotland": 60, "wales": 36, "northern-ireland": 12 },
             "ageGroup": { "18-25": 144, "26-35": 336, "36-45": 420, "46-55": 240, "56+": 60 },
-            "position": { "head-coach": 96, "assistant-coach": 300, "academy-coach": 540, "development-coach": 180, "other": 84 },
-            "employmentType": { "full-time": 720, "part-time": 300, "contract": 120, "volunteer": 60 }
+            "primaryCoachingRole": { "head-coach": 96, "assistant-coach": 300, "1st-team-coach": 156, "academy-coach": 384, "goalkeeping-coach": 108, "cross-club-coach": 156 },
+            "level": { "senior": 804, "junior": 396 },
+            "positionType": { "full-time": 720, "part-time": 480 },
+            "division": { "premier-league": 84, "efl": 372, "womens-super-league": 48, "womens-championship": 72, "academy": 624 }
           }},
           { "source": "entry_level", "target": "development_coach", "value": 800, "demographics": {
             "gender": { "male": 732, "female": 68 },
             "ethnicity": { "white": 680, "black": 56, "asian": 40, "mixed": 16, "other": 8 },
-            "region": { "north-west": 120, "east-midlands": 104, "south-east-london": 160, "west-midlands": 96, "yorkshire-humber": 80, "other": 240 },
+            "region": { "london": 104, "south-east": 88, "south-west": 64, "west-midlands": 96, "east-midlands": 72, "east-england": 56, "yorkshire-humber": 80, "north-west": 120, "north-east": 48, "scotland": 40, "wales": 24, "northern-ireland": 8 },
             "ageGroup": { "18-25": 96, "26-35": 224, "36-45": 280, "46-55": 160, "56+": 40 },
-            "position": { "head-coach": 64, "assistant-coach": 200, "academy-coach": 360, "development-coach": 120, "other": 56 },
-            "employmentType": { "full-time": 480, "part-time": 200, "contract": 80, "volunteer": 40 }
+            "primaryCoachingRole": { "head-coach": 64, "assistant-coach": 200, "1st-team-coach": 104, "academy-coach": 256, "goalkeeping-coach": 72, "cross-club-coach": 104 },
+            "level": { "senior": 536, "junior": 264 },
+            "positionType": { "full-time": 480, "part-time": 320 },
+            "division": { "premier-league": 56, "efl": 248, "womens-super-league": 32, "womens-championship": 48, "academy": 416 }
           }},
           { "source": "academy_coach", "target": "assistant_coach", "value": 350, "demographics": {
             "gender": { "male": 320, "female": 30 },
