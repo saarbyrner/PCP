@@ -5,7 +5,13 @@ import {
   Typography, 
   Grid, 
   IconButton,
-  Chip
+  Chip,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow
 } from '@mui/material'
 import { ArrowBackOutlined } from '@mui/icons-material'
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar, Cell } from 'recharts'
@@ -13,8 +19,7 @@ import DashboardCard from '../components/DashboardCard'
 import FilterButton from '../components/FilterButton'
 import FilterDrawer from '../components/FilterDrawer'
 import SankeyDiagram from '../components/SankeyDiagram'
-import { useFilteredData } from '../hooks/useFilteredData'
-import pcpData from '../data/pcp.json'
+import { useCoachData } from '../hooks/useCoachData'
 
 const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0']
 
@@ -23,12 +28,36 @@ function DevelopmentPathwaysDashboard() {
   const [filters, setFilters] = useState({})
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
 
-  // Use filtered data based on current filter selections
-  const filteredData = useFilteredData(pcpData.leagueData, filters)
+  // Use coach data with filtering
+  const coachData = useCoachData(filters)
 
-  const qualificationsTrend = filteredData.qualificationsTrend || pcpData.leagueData.qualificationsTrend
-  const careerFlowData = pcpData.leagueData.careerFlowData
-  const positionData = filteredData.positionTypeDistribution || pcpData.leagueData.positionTypeDistribution
+  // Generate qualification trend data based on coach data
+  const qualificationsTrend = coachData.seasonDistribution.map(season => ({
+    ...season,
+    level1: Math.floor(season.coaches * 0.6),
+    level2: Math.floor(season.coaches * 0.3),
+    level3: Math.floor(season.coaches * 0.1)
+  }))
+  
+  const careerFlowData = coachData.sankeyData
+  const positionData = coachData.positionTypeDistribution
+
+  // Intervention impact data for female coach representation  
+  const interventionData = [
+    { season: '18/19', percentage: 22 },
+    { season: '19/20', percentage: 24 },
+    { season: '20/21', percentage: 26 },
+    { season: '21/22', percentage: 28 },
+    { season: '22/23', percentage: 35 },
+    { season: '23/24', percentage: 38 },
+    { season: '24/25', percentage: 42 }
+  ]
+
+  // Mock comparison data
+  const comparisonData = [
+    { group: 'Coaching Programme Cohort', progressionRate: '85%', qualificationRate: '78%', retentionRate: '92%' },
+    { group: 'Control Group', progressionRate: '62%', qualificationRate: '54%', retentionRate: '76%' }
+  ]
 
   const handleFiltersChange = (newFilters) => {
     setFilters(newFilters)
@@ -40,8 +69,7 @@ function DevelopmentPathwaysDashboard() {
     ).length
   }
 
-  // Transform career flow data for D3 Sankey with filter multiplier
-  const filterMultiplier = filteredData._filterMultiplier || 1.0
+  // Transform career flow data for D3 Sankey
   const sankeyData = {
     nodes: [
       { id: 0, name: 'Academy Coach' },
@@ -51,19 +79,19 @@ function DevelopmentPathwaysDashboard() {
       { id: 4, name: 'Other' }
     ],
     links: [
-      { source: 0, target: 1, value: Math.max(1, Math.round(150 * filterMultiplier)) },
-      { source: 0, target: 3, value: Math.max(1, Math.round(350 * filterMultiplier)) },
-      { source: 1, target: 2, value: Math.max(1, Math.round(20 * filterMultiplier)) },
-      { source: 1, target: 4, value: Math.max(1, Math.round(130 * filterMultiplier)) },
-      { source: 3, target: 4, value: Math.max(1, Math.round(350 * filterMultiplier)) }
+      { source: 0, target: 1, value: Math.max(1, Math.round(coachData.totalCoaches * 0.15)) },
+      { source: 0, target: 3, value: Math.max(1, Math.round(coachData.totalCoaches * 0.35)) },
+      { source: 1, target: 2, value: Math.max(1, Math.round(coachData.totalCoaches * 0.02)) },
+      { source: 1, target: 4, value: Math.max(1, Math.round(coachData.totalCoaches * 0.13)) },
+      { source: 3, target: 4, value: Math.max(1, Math.round(coachData.totalCoaches * 0.35)) }
     ]
   }
 
-  // Mock cohort data for impact metrics
+  // Dynamic cohort data based on coach data
   const cohortMetrics = [
-    { label: 'Avg Players Graduated', value: '8.2', numericValue: 8.2, cohort: 'UEFA Pro Coaches' },
-    { label: 'Avg Trophies Won', value: '2.5', numericValue: 2.5, cohort: 'UEFA Pro Coaches' },
-    { label: 'Career Progression Rate', value: '73%', numericValue: 73, cohort: 'All Coaches' }
+    { label: 'Total Coaches', value: coachData.totalCoaches.toString(), numericValue: coachData.totalCoaches, cohort: 'All Coaches' },
+    { label: 'Senior Level', value: `${Math.round((coachData.coaches.filter(c => c.level === 'senior').length / coachData.totalCoaches) * 100)}%`, numericValue: Math.round((coachData.coaches.filter(c => c.level === 'senior').length / coachData.totalCoaches) * 100), cohort: 'Level Distribution' },
+    { label: 'Female Coaches', value: `${Math.round((coachData.coaches.filter(c => c.gender === 'female').length / coachData.totalCoaches) * 100)}%`, numericValue: Math.round((coachData.coaches.filter(c => c.gender === 'female').length / coachData.totalCoaches) * 100), cohort: 'Gender Distribution' }
   ]
 
   return (
@@ -143,7 +171,7 @@ function DevelopmentPathwaysDashboard() {
 
         {/* Career Timeline Visualization */}
         <Grid item xs={12} md={8}>
-          <DashboardCard title="Typical Career Progression Timeline" height="240px">
+          <DashboardCard title={`Career Progression Timeline${getActiveFiltersCount() > 0 ? ' (Filtered)' : ''}`} height="240px">
             <Box sx={{ height: '180px', position: 'relative', mt: 2 }}>
               {/* Timeline */}
               <Box sx={{ position: 'relative', height: '80px' }}>
@@ -239,6 +267,166 @@ function DevelopmentPathwaysDashboard() {
                 </Box>
               ))}
             </Box>
+          </DashboardCard>
+        </Grid>
+
+        {/* Intervention Impact Chart */}
+        <Grid item xs={12} md={6}>
+          <DashboardCard title="Intervention Impact: Female Coach Representation" height="280px">
+            <Box sx={{ height: '220px', position: 'relative' }}>
+              <ResponsiveContainer width="100%" height={180}>
+                <BarChart data={interventionData} margin={{ top: 10, right: 30, left: 20, bottom: 10 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="season" axisLine={false} tickLine={false} tick={{ fontSize: 9, fill: '#666' }} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#666' }} />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: '#fff', 
+                      border: '1px solid #ccc', 
+                      borderRadius: '4px',
+                      fontSize: '11px',
+                      zIndex: 9999
+                    }}
+                    formatter={(value) => [`${value}%`, 'Female Coaches']}
+                    labelFormatter={(label) => `Season: ${label}`}
+                  />
+                  <Bar dataKey="percentage" radius={[2, 2, 0, 0]}>
+                    {interventionData.map((entry, index) => {
+                      const isPostIntervention = index >= 4
+                      return (
+                        <Cell key={`cell-${index}`} fill={isPostIntervention ? '#4caf50' : '#1976d2'} />
+                      )
+                    })}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+              
+              {/* Intervention marker */}
+              <Box sx={{ 
+                position: 'absolute', 
+                top: '10px',
+                left: '66%', 
+                transform: 'translateX(-50%)',
+                zIndex: 2
+              }}>
+                <Box sx={{ 
+                  width: '2px', 
+                  height: '160px', 
+                  backgroundColor: '#ff6b35'
+                }}>
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      position: 'absolute', 
+                      top: '-15px', 
+                      left: '5px',
+                      backgroundColor: '#ff6b35',
+                      color: 'white',
+                      px: 1,
+                      borderRadius: '3px',
+                      fontSize: '9px',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    Intervention
+                  </Typography>
+                </Box>
+              </Box>
+              
+              {/* Legend */}
+              <Box sx={{ position: 'absolute', bottom: '5px', left: '20px', display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <Box sx={{ width: '8px', height: '8px', backgroundColor: '#1976d2', borderRadius: '50%' }} />
+                  <Typography variant="caption" sx={{ fontSize: '10px', color: '#333' }}>Pre-Intervention</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <Box sx={{ width: '8px', height: '8px', backgroundColor: '#4caf50', borderRadius: '50%' }} />
+                  <Typography variant="caption" sx={{ fontSize: '10px', color: '#333' }}>Post-Intervention</Typography>
+                </Box>
+              </Box>
+            </Box>
+          </DashboardCard>
+        </Grid>
+
+        {/* Comparison Analysis */}
+        <Grid item xs={12} md={6}>
+          <DashboardCard title="Programme vs Control Group Comparison" height="240px">
+            <Box sx={{ height: '180px' }}>
+              {comparisonData.map((group, groupIndex) => (
+                <Box key={groupIndex} sx={{ mb: 2.5 }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, mb: 1.5, fontSize: '11px' }}>
+                    {group.group}
+                  </Typography>
+                  <Box sx={{ display: 'flex', gap: 1.5 }}>
+                    {[
+                      { label: 'Progression', value: group.progressionRate },
+                      { label: 'Qualification', value: group.qualificationRate },
+                      { label: 'Retention', value: group.retentionRate }
+                    ].map((metric, index) => (
+                      <Box key={index} sx={{ flex: 1, textAlign: 'center' }}>
+                        <Typography 
+                          variant="h5" 
+                          sx={{ 
+                            fontWeight: 600, 
+                            color: groupIndex === 0 ? '#4caf50' : '#ff6b35',
+                            mb: 0.5,
+                            fontSize: '18px'
+                          }}
+                        >
+                          {metric.value}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary" sx={{ fontSize: '9px' }}>
+                          {metric.label}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          </DashboardCard>
+        </Grid>
+
+        {/* Data Requirements Table */}
+        <Grid item xs={12} md={6}>
+          <DashboardCard title="Data Quality Metrics" height="240px">
+            <TableContainer sx={{ height: '180px' }}>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontSize: '10px', fontWeight: 600, color: '#666', py: 1 }}>Source</TableCell>
+                    <TableCell sx={{ fontSize: '10px', fontWeight: 600, color: '#666', py: 1 }}>Coverage</TableCell>
+                    <TableCell sx={{ fontSize: '10px', fontWeight: 600, color: '#666', py: 1 }}>Missing Data</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell sx={{ fontSize: '10px', py: 0.5 }}>LCA</TableCell>
+                    <TableCell sx={{ fontSize: '10px', py: 0.5 }}>88%</TableCell>
+                    <TableCell sx={{ fontSize: '10px', color: '#ff6b35', py: 0.5 }}>
+                      {coachData.ethnicityDistribution.missingData.lca}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell sx={{ fontSize: '10px', py: 0.5 }}>LMA</TableCell>
+                    <TableCell sx={{ fontSize: '10px', py: 0.5 }}>23%</TableCell>
+                    <TableCell sx={{ fontSize: '10px', color: '#f44336', py: 0.5 }}>
+                      {coachData.ethnicityDistribution.missingData.lma}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell sx={{ fontSize: '10px', py: 0.5 }}>FA Regional</TableCell>
+                    <TableCell sx={{ fontSize: '10px', py: 0.5 }}>95%</TableCell>
+                    <TableCell sx={{ fontSize: '10px', color: '#4caf50', py: 0.5 }}>5%</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell sx={{ fontSize: '10px', py: 0.5 }}>PCP Unified</TableCell>
+                    <TableCell sx={{ fontSize: '10px', py: 0.5 }}>100%</TableCell>
+                    <TableCell sx={{ fontSize: '10px', color: '#4caf50', py: 0.5 }}>0%</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
           </DashboardCard>
         </Grid>
       </Grid>

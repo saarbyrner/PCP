@@ -7,11 +7,11 @@ function UKMap({ data, width = 600, height = 400 }) {
   const svgRef = useRef()
   const [geoData, setGeoData] = useState(null)
 
-  // Create color scale based on coaches per million
+  // Create color scale based on actual coach count
   const getColorIntensity = (value) => {
-    const max = Math.max(...data.map(d => d.coachesPerMillion))
-    const min = Math.min(...data.map(d => d.coachesPerMillion))
-    return (value - min) / (max - min)
+    const max = Math.max(...data.map(d => d.coachCount || d.coachesPerMillion))
+    const min = Math.min(...data.map(d => d.coachCount || d.coachesPerMillion))
+    return max === min ? 0.5 : (value - min) / (max - min)
   }
 
   // Map region names from GeoJSON to our data
@@ -80,14 +80,38 @@ function UKMap({ data, width = 600, height = 400 }) {
 
     const g = container.append('g')
 
-    // Set up zoom behavior
+    // Set up zoom behavior with center-based zooming
     const zoom = d3.zoom()
-      .scaleExtent([1, 8])
+      .scaleExtent([1, 12])
       .on('zoom', (event) => {
         g.attr('transform', event.transform)
       })
 
+    // Store the initial transform for proper reset
+    const initialTransform = d3.zoomIdentity
+
     svg.call(zoom)
+
+    // Add keyboard shortcuts for zooming
+    d3.select('body')
+      .on('keydown.zoom', (event) => {
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+          return // Don't interfere with input fields
+        }
+        
+        const mapCenter = [width / 2, height / 2]
+        
+        if (event.key === '+' || event.key === '=') {
+          event.preventDefault()
+          svg.transition().duration(200).call(zoom.scaleBy, 1.5, mapCenter)
+        } else if (event.key === '-') {
+          event.preventDefault()
+          svg.transition().duration(200).call(zoom.scaleBy, 0.67, mapCenter)
+        } else if (event.key === '0') {
+          event.preventDefault()
+          svg.transition().duration(400).call(zoom.transform, initialTransform)
+        }
+      })
 
     // Create tooltip div
     const tooltip = d3.select('body').selectAll('.uk-map-tooltip')
@@ -113,8 +137,9 @@ function UKMap({ data, width = 600, height = 400 }) {
       .attr('fill', (d) => {
         const regionData = getRegionData(d.properties.name)
         if (regionData) {
-          const intensity = getColorIntensity(regionData.coachesPerMillion)
-          return `rgba(25, 118, 210, ${0.4 + intensity * 0.6})`
+          const coachValue = regionData.coachCount || regionData.coachesPerMillion
+          const intensity = getColorIntensity(coachValue)
+          return `rgba(25, 118, 210, ${0.2 + intensity * 0.8})`
         }
         return '#e0e0e0'
       })
@@ -134,7 +159,7 @@ function UKMap({ data, width = 600, height = 400 }) {
           .style('opacity', 1)
           .html(`
             <div style="font-weight: 600; margin-bottom: 4px;">${d.properties.name}</div>
-            <div>${regionData ? `${regionData.coachesPerMillion} coaches per million` : 'No data available'}</div>
+            <div>${regionData ? `${regionData.coachCount || regionData.coachesPerMillion} coaches` : 'No data available'}</div>
             ${regionData ? `<div style="margin-top: 4px; font-size: 10px; opacity: 0.8;">Region: ${regionData.region}</div>` : ''}
           `)
           .style('left', (event.pageX + 10) + 'px')
@@ -148,8 +173,9 @@ function UKMap({ data, width = 600, height = 400 }) {
           .attr('stroke-width', 0.5)
           .attr('fill', () => {
             if (regionData) {
-              const intensity = getColorIntensity(regionData.coachesPerMillion)
-              return `rgba(25, 118, 210, ${0.4 + intensity * 0.6})`
+              const coachValue = regionData.coachCount || regionData.coachesPerMillion
+              const intensity = getColorIntensity(coachValue)
+              return `rgba(25, 118, 210, ${0.2 + intensity * 0.8})`
             }
             return '#e0e0e0'
           })
@@ -181,18 +207,22 @@ function UKMap({ data, width = 600, height = 400 }) {
       .attr('font-size', '10px')
       .attr('fill', '#666')
       .style('pointer-events', 'none')
-      .text('Coaches per Million Population • Scroll to zoom • Hover for details')
+      .text('Coach Distribution • Scroll to zoom • Hover for details')
 
-    // Add zoom controls
+    // Add zoom controls - positioned to avoid filter drawer
     const controls = container.append('g')
       .attr('class', 'zoom-controls')
-      .attr('transform', `translate(${width - 60}, 50)`)
+      .attr('transform', `translate(20, 50)`)
+      .style('z-index', 1000)
+
+    // Get map center for consistent zooming
+    const mapCenter = [width / 2, height / 2]
 
     // Zoom in button
     const zoomInButton = controls.append('g')
       .style('cursor', 'pointer')
       .on('click', () => {
-        svg.transition().duration(300).call(zoom.scaleBy, 1.5)
+        svg.transition().duration(200).call(zoom.scaleBy, 1.5, mapCenter)
       })
 
     zoomInButton.append('rect')
@@ -216,7 +246,7 @@ function UKMap({ data, width = 600, height = 400 }) {
       .attr('transform', 'translate(0, 28)')
       .style('cursor', 'pointer')
       .on('click', () => {
-        svg.transition().duration(300).call(zoom.scaleBy, 0.67)
+        svg.transition().duration(200).call(zoom.scaleBy, 0.67, mapCenter)
       })
 
     zoomOutButton.append('rect')
@@ -240,7 +270,7 @@ function UKMap({ data, width = 600, height = 400 }) {
       .attr('transform', 'translate(0, 56)')
       .style('cursor', 'pointer')
       .on('click', () => {
-        svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity)
+        svg.transition().duration(400).call(zoom.transform, initialTransform)
       })
 
     resetButton.append('rect')
@@ -262,17 +292,17 @@ function UKMap({ data, width = 600, height = 400 }) {
   }, [geoData, data, width, height])
 
   return (
-    <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <svg 
         ref={svgRef}
         style={{ 
-          background: '#f8f9fa', 
-          border: '1px solid #e0e0e0', 
-          borderRadius: '8px' 
+          width: '100%',
+          height: '100%',
+          background: '#f8f9fa'
         }}
       />
       
-      {/* Legend */}
+      {/* Color Scale Legend */}
       <div style={{
         position: 'absolute',
         bottom: '10px',
@@ -282,26 +312,41 @@ function UKMap({ data, width = 600, height = 400 }) {
         borderRadius: '6px',
         border: '1px solid #e0e0e0',
         fontSize: '11px',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        minWidth: '120px'
       }}>
         <div style={{ fontWeight: 600, marginBottom: '8px', color: '#333' }}>
-          Regional Data
+          Coach Count
         </div>
-        {data.map((region, index) => (
-          <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '4px' }}>
-            <div style={{
-              width: '12px',
-              height: '12px',
-              backgroundColor: `rgba(25, 118, 210, ${0.4 + getColorIntensity(region.coachesPerMillion) * 0.6})`,
-              marginRight: '8px',
-              border: '1px solid #ccc',
-              borderRadius: '2px'
-            }}></div>
-            <span style={{ fontSize: '10px', color: '#666' }}>
-              {region.region}: {region.coachesPerMillion}
-            </span>
-          </div>
-        ))}
+        {(() => {
+          const max = Math.max(...data.map(d => d.coachCount || d.coachesPerMillion))
+          const min = Math.min(...data.map(d => d.coachCount || d.coachesPerMillion))
+          const steps = 5
+          const stepSize = (max - min) / (steps - 1)
+          
+          return Array.from({ length: steps }, (_, i) => {
+            const value = Math.round(min + (stepSize * i))
+            const intensity = (value - min) / (max - min)
+            return (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', marginBottom: '3px' }}>
+                <div style={{
+                  width: '16px',
+                  height: '12px',
+                  backgroundColor: `rgba(25, 118, 210, ${0.2 + intensity * 0.8})`,
+                  marginRight: '8px',
+                  border: '1px solid #ccc',
+                  borderRadius: '2px'
+                }}></div>
+                <span style={{ fontSize: '10px', color: '#666' }}>
+                  {value}
+                </span>
+              </div>
+            )
+          })
+        })()}
+        <div style={{ fontSize: '9px', color: '#999', marginTop: '4px', fontStyle: 'italic' }}>
+          Fewer ← → More
+        </div>
       </div>
     </div>
   )

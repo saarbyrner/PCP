@@ -15,7 +15,8 @@ import {
   TrendingUpOutlined, 
   AnalyticsOutlined,
   ArrowForwardOutlined,
-  AccountTreeOutlined
+  AccountTreeOutlined,
+  MapOutlined
 } from '@mui/icons-material'
 import pcpData from '../data/pcp.json'
 
@@ -74,17 +75,17 @@ function AnalysisPage() {
       tags: ['Sankey', 'Demographics', 'Flow Analysis']
     },
     {
-      id: 'impact-interventions',
-      title: 'Impact, Interventions & Geospatial',
-      description: 'Intervention effectiveness tracking with geographical distribution analysis',
-      icon: AnalyticsOutlined,
-      route: '/analysis/impact-interventions',
+      id: 'geospatial',
+      title: 'UK Regional Distribution Map',
+      description: 'Interactive geographical analysis of coaching distribution across UK regions with zoom and filtering',
+      icon: MapOutlined,
+      route: '/analysis/geospatial',
       metrics: [
-        { label: 'Regions', value: pcpData.leagueData.regionalDistribution.length },
-        { label: 'Intervention Impact', value: `+${(pcpData.leagueData.interventionImpact[6].percentage - pcpData.leagueData.interventionImpact[4].percentage).toFixed(1)}%` },
-        { label: 'Data Points', value: '7yr' }
+        { label: 'UK Regions', value: '12' },
+        { label: 'Interactive', value: 'Map' },
+        { label: 'Zoom Controls', value: '✓' }
       ],
-      tags: ['Impact', 'Geography', 'Interventions']
+      tags: ['Geography', 'Interactive', 'Mapping']
     }
   ]
 

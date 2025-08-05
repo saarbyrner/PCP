@@ -17,20 +17,17 @@ import { ArrowBackOutlined } from '@mui/icons-material'
 import SankeyDiagram from '../components/SankeyDiagram'
 import FilterButton from '../components/FilterButton'
 import FilterDrawer from '../components/FilterDrawer'
-import { useFilteredData } from '../hooks/useFilteredData'
-import pcpData from '../data/pcp.json'
+import { useCoachData } from '../hooks/useCoachData'
 
-const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0', '#e91e63', '#00bcd4', '#8bc34a', '#ffc107']
 
 function CareerProgressionSankeyDashboard() {
   const navigate = useNavigate()
   const [filters, setFilters] = useState({})
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
-  const [activeViews, setActiveViews] = useState(['overall']) // Multi-select array
+  const [activeViews, setActiveViews] = useState(['primaryCoachingRole']) // Default to coaching role
 
-  // Use filtered data based on current filter selections
-  const filteredData = useFilteredData(pcpData.leagueData, filters)
-  const advancedData = pcpData.leagueData.advancedProgressionData
+  // Use coach data with filtering
+  const coachData = useCoachData(filters)
 
   const handleFiltersChange = (newFilters) => {
     setFilters(newFilters)
@@ -42,7 +39,7 @@ function CareerProgressionSankeyDashboard() {
     ).length
   }
 
-  const handleViewModeChange = (event, newViews) => {
+  const handleViewModeChange = (_, newViews) => {
     if (newViews && newViews.length > 0) {
       setActiveViews(newViews)
     }
@@ -52,22 +49,12 @@ function CareerProgressionSankeyDashboard() {
   const generateSankeyData = () => {
     console.log('generateSankeyData called with:', { activeViews, filters })
     
-    const baseData = advancedData.careerProgression
-    const filterMultiplier = filteredData._filterMultiplier || 1.0
-    const demographicViews = activeViews.filter(view => view !== 'overall')
+    const baseSankeyData = coachData.sankeyData
+    const demographicViews = activeViews
     
-    // If only overall view is selected, return simple flow
+    // If no views are selected, default to coaching role
     if (demographicViews.length === 0) {
-      return {
-        nodes: baseData.nodes.map(node => ({ ...node })),
-        links: baseData.links.map(link => ({
-          source: baseData.nodes.findIndex(n => n.id === link.source),
-          target: baseData.nodes.findIndex(n => n.id === link.target),
-          value: Math.max(1, Math.round(link.value * filterMultiplier)),
-          originalValue: link.value,
-          demographics: link.demographics
-        })).filter(link => link.value > 0)
-      }
+      return baseSankeyData
     }
 
     // Generate demographic combinations for selected views
@@ -78,7 +65,7 @@ function CareerProgressionSankeyDashboard() {
     const newNodes = []
     const nodeMap = new Map()
     
-    baseData.nodes.forEach(stageNode => {
+    baseSankeyData.nodes.forEach(stageNode => {
       demographicCombinations.forEach((demoCombination, demoIndex) => {
         const nodeId = `${stageNode.id}_${demoIndex}`
         const nodeName = `${demoCombination.label}\n${stageNode.name}`
@@ -97,20 +84,20 @@ function CareerProgressionSankeyDashboard() {
     // Create links between demographic-specific nodes
     const newLinks = []
     
-    baseData.links.forEach(link => {
+    baseSankeyData.links.forEach(link => {
       demographicCombinations.forEach((demoCombination, demoIndex) => {
         // Calculate the value for this specific demographic combination
         const demographicValue = calculateDemographicValue(link, demoCombination)
         
         if (demographicValue > 0) {
-          const sourceNodeIndex = nodeMap.get(`${link.source}_${demoIndex}`)
-          const targetNodeIndex = nodeMap.get(`${link.target}_${demoIndex}`)
+          const sourceNodeIndex = nodeMap.get(`${baseSankeyData.nodes[link.source].id}_${demoIndex}`)
+          const targetNodeIndex = nodeMap.get(`${baseSankeyData.nodes[link.target].id}_${demoIndex}`)
           
           if (sourceNodeIndex !== undefined && targetNodeIndex !== undefined) {
             newLinks.push({
               source: sourceNodeIndex,
               target: targetNodeIndex,
-              value: Math.max(1, Math.round(demographicValue * filterMultiplier)),
+              value: Math.max(1, Math.round(demographicValue)),
               originalValue: link.value,
               demographics: link.demographics,
               demographicCombo: demoCombination
@@ -245,73 +232,51 @@ function CareerProgressionSankeyDashboard() {
   }
 
 
-  const sankeyData = useMemo(() => generateSankeyData(), [activeViews, filters, filteredData, advancedData])
+  const sankeyData = useMemo(() => generateSankeyData(), [activeViews, filters, coachData])
 
-  // Calculate key metrics for the current view
+  // Calculate key metrics for the current view based on actual coach data
   const calculateMetrics = () => {
-    const progressionData = advancedData.progressionByDemographics
-    let metrics = {
-      entryToAcademy: 0.55,
-      academyToAssistant: 0.29,
-      assistantToHead: 0.08,
-      headToTechnical: 0.27,
-      retentionRate: 0.68
-    }
-
-    if (activeViews.includes('overall')) {
-      return metrics
-    }
-
-    // Calculate weighted average across all active demographic views
-    let weightedMetrics = {
-      entryToAcademy: 0,
-      academyToAssistant: 0,
-      assistantToHead: 0,
-      headToTechnical: 0,
-      retentionRate: 0
-    }
-    let totalWeight = 0
-
-    activeViews.forEach(view => {
-      if (view === 'overall') return
-
-      const viewFilters = filters[view] || []
-      const demographicData = progressionData[view]
-      
-      if (demographicData) {
-        if (viewFilters.length > 0) {
-          // Average selected demographic values
-          viewFilters.forEach(filterValue => {
-            const metricData = demographicData[filterValue]
-            if (metricData) {
-              Object.keys(weightedMetrics).forEach(key => {
-                weightedMetrics[key] += metricData[key] || 0
-              })
-              totalWeight++
-            }
-          })
-        } else {
-          // Average all demographic values for this view
-          Object.values(demographicData).forEach(metricData => {
-            Object.keys(weightedMetrics).forEach(key => {
-              weightedMetrics[key] += metricData[key] || 0
-            })
-            totalWeight++
-          })
-        }
+    const totalCoaches = coachData.totalCoaches
+    if (totalCoaches === 0) {
+      return {
+        entryToAcademy: 0,
+        academyToAssistant: 0,
+        assistantToHead: 0,
+        headToTechnical: 0,
+        retentionRate: 0
       }
-    })
-
-    if (totalWeight > 0) {
-      Object.keys(weightedMetrics).forEach(key => {
-        metrics[key] = weightedMetrics[key] / totalWeight
-      })
     }
 
-    return metrics
+    // Calculate actual progression rates from the coach data
+    const stages = {
+      entry: coachData.coaches.filter(c => c.currentStage === 'entry_level').length,
+      academy: coachData.coaches.filter(c => c.currentStage === 'academy_coach').length,
+      assistant: coachData.coaches.filter(c => c.currentStage === 'assistant_coach').length,
+      head: coachData.coaches.filter(c => c.currentStage === 'head_coach').length,
+      technical: coachData.coaches.filter(c => c.currentStage === 'technical_director').length
+    }
+
+    // Calculate realistic progression rates based on current coach distribution
+    const entryToAcademy = stages.entry > 0 ? Math.min(0.85, stages.academy / (stages.entry + stages.academy)) : 0.55
+    const academyToAssistant = stages.academy > 0 ? Math.min(0.40, stages.assistant / (stages.academy + stages.assistant)) : 0.29
+    const assistantToHead = stages.assistant > 0 ? Math.min(0.15, stages.head / (stages.assistant + stages.head)) : 0.08
+    const headToTechnical = stages.head > 0 ? Math.min(0.35, stages.technical / (stages.head + stages.technical)) : 0.27
+    
+    // Overall retention (coaches not in exit stage)
+    const exitCoaches = coachData.coaches.filter(c => c.currentStage === 'exit').length
+    const retentionRate = totalCoaches > 0 ? (totalCoaches - exitCoaches) / totalCoaches : 0.68
+
+    return {
+      entryToAcademy,
+      academyToAssistant,
+      assistantToHead,
+      headToTechnical,
+      retentionRate
+    }
   }
 
-  const currentMetrics = useMemo(() => calculateMetrics(), [activeViews, filters, advancedData])
+  // Metrics calculation available if needed for future features
+  // const currentMetrics = useMemo(() => calculateMetrics(), [coachData])
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -366,7 +331,6 @@ function CareerProgressionSankeyDashboard() {
               }
             }}
           >
-            <ToggleButton value="overall">Overall Progression</ToggleButton>
             <ToggleButton value="gender">Gender</ToggleButton>
             <ToggleButton value="ethnicity">Ethnicity</ToggleButton>
             <ToggleButton value="region">Region</ToggleButton>
@@ -409,12 +373,12 @@ function CareerProgressionSankeyDashboard() {
         {/* Main Sankey Diagram - Full Width */}
         <Card sx={{ borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)' }}>
           <CardContent sx={{ p: 3 }}>
-            <Box sx={{ height: '700px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Box sx={{ height: '800px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <SankeyDiagram 
                 key={JSON.stringify(activeViews) + JSON.stringify(filters)}
                 data={sankeyData} 
-                width={Math.min(1100, window.innerWidth - 120)} 
-                height={680} 
+                width={Math.min(1200, window.innerWidth - 120)} 
+                height={780} 
               />
             </Box>
           </CardContent>
