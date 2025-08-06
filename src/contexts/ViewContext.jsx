@@ -10,14 +10,14 @@ export const VIEW_TYPES = {
 // Theme configurations for different views
 const viewThemes = {
   [VIEW_TYPES.LEAGUE]: {
-    name: 'Pro Coach Partnership',
-    logoSrc: '/public/assets/logos/Kitman Labs base.png',
+    name: 'Kitman Labs',
+    logoSrc: '/assets/logos/kitman-labs-base.png',
     primaryColor: '#000000',
     gradientBackground: 'linear-gradient(180deg, #000000 0%, #111111 40%, #000000 70%, #040037ff 90%, #040037ff 100%)'
   },
   [VIEW_TYPES.CLUB]: {
     name: 'Liverpool FC',
-    logoSrc: '/public/assets/logos/teams/premier-league/liverpool.png',
+    logoSrc: '/assets/logos/teams/premier-league/liverpool.png',
     primaryColor: '#C8102E',
     gradientBackground: 'linear-gradient(180deg, #C8102E 0%, #8B0000 40%, #C8102E 70%, #8B0000 90%, #8B0000 100%)'
   }

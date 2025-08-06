@@ -11,7 +11,7 @@ import '../styles/design-tokens.css'
  */
 function LogoImage({ 
   type = 'organization',
-  logoId = 'organization-logo',
+  logoId = 'kitman-labs-base',
   league = 'premier-league',
   alt = '',
   width = 'auto',
