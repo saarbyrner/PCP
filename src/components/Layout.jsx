@@ -57,8 +57,8 @@ function MedinahLayout({ children }) {
             <div className="nav-logo">
               <LogoImage 
                 type="organization" 
-                logoId="organization-logo" 
-                alt="Medinah Logo" 
+                logoId="kitman-labs-base" 
+                alt="Kitman Labs Logo" 
                 height={32}
                 width={120}
               />

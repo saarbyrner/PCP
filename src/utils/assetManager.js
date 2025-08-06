@@ -56,8 +56,8 @@ export function getTeamLogo(teamSlug, league = 'premier-league', fallback = PLAC
  * @param {string} logoName - Logo filename without extension
  * @returns {string} Logo URL
  */
-export function getOrganizationLogo(logoName = 'organization-logo') {
-  return `${ASSET_PATHS.logos}/${logoName}.svg`
+export function getOrganizationLogo(logoName = 'kitman-labs-base') {
+  return `${ASSET_PATHS.logos}/${logoName}.png`
 }
 
 /**
