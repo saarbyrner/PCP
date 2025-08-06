@@ -110,7 +110,7 @@ function DevelopmentPathwaysDashboard() {
         </IconButton>
         <Box>
           <Typography variant="h5" sx={{ fontWeight: 600, fontSize: '20px', mb: 0.5 }}>
-            Coach Development Pathways
+            Development Paths
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
             Career progression analysis and development journey mapping across the workforce

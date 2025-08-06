@@ -288,7 +288,7 @@ function CareerProgressionSankeyDashboard() {
             </IconButton>
             <Box>
               <Typography variant="h5" sx={{ fontWeight: 600, fontSize: '20px', mb: 0.5 }}>
-                Career Progression Flow Analysis
+                Progression Flow
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
                 Toggle buttons select demographic dimensions to analyze • Filters narrow data within selected dimensions

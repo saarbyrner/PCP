@@ -67,7 +67,7 @@ function GeospatialDashboard() {
             </IconButton>
             <Box>
               <Typography variant="h5" sx={{ fontWeight: 600, fontSize: '20px', mb: 0.5 }}>
-                UK Regional Coaching Distribution
+                Regional Map
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
                 Interactive geographical analysis of coaching distribution across UK regions

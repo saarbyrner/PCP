@@ -69,7 +69,7 @@ function WorkforceOverviewDashboard() {
           </IconButton>
           <Box>
             <Typography variant="h5" sx={{ fontWeight: 600, fontSize: '20px', mb: 0.5 }}>
-              Workforce Overview
+              Workforce Stats
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
               High-level statistics and demographic analysis of the entire coaching workforce

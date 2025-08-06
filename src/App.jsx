@@ -7,6 +7,8 @@ import WorkforceOverviewDashboard from './pages/WorkforceOverviewDashboard'
 import DevelopmentPathwaysDashboard from './pages/DevelopmentPathwaysDashboard'
 import CareerProgressionSankeyDashboard from './pages/CareerProgressionSankeyDashboard'
 import GeospatialDashboard from './pages/GeospatialDashboard'
+import CoachManagementDashboard from './pages/CoachManagementDashboard'
+import IndividualCoachProfileDashboard from './pages/IndividualCoachProfileDashboard'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/analysis/development-pathways" element={<DevelopmentPathwaysDashboard />} />
         <Route path="/analysis/career-progression-flow" element={<CareerProgressionSankeyDashboard />} />
         <Route path="/analysis/geospatial" element={<GeospatialDashboard />} />
+        <Route path="/analysis/coach-management" element={<CoachManagementDashboard />} />
+        <Route path="/analysis/individual-coach-profile" element={<IndividualCoachProfileDashboard />} />
         <Route path="/athlete" element={<Athletes />} />
         <Route path="/workloads" element={<SimplePage pageName="Workload" />} />
         <Route path="/questionnaires" element={<SimplePage pageName="Forms" />} />

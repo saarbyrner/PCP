@@ -115,6 +115,12 @@ function MainNavigation({
   const navigate = useNavigate()
   const { currentTheme, toggleView, isLeagueView } = useView()
 
+  // Handle view toggle with navigation reset
+  const handleViewToggle = () => {
+    toggleView()
+    navigate('/analysis')
+  }
+
   const handleItemClick = (path) => {
     navigate(path)
   }
@@ -216,7 +222,7 @@ function MainNavigation({
           placement="right"
         >
           <Box
-            onClick={toggleView}
+            onClick={handleViewToggle}
             sx={{
               width: isOpen ? 'auto' : 32,
               height: 32,
