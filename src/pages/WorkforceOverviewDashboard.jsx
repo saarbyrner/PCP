@@ -23,16 +23,17 @@ function WorkforceOverviewDashboard() {
   // Use coach data with filtering
   const coachData = useCoachData(filters)
 
-  const kpis = coachData.kpis
-  const genderData = coachData.genderDistribution
-  const ethnicityData = coachData.ethnicityDistribution.breakdown
-  const qualificationsTrend = coachData.seasonDistribution.map(season => ({
+  const kpis = coachData.kpis || []
+  const genderData = coachData.genderDistribution || []
+  const ethnicityData = coachData.ethnicityDistribution?.breakdown || []
+  const qualificationsTrend = (coachData.seasonDistribution || []).map(season => ({
     ...season,
-    uefaB: Math.floor(season.coaches * 0.6),
-    uefaA: Math.floor(season.coaches * 0.3),
-    uefaPro: Math.floor(season.coaches * 0.1)
+    uefaB: Math.floor((season.coaches || 0) * 0.6),
+    uefaA: Math.floor((season.coaches || 0) * 0.3),
+    uefaPro: Math.floor((season.coaches || 0) * 0.1)
   }))
-  const positionData = coachData.positionTypeDistribution
+  const positionData = coachData.positionTypeDistribution || []
+  const employmentData = coachData.employmentStatusDistribution || []
 
   const handleFiltersChange = (newFilters) => {
     setFilters(newFilters)
@@ -223,6 +224,40 @@ function WorkforceOverviewDashboard() {
                 >
                   {positionData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#fff', 
+                    border: '1px solid #ccc', 
+                    borderRadius: '4px',
+                    fontSize: '11px'
+                  }}
+                  formatter={(value) => [`${value}%`, 'Percentage']}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </DashboardCard>
+        </Grid>
+
+        {/* Employment Status Distribution */}
+        <Grid item xs={12} md={6}>
+          <DashboardCard title="Employment Status" height="240px">
+            <ResponsiveContainer width="100%" height={180}>
+              <PieChart>
+                <Pie
+                  data={employmentData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={35}
+                  outerRadius={60}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label={({ name, value }) => `${name}: ${value}%`}
+                  labelStyle={{ fontSize: '10px', fill: '#333' }}
+                >
+                  {employmentData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={index === 0 ? '#4caf50' : '#ff6b35'} />
                   ))}
                 </Pie>
                 <Tooltip 

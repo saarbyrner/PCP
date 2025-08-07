@@ -57,6 +57,13 @@ export const generateCoachDataset = (numCoaches = 8450) => {
       '21/22': 0.15,
       '20/21': 0.14,
       '19/20': 0.12
+    },
+    employmentStatus: { employed: 0.918, unemployed: 0.082 },
+    uefaBadges: { 
+      'none': 0.35, 
+      'uefa-b': 0.30, 
+      'uefa-a': 0.25, 
+      'uefa-pro': 0.10 
     }
   }
 
@@ -120,6 +127,8 @@ export const generateCoachDataset = (numCoaches = 8450) => {
     coach.primaryCoachingRole = weightedRandom(normalizeProbs(roleProbs))
     coach.division = weightedRandom(normalizeProbs(divisionProbs))
     coach.positionType = weightedRandom(normalizeProbs(positionTypeProbs))
+    coach.employmentStatus = weightedRandom(distributions.employmentStatus)
+    coach.uefaBadges = weightedRandom(distributions.uefaBadges)
     
     // Map age group to actual age
     const ageRanges = {

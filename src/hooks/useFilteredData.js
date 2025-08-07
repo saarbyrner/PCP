@@ -13,7 +13,8 @@ export const useFilteredData = (baseData, filters) => {
           ethnicity: { 'white': 0.85, 'black': 0.07, 'asian': 0.05, 'mixed': 0.02, 'other': 0.01 }, // Represents actual ethnic distribution
           ageGroup: { '18-25': 0.12, '26-35': 0.28, '36-45': 0.35, '46-55': 0.20, '56+': 0.05 },
           position: { 'head-coach': 0.08, 'assistant-coach': 0.25, 'academy-coach': 0.45, 'development-coach': 0.15, 'other': 0.07 },
-          employmentType: { 'full-time': 0.60, 'part-time': 0.25, 'contract': 0.10, 'volunteer': 0.05 }
+          employmentType: { 'full-time': 0.60, 'part-time': 0.25, 'contract': 0.10, 'volunteer': 0.05 },
+          employmentStatus: { 'employed': 0.918, 'unemployed': 0.082 }
         }
         
         // Handle both single values and arrays (multiselect)
@@ -87,6 +88,7 @@ export const useFilteredData = (baseData, filters) => {
       regionalDistribution: applyFilters(baseData.regionalDistribution, 'regional'),
       interventionImpact: applyFilters(baseData.interventionImpact, 'intervention'),
       positionTypeDistribution: applyFilters(baseData.positionTypeDistribution, 'position'),
+      employmentStatusDistribution: applyFilters(baseData.employmentStatusDistribution, 'employment'),
       // Add combined multiplier for use in calculations
       _filterMultiplier: combinedMultiplier
     }

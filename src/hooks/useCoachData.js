@@ -46,7 +46,9 @@ function getCoachProperty(coach, filterKey) {
     level: coach.level,
     positionType: coach.positionType,
     division: coach.division,
-    ageGroup: coach.ageGroup
+    ageGroup: coach.ageGroup,
+    employmentStatus: coach.employmentStatus,
+    uefaBadges: coach.uefaBadges
   }
   return propertyMap[filterKey]
 }
@@ -68,6 +70,7 @@ function aggregateCoachData(coaches) {
   const positionTypeCounts = countBy(coaches, 'positionType')
   const divisionCounts = countBy(coaches, 'division')
   const seasonCounts = countBy(coaches, 'season')
+  const employmentCounts = countBy(coaches, 'employmentStatus')
 
   // Calculate average age
   const averageAge = coaches.reduce((sum, coach) => sum + coach.age, 0) / total
@@ -124,6 +127,10 @@ function aggregateCoachData(coaches) {
     positionTypeDistribution: [
       { name: "Full-Time", value: Math.round(((positionTypeCounts['full-time'] || 0) / total) * 1000) / 10 },
       { name: "Part-Time", value: Math.round(((positionTypeCounts['part-time'] || 0) / total) * 1000) / 10 }
+    ],
+    employmentStatusDistribution: [
+      { name: "Employed", value: Math.round(((employmentCounts['employed'] || 0) / total) * 1000) / 10 },
+      { name: "Unemployed", value: Math.round(((employmentCounts['unemployed'] || 0) / total) * 1000) / 10 }
     ]
   }
 }
@@ -232,7 +239,7 @@ function generateCareerFlows(coaches, nodes, nodeMap) {
 function generateFlowDemographics(flowCoaches) {
   const demographics = {}
   
-  const demographicFields = ['gender', 'ethnicity', 'region', 'ageGroup', 'primaryCoachingRole', 'level', 'positionType', 'division']
+  const demographicFields = ['gender', 'ethnicity', 'region', 'ageGroup', 'primaryCoachingRole', 'level', 'positionType', 'division', 'employmentStatus', 'uefaBadges']
   
   demographicFields.forEach(field => {
     demographics[field] = countBy(flowCoaches, field)
@@ -281,6 +288,10 @@ function getEmptyAggregation() {
     positionTypeDistribution: [
       { name: "Full-Time", value: 0 },
       { name: "Part-Time", value: 0 }
+    ],
+    employmentStatusDistribution: [
+      { name: "Employed", value: 0 },
+      { name: "Unemployed", value: 0 }
     ]
   }
 }

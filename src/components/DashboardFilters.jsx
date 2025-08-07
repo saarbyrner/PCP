@@ -18,7 +18,8 @@ function DashboardFilters({ onFiltersChange, initialFilters = {} }) {
     gender: initialFilters.gender || 'all',
     position: initialFilters.position || 'all',
     ageGroup: initialFilters.ageGroup || 'all',
-    employmentType: initialFilters.employmentType || 'all'
+    employmentType: initialFilters.employmentType || 'all',
+    employmentStatus: initialFilters.employmentStatus || 'all'
   })
 
   // Filter options
@@ -82,6 +83,12 @@ function DashboardFilters({ onFiltersChange, initialFilters = {} }) {
     { value: 'volunteer', label: 'Volunteer' }
   ]
 
+  const employmentStatuses = [
+    { value: 'all', label: 'All employment statuses' },
+    { value: 'employed', label: 'Employed' },
+    { value: 'unemployed', label: 'Unemployed' }
+  ]
+
   const handleFilterChange = (filterType, value) => {
     const newFilters = { ...filters, [filterType]: value }
     setFilters(newFilters)
@@ -96,7 +103,8 @@ function DashboardFilters({ onFiltersChange, initialFilters = {} }) {
       gender: 'all',
       position: 'all',
       ageGroup: 'all',
-      employmentType: 'all'
+      employmentType: 'all',
+      employmentStatus: 'all'
     }
     setFilters(resetFilters)
     onFiltersChange(resetFilters)
@@ -200,6 +208,14 @@ function DashboardFilters({ onFiltersChange, initialFilters = {} }) {
             value={filters.employmentType}
             options={employmentTypes}
             onChange={(value) => handleFilterChange('employmentType', value)}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={1}>
+          <FilterSelect
+            label="Employment Status"
+            value={filters.employmentStatus}
+            options={employmentStatuses}
+            onChange={(value) => handleFilterChange('employmentStatus', value)}
           />
         </Grid>
       </Grid>

@@ -81,6 +81,10 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
       { value: '36-45', label: '36-45' },
       { value: '46-55', label: '46-55' },
       { value: '56+', label: '56+' }
+    ],
+    employmentStatuses: [
+      { value: 'employed', label: 'Employed' },
+      { value: 'unemployed', label: 'Unemployed' }
     ]
   }
 
@@ -116,7 +120,8 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
         level: [],
         positionType: [],
         division: [],
-        ageGroup: []
+        ageGroup: [],
+        employmentStatus: []
       }
     }
     setLocalFilters(resetFilters)
@@ -312,6 +317,7 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
               <FilterSection title="Position Type" filterKey="positionType" options={filterOptions.positionTypes} />
               <FilterSection title="Division" filterKey="division" options={filterOptions.divisions} />
               <FilterSection title="Age Groups" filterKey="ageGroup" options={filterOptions.ageGroups} />
+              <FilterSection title="Employment Status" filterKey="employmentStatus" options={filterOptions.employmentStatuses} />
             </>
           )}
         </Box>

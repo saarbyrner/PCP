@@ -4,7 +4,8 @@
       { "title": "Total Coaches", "value": 8450 },
       { "title": "Average Age", "value": 40.5 },
       { "title": "Female Coaches", "value": 8.5 },
-      { "title": "Ethnicity (Non-White)", "value": 15.2 }
+      { "title": "Ethnicity (Non-White)", "value": 15.2 },
+      { "title": "Employment Rate", "value": 91.8 }
     ],
     "genderDistribution": [
       { "name": "Male", "value": 91.5 },
@@ -85,6 +86,10 @@
       { "name": "Part-Time", "value": 53.4 },
       { "name": "Other", "value": 1.6 }
     ],
+    "employmentStatusDistribution": [
+      { "name": "Employed", "value": 91.8 },
+      { "name": "Unemployed", "value": 8.2 }
+    ],
     "careerFlowData": {
       "nodes": [
         { "id": "Academy Coach" },
@@ -121,7 +126,8 @@
             "primaryCoachingRole": { "head-coach": 96, "assistant-coach": 300, "1st-team-coach": 156, "academy-coach": 384, "goalkeeping-coach": 108, "cross-club-coach": 156 },
             "level": { "senior": 804, "junior": 396 },
             "positionType": { "full-time": 720, "part-time": 480 },
-            "division": { "premier-league": 84, "efl": 372, "womens-super-league": 48, "womens-championship": 72, "academy": 624 }
+            "division": { "premier-league": 84, "efl": 372, "womens-super-league": 48, "womens-championship": 72, "academy": 624 },
+            "employment": { "employed": 1102, "unemployed": 98 }
           }},
           { "source": "entry_level", "target": "development_coach", "value": 800, "demographics": {
             "gender": { "male": 732, "female": 68 },

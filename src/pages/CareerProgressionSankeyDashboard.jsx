@@ -7,8 +7,7 @@ import {
   IconButton,
   Card,
   CardContent,
-  ToggleButton,
-  ToggleButtonGroup,
+  Button,
   Chip,
   Stack,
   Divider
@@ -24,7 +23,8 @@ function CareerProgressionSankeyDashboard() {
   const navigate = useNavigate()
   const [filters, setFilters] = useState({})
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
-  const [activeViews, setActiveViews] = useState(['primaryCoachingRole']) // Default to coaching role
+  const [leftSideViews, setLeftSideViews] = useState(['gender']) // Default to gender on left
+  const [rightSideViews, setRightSideViews] = useState(['primaryCoachingRole']) // Default to coaching role on right
 
   // Use coach data with filtering
   const coachData = useCoachData(filters)
@@ -39,92 +39,97 @@ function CareerProgressionSankeyDashboard() {
     ).length
   }
 
-  const handleViewModeChange = (_, newViews) => {
-    if (newViews && newViews.length > 0) {
-      setActiveViews(newViews)
+  const handleLeftSideChange = (_, newViews) => {
+    if (newViews !== null) {
+      setLeftSideViews(newViews)
     }
   }
 
-  // Function to generate Sankey data based on active views and filters
+  const handleRightSideChange = (_, newViews) => {
+    if (newViews !== null) {
+      setRightSideViews(newViews)
+    }
+  }
+
+  // Function to generate Sankey data based on left/right side views and filters
   const generateSankeyData = () => {
-    console.log('generateSankeyData called with:', { activeViews, filters })
     
     const baseSankeyData = coachData.sankeyData
-    const demographicViews = activeViews
     
-    // If no views are selected, return basic career progression
-    if (demographicViews.length === 0) {
-      return baseSankeyData
+    // If no views are selected on either side, return empty
+    if (leftSideViews.length === 0 || rightSideViews.length === 0) {
+      return { nodes: [], links: [] }
     }
 
-    // Generate demographic combinations for selected views
-    const demographicCombinations = generateDemographicCombinations(demographicViews)
-    console.log('Generated demographic combinations:', demographicCombinations)
+    // Generate combinations for both sides
+    const leftCombinations = generateDemographicCombinations(leftSideViews, 'left')
+    const rightCombinations = generateDemographicCombinations(rightSideViews, 'right')
 
-    // Create a proper career progression flow with demographic breakdown
+    // Create nodes and links based on left/right selections
     const newNodes = []
     const nodeMap = new Map()
     
-    // Create career stage nodes (right side - destinations)
-    const careerStages = ['academy_coach', 'assistant_coach', 'head_coach', 'technical_director', 'other_roles']
-    careerStages.forEach((stage, stageIndex) => {
-      const stageData = baseSankeyData.nodes.find(n => n.id === stage)
-      if (stageData) {
-        const nodeIndex = newNodes.length
-        newNodes.push({
-          id: `career_${stage}`,
-          name: stageData.name,
-          level: 1, // Right side
-          type: 'career'
-        })
-        nodeMap.set(`career_${stage}`, nodeIndex)
-      }
-    })
-
-    // Create demographic nodes (left side - sources)
-    demographicCombinations.forEach((demoCombination, demoIndex) => {
+    // Create left side nodes (sources)
+    leftCombinations.forEach((leftCombo, leftIndex) => {
       const nodeIndex = newNodes.length
       newNodes.push({
-        id: `demo_${demoIndex}`,
-        name: demoCombination.label,
+        id: `left_${leftIndex}`,
+        name: leftCombo.label,
         level: 0, // Left side
-        type: 'demographic',
-        demographic: demoCombination
+        type: 'left',
+        combination: leftCombo
       })
-      nodeMap.set(`demo_${demoIndex}`, nodeIndex)
+      nodeMap.set(`left_${leftIndex}`, nodeIndex)
+    })
+    
+    // Create right side nodes (targets)
+    rightCombinations.forEach((rightCombo, rightIndex) => {
+      const nodeIndex = newNodes.length
+      newNodes.push({
+        id: `right_${rightIndex}`,
+        name: rightCombo.label,
+        level: 1, // Right side
+        type: 'right',
+        combination: rightCombo
+      })
+      nodeMap.set(`right_${rightIndex}`, nodeIndex)
     })
 
-    // Create links from demographic groups to career stages
+    // Create links from left side to right side
     const newLinks = []
     
-    demographicCombinations.forEach((demoCombination, demoIndex) => {
-      const sourceIndex = nodeMap.get(`demo_${demoIndex}`)
+    leftCombinations.forEach((leftCombo, leftIndex) => {
+      const sourceIndex = nodeMap.get(`left_${leftIndex}`)
       
-      // Calculate how many coaches from this demographic are in each career stage
-      const coachesInDemo = coachData.coaches.filter(coach => {
-        return Object.entries(demoCombination.values).every(([key, value]) => {
-          const coachProperty = getCoachProperty(coach, key)
-          return coachProperty === value
+      rightCombinations.forEach((rightCombo, rightIndex) => {
+        const targetIndex = nodeMap.get(`right_${rightIndex}`)
+        
+        // Calculate how many coaches match both left and right criteria
+        const matchingCoaches = coachData.coaches.filter(coach => {
+          // Check if coach matches left side criteria
+          const leftMatch = Object.entries(leftCombo.values).every(([key, value]) => {
+            const coachProperty = getCoachProperty(coach, key)
+            return coachProperty === value
+          })
+          
+          // Check if coach matches right side criteria
+          const rightMatch = Object.entries(rightCombo.values).every(([key, value]) => {
+            const coachProperty = getCoachProperty(coach, key)
+            return coachProperty === value
+          })
+          
+          return leftMatch && rightMatch
         })
-      })
-
-      // Group by current career stage
-      const stageGroups = {}
-      coachesInDemo.forEach(coach => {
-        const stage = coach.currentStage
-        stageGroups[stage] = (stageGroups[stage] || 0) + 1
-      })
-
-      // Create links to each career stage that has coaches
-      Object.entries(stageGroups).forEach(([stage, count]) => {
-        const targetIndex = nodeMap.get(`career_${stage}`)
-        if (targetIndex !== undefined && count > 0) {
+        
+        const count = matchingCoaches.length
+        if (count > 0) {
           newLinks.push({
             source: sourceIndex,
             target: targetIndex,
-            value: Math.max(5, count * 2), // Scale for visibility
+            value: Math.max(3, count), // Scale for visibility
             originalValue: count,
-            demographic: demoCombination
+            leftCombination: leftCombo,
+            rightCombination: rightCombo
           })
         }
       })
@@ -146,7 +151,10 @@ function CareerProgressionSankeyDashboard() {
       }
     }
 
-    console.log('Generated Sankey data:', { nodes: newNodes.length, links: filteredLinks.length })
+    // Validate data before returning
+    if (newNodes.length === 0 || filteredLinks.length === 0) {
+      return { nodes: [], links: [] }
+    }
     
     return {
       nodes: newNodes,
@@ -165,13 +173,15 @@ function CareerProgressionSankeyDashboard() {
       level: coach.level,
       positionType: coach.positionType,
       division: coach.division,
-      ageGroup: coach.ageGroup
+      ageGroup: coach.ageGroup,
+      employmentStatus: coach.employmentStatus,
+      uefaBadges: coach.uefaBadges
     }
     return propertyMap[filterKey]
   }
 
   // Generate all combinations of selected demographics
-  const generateDemographicCombinations = (views) => {
+  const generateDemographicCombinations = (views, side) => {
     if (views.length === 0) return [{ label: 'All', values: {} }]
     
     let combinations = [{ label: '', values: {} }]
@@ -195,9 +205,9 @@ function CareerProgressionSankeyDashboard() {
       combinations = newCombinations
     })
     
-    // Only limit combinations if there are too many (more than 20)
-    // This ensures all data is shown unless it becomes unwieldy
-    return combinations.length > 20 ? combinations.slice(0, 20) : combinations
+    // Limit combinations to prevent performance issues and invalid array lengths
+    // Cap at 8 combinations per side to keep the Sankey readable
+    return combinations.length > 8 ? combinations.slice(0, 8) : combinations
   }
 
   // Get demographic options for a view
@@ -257,6 +267,16 @@ function CareerProgressionSankeyDashboard() {
         { value: 'womens-super-league', label: "Women's Super League" },
         { value: 'womens-championship', label: "Women's Championship" },
         { value: 'academy', label: 'Academy' }
+      ],
+      employmentStatus: [
+        { value: 'employed', label: 'Employed' },
+        { value: 'unemployed', label: 'Unemployed' }
+      ],
+      uefaBadges: [
+        { value: 'none', label: 'No UEFA Badge' },
+        { value: 'uefa-b', label: 'UEFA B License' },
+        { value: 'uefa-a', label: 'UEFA A License' },
+        { value: 'uefa-pro', label: 'UEFA Pro License' }
       ]
     }
     
@@ -269,7 +289,7 @@ function CareerProgressionSankeyDashboard() {
 
 
 
-  const sankeyData = useMemo(() => generateSankeyData(), [activeViews, filters, coachData])
+  const sankeyData = useMemo(() => generateSankeyData(), [leftSideViews, rightSideViews, filters, coachData])
 
 
   return (
@@ -291,7 +311,7 @@ function CareerProgressionSankeyDashboard() {
                 Progression Flow
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
-                Toggle buttons select demographic dimensions to analyze • Filters narrow data within selected dimensions
+                Select attributes for left side (demographics) and right side (professional) • Filters narrow data within selections
               </Typography>
             </Box>
           </Box>
@@ -301,55 +321,124 @@ function CareerProgressionSankeyDashboard() {
           />
         </Box>
 
-        {/* View Mode Selection - Multi-select */}
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="body2" sx={{ 
-            fontSize: '13px', 
-            fontWeight: 600, 
-            color: '#333', 
-            mb: 1.5
-          }}>
-            Select Demographic Dimensions to Analyze
-          </Typography>
-          <ToggleButtonGroup
-            value={activeViews}
-            onChange={handleViewModeChange}
-            size="small"
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 1,
-              '& .MuiToggleButton-root': {
-                fontSize: '12px',
-                fontWeight: 500,
-                textTransform: 'none',
-                px: 2,
-                py: 1,
-                border: '1px solid #e0e0e0',
-                '&.Mui-selected': {
-                  backgroundColor: '#1976d2',
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: '#1565c0'
-                  }
-                }
-              }
-            }}
-          >
-            <ToggleButton value="gender">Gender</ToggleButton>
-            <ToggleButton value="ethnicity">Ethnicity</ToggleButton>
-            <ToggleButton value="region">Region</ToggleButton>
-            <ToggleButton value="ageGroup">Age Group</ToggleButton>
-            <ToggleButton value="primaryCoachingRole">Coaching Role</ToggleButton>
-            <ToggleButton value="level">Level</ToggleButton>
-            <ToggleButton value="positionType">Position Type</ToggleButton>
-            <ToggleButton value="division">Division</ToggleButton>
-          </ToggleButtonGroup>
-        </Box>
+        {/* Left and Right Side Selection */}
+        <Grid container spacing={2} sx={{ mb: 1 }}>
+          {/* Left Side Selection */}
+          <Grid item xs={12} md={6}>
+            <Box>
+              <Typography variant="body2" sx={{ 
+                fontSize: '13px', 
+                fontWeight: 600, 
+                color: '#333', 
+                mb: 0.5
+              }}>
+                Left Side (Demographics)
+              </Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                <Button 
+                  size="small" 
+                  variant={leftSideViews.includes('gender') ? 'contained' : 'outlined'}
+                  onClick={() => handleLeftSideChange(null, leftSideViews.includes('gender') ? leftSideViews.filter(v => v !== 'gender') : [...leftSideViews, 'gender'])}
+                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                >
+                  Gender
+                </Button>
+                <Button 
+                  size="small" 
+                  variant={leftSideViews.includes('ethnicity') ? 'contained' : 'outlined'}
+                  onClick={() => handleLeftSideChange(null, leftSideViews.includes('ethnicity') ? leftSideViews.filter(v => v !== 'ethnicity') : [...leftSideViews, 'ethnicity'])}
+                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                >
+                  Ethnicity
+                </Button>
+                <Button 
+                  size="small" 
+                  variant={leftSideViews.includes('region') ? 'contained' : 'outlined'}
+                  onClick={() => handleLeftSideChange(null, leftSideViews.includes('region') ? leftSideViews.filter(v => v !== 'region') : [...leftSideViews, 'region'])}
+                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                >
+                  Region
+                </Button>
+                <Button 
+                  size="small" 
+                  variant={leftSideViews.includes('ageGroup') ? 'contained' : 'outlined'}
+                  onClick={() => handleLeftSideChange(null, leftSideViews.includes('ageGroup') ? leftSideViews.filter(v => v !== 'ageGroup') : [...leftSideViews, 'ageGroup'])}
+                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                >
+                  Age Group
+                </Button>
+              </Box>
+            </Box>
+          </Grid>
+          
+          {/* Right Side Selection */}
+          <Grid item xs={12} md={6}>
+            <Box>
+              <Typography variant="body2" sx={{ 
+                fontSize: '13px', 
+                fontWeight: 600, 
+                color: '#333', 
+                mb: 0.5
+              }}>
+                Right Side (Professional Attributes)
+              </Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                <Button 
+                  size="small" 
+                  variant={rightSideViews.includes('primaryCoachingRole') ? 'contained' : 'outlined'}
+                  onClick={() => handleRightSideChange(null, rightSideViews.includes('primaryCoachingRole') ? rightSideViews.filter(v => v !== 'primaryCoachingRole') : [...rightSideViews, 'primaryCoachingRole'])}
+                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                >
+                  Coaching Role
+                </Button>
+                <Button 
+                  size="small" 
+                  variant={rightSideViews.includes('level') ? 'contained' : 'outlined'}
+                  onClick={() => handleRightSideChange(null, rightSideViews.includes('level') ? rightSideViews.filter(v => v !== 'level') : [...rightSideViews, 'level'])}
+                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                >
+                  Level
+                </Button>
+                <Button 
+                  size="small" 
+                  variant={rightSideViews.includes('positionType') ? 'contained' : 'outlined'}
+                  onClick={() => handleRightSideChange(null, rightSideViews.includes('positionType') ? rightSideViews.filter(v => v !== 'positionType') : [...rightSideViews, 'positionType'])}
+                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                >
+                  Position Type
+                </Button>
+                <Button 
+                  size="small" 
+                  variant={rightSideViews.includes('division') ? 'contained' : 'outlined'}
+                  onClick={() => handleRightSideChange(null, rightSideViews.includes('division') ? rightSideViews.filter(v => v !== 'division') : [...rightSideViews, 'division'])}
+                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                >
+                  Division
+                </Button>
+                <Button 
+                  size="small" 
+                  variant={rightSideViews.includes('employmentStatus') ? 'contained' : 'outlined'}
+                  onClick={() => handleRightSideChange(null, rightSideViews.includes('employmentStatus') ? rightSideViews.filter(v => v !== 'employmentStatus') : [...rightSideViews, 'employmentStatus'])}
+                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                >
+                  Employment Status
+                </Button>
+                <Button 
+                  size="small" 
+                  variant={rightSideViews.includes('uefaBadges') ? 'contained' : 'outlined'}
+                  onClick={() => handleRightSideChange(null, rightSideViews.includes('uefaBadges') ? rightSideViews.filter(v => v !== 'uefaBadges') : [...rightSideViews, 'uefaBadges'])}
+                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                >
+                  UEFA Badges
+                </Button>
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
 
         {/* Active Filters Display */}
         {getActiveFiltersCount() > 0 && (
-          <Box sx={{ mb: 3, p: 2, backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+          <Box sx={{ mb: 1, p: 2, backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
             <Typography variant="body2" sx={{ 
               fontSize: '13px', 
               fontWeight: 600, 
@@ -357,7 +446,7 @@ function CareerProgressionSankeyDashboard() {
               mb: 1,
               display: 'block'
             }}>
-              Active Data Filters (narrowing selected dimensions)
+              Active Data Filters (narrowing selected left/right attributes)
             </Typography>
             <Stack direction="row" spacing={1} flexWrap="wrap">
               {Object.entries(filters).map(([key, values]) => 
@@ -376,15 +465,26 @@ function CareerProgressionSankeyDashboard() {
         )}
 
         {/* Main Sankey Diagram - Full Width */}
-        <Card sx={{ borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)' }}>
+        <Card sx={{ borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)', mt: 1 }}>
           <CardContent sx={{ p: 3 }}>
             <Box sx={{ height: '800px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <SankeyDiagram 
-                key={JSON.stringify(activeViews) + JSON.stringify(filters)}
-                data={sankeyData} 
-                width={Math.min(1100, window.innerWidth - 320)} 
-                height={780} 
-              />
+              {sankeyData && sankeyData.nodes && sankeyData.nodes.length > 0 ? (
+                <SankeyDiagram 
+                  key={JSON.stringify(leftSideViews) + JSON.stringify(rightSideViews) + JSON.stringify(filters)}
+                  data={sankeyData} 
+                  width={Math.min(1100, window.innerWidth - 320)} 
+                  height={780} 
+                />
+              ) : (
+                <Box sx={{ textAlign: 'center', color: '#666' }}>
+                  <Typography variant="body2" sx={{ fontSize: '14px', mb: 1 }}>
+                    Select attributes for both left and right sides to view progression flows
+                  </Typography>
+                  <Typography variant="caption" sx={{ fontSize: '12px' }}>
+                    Choose at least one demographic (left) and one professional attribute (right)
+                  </Typography>
+                </Box>
+              )}
             </Box>
           </CardContent>
         </Card>

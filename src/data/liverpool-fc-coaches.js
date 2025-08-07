@@ -26,6 +26,7 @@ export const liverpoolFCData = {
       age: 56,
       gender: "Male",
       nationality: "German",
+      employment: "employed",
       joinDate: "2015-10-08",
       qualifications: ["UEFA Pro License", "DFB Elite Youth License"],
       compliance: {
@@ -43,6 +44,7 @@ export const liverpoolFCData = {
       age: 41,
       gender: "Male", 
       nationality: "Dutch",
+      employment: "employed",
       joinDate: "2018-06-01",
       qualifications: ["UEFA Pro License", "KNVB Coaching License"],
       compliance: {
@@ -59,7 +61,8 @@ export const liverpoolFCData = {
       department: "First Team",
       age: 52,
       gender: "Male",
-      nationality: "German", 
+      nationality: "German",
+      employment: "employed", 
       joinDate: "2015-10-08",
       qualifications: ["UEFA A License", "DFB Coaching License"],
       compliance: {
@@ -77,6 +80,7 @@ export const liverpoolFCData = {
       age: 50,
       gender: "Male",
       nationality: "Dutch",
+      employment: "employed",
       joinDate: "2009-07-01", 
       qualifications: ["UEFA Goalkeeping License", "KNVB GK Diploma"],
       compliance: {
@@ -94,6 +98,7 @@ export const liverpoolFCData = {
       age: 51,
       gender: "Male",
       nationality: "English",
+      employment: "employed",
       joinDate: "2012-09-01",
       qualifications: ["UEFA Pro License", "FA Youth Award"],
       compliance: {
@@ -111,6 +116,7 @@ export const liverpoolFCData = {
       age: 34,
       gender: "Female",
       nationality: "English",
+      employment: "employed",
       joinDate: "2021-03-15",
       qualifications: ["UEFA A License", "FA Women's Coaching"],
       compliance: {
@@ -127,7 +133,8 @@ export const liverpoolFCData = {
       department: "Academy",
       age: 43,
       gender: "Male",
-      nationality: "English", 
+      nationality: "English",
+      employment: "employed", 
       joinDate: "2019-08-01",
       qualifications: ["UEFA A License", "FA Youth Certificate"],
       compliance: {
@@ -145,6 +152,7 @@ export const liverpoolFCData = {
       age: 29,
       gender: "Female",
       nationality: "English",
+      employment: "employed",
       joinDate: "2022-01-10",
       qualifications: ["MSc Sports Science", "BASES Accreditation"],
       compliance: {

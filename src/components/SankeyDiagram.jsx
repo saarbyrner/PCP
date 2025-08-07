@@ -15,6 +15,13 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
 
   useEffect(() => {
     if (!data || !data.nodes || !data.links || !sankeyLib) return
+    if (data.nodes.length === 0 || data.links.length === 0) return
+    
+    // Validate that we don't have too many nodes (causes d3-sankey issues)
+    if (data.nodes.length > 100 || data.links.length > 500) {
+      console.warn('Too many nodes or links for Sankey diagram, skipping render')
+      return
+    }
 
     const svg = d3.select(svgRef.current)
     svg.selectAll("*").remove()
@@ -32,11 +39,17 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
       .nodePadding(8)
       .extent([[1, 1], [innerWidth - 1, innerHeight - 5]])
 
-    // Process the data
-    const graph = sankeyGenerator({
-      nodes: data.nodes.map(d => ({ ...d })),
-      links: data.links.map(d => ({ ...d }))
-    })
+    // Process the data with error handling
+    let graph
+    try {
+      graph = sankeyGenerator({
+        nodes: data.nodes.map(d => ({ ...d })),
+        links: data.links.map(d => ({ ...d }))
+      })
+    } catch (error) {
+      console.warn('Error generating Sankey diagram:', error)
+      return
+    }
 
     const g = svg
       .attr('width', width)
