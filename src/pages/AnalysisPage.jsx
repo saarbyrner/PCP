@@ -44,7 +44,8 @@ import {
   CheckCircleOutlined,
   ErrorOutlined,
   TrendingUpOutlined as TrendingUp,
-  TrendingDownOutlined as TrendingDown
+  TrendingDownOutlined as TrendingDown,
+  EqualizerOutlined
 } from '@mui/icons-material'
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line, Area, AreaChart } from 'recharts'
 import pcpData from '../data/pcp.json'
@@ -552,6 +553,24 @@ function AnalysisPage() {
       chartLabel: 'UK Regional Map',
       tags: [
         { label: 'Geography', color: '#3f51b5' },
+        { label: 'Interactive', color: '#009688' }
+      ]
+    },
+    {
+      id: 'edi',
+      title: 'EDI Dashboard',
+      description: 'Equality, Diversity & Inclusion metrics with interactive demographic analysis',
+      icon: EqualizerOutlined,
+      route: '/analysis/edi',
+      chartData: [
+        { name: 'Male', value: 85 },
+        { name: 'Female', value: 15 }
+      ],
+      chartType: 'pie',
+      chartLabel: 'Gender Distribution',
+      tags: [
+        { label: 'Equality', color: '#e91e63' },
+        { label: 'Demographics', color: '#673ab7' },
         { label: 'Interactive', color: '#009688' }
       ]
     }

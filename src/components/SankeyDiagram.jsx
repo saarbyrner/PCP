@@ -59,10 +59,10 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
       .append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`)
 
-    // Color scale
+    // Color scale - consistent with other charts
+    const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0', '#e91e63', '#00bcd4', '#8bc34a']
     const color = d3.scaleOrdinal()
-      .domain(['Academy Coach', 'First Team Assistant', 'Head Coach', 'Other Roles', 'Other'])
-      .range(['#1976d2', '#ff6b35', '#4caf50', '#9e9e9e', '#757575'])
+      .range(COLORS)
 
     // Add links
     const links = g.append('g')
@@ -83,11 +83,13 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
       .attr('class', 'sankey-tooltip')
       .style('position', 'absolute')
       .style('visibility', 'hidden')
-      .style('background-color', 'rgba(0, 0, 0, 0.8)')
-      .style('color', 'white')
+      .style('background-color', '#fff')
+      .style('color', '#333')
       .style('padding', '8px')
+      .style('border', '1px solid #ccc')
       .style('border-radius', '4px')
-      .style('font-size', '12px')
+      .style('font-size', '11px')
+      .style('box-shadow', '0 2px 8px rgba(0,0,0,0.1)')
       .style('pointer-events', 'none')
       .style('z-index', '1000')
 
@@ -218,9 +220,9 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
       .attr('y', d => (d.y1 + d.y0) / 2)
       .attr('dy', '0.35em')
       .attr('text-anchor', d => d.x0 < innerWidth / 2 ? 'start' : 'end')
-      .style('font-size', '8px')
+      .style('font-size', '10px')
       .style('font-weight', '500')
-      .style('fill', '#000')
+      .style('fill', '#666')
       .style('pointer-events', 'none')
       .style('visibility', d => (d.y1 - d.y0) > 20 ? 'visible' : 'hidden')
       .each(function(d) {
@@ -250,9 +252,9 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
           text.append('tspan')
             .attr('x', d.x0 < innerWidth / 2 ? d.x1 + 6 : d.x0 - 6)
             .attr('dy', i === 0 ? 0 : '1.2em')
-            .style('font-size', i === 0 ? '10px' : '8px')
+            .style('font-size', i === 0 ? '10px' : '9px')
             .style('font-weight', i === 0 ? '600' : '400')
-            .style('fill', '#000')
+            .style('fill', '#666')
             .text(word)
         })
       })

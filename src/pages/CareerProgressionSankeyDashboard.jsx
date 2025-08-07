@@ -195,8 +195,9 @@ function CareerProgressionSankeyDashboard() {
       
       combinations.forEach(combo => {
         options.forEach(option => {
+          const newLabel = combo.label ? `${combo.label}/${option.label}` : option.label
           newCombinations.push({
-            label: combo.label ? `${combo.label} + ${option.label}` : option.label,
+            label: newLabel,
             values: { ...combo.values, [view]: option.value }
           })
         })
@@ -206,8 +207,8 @@ function CareerProgressionSankeyDashboard() {
     })
     
     // Limit combinations to prevent performance issues and invalid array lengths
-    // Cap at 8 combinations per side to keep the Sankey readable
-    return combinations.length > 8 ? combinations.slice(0, 8) : combinations
+    // Cap at 12 combinations per side to show more meaningful combinations
+    return combinations.length > 12 ? combinations.slice(0, 12) : combinations
   }
 
   // Get demographic options for a view

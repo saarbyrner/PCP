@@ -112,7 +112,6 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
     } else {
       // Default league filter configuration
       resetFilters = {
-        season: [],
         region: [],
         ethnicity: [],
         gender: [],
@@ -128,7 +127,7 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
     onFiltersChange(resetFilters)
   }
 
-  const getSelectedValues = (filterKey) => {
+  const getSelectedValues = (filterKey, options) => {
     const value = localFilters[filterKey]
     if (!value || !Array.isArray(value)) return []
     return options.filter(option => value.includes(option.value))
@@ -308,7 +307,6 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
           ) : (
             /* Default league filter configuration */
             <>
-              <FilterSection title="Seasons" filterKey="season" options={filterOptions.seasons} />
               <FilterSection title="Regions" filterKey="region" options={filterOptions.regions} />
               <FilterSection title="Ethnicities" filterKey="ethnicity" options={filterOptions.ethnicities} />
               <FilterSection title="Genders" filterKey="gender" options={filterOptions.genders} />
