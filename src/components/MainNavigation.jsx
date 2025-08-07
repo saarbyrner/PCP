@@ -24,12 +24,7 @@ import {
   SettingsOutlined,
   HelpOutlined,
   ChevronLeftOutlined,
-  ChevronRightOutlined,
-  GroupsOutlined,
-  DashboardOutlined,
-  TrendingUpOutlined,
-  VerifiedUserOutlined,
-  BadgeOutlined
+  ChevronRightOutlined
 } from '@mui/icons-material'
 import '../styles/design-tokens.css'
 

@@ -127,12 +127,6 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
     onFiltersChange(resetFilters)
   }
 
-  const getSelectedValues = (filterKey, options) => {
-    const value = localFilters[filterKey]
-    if (!value || !Array.isArray(value)) return []
-    return options.filter(option => value.includes(option.value))
-  }
-
   const FilterSection = ({ title, filterKey, options }) => (
     <Box sx={{ mb: 3 }}>
       <Typography variant="caption" sx={{ 

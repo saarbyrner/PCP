@@ -34,7 +34,24 @@ export const liverpoolFCData = {
         firstAid: { status: "compliant", expiry: "2024-08-15" },
         coaching: { status: "compliant", expiry: "2025-06-30" }
       },
-      lastUpdated: "2024-01-15"
+      lastUpdated: "2024-01-15",
+      cpd: {
+        pointsNeeded: 100,
+        pointsCurrent: 87,
+        expiringPoints: [
+          { amount: 12, date: "2025-12-31" }
+        ],
+        availableCourses: ["Advanced Tactics", "Leadership in Football"]
+      },
+      ageGroupsCoached: ["First Team"],
+      playersCoachedCount: 28,
+      totalSessionsCoached: 847,
+      totalDrillsCoached: 4923,
+      totalGames: {
+        wins: 287,
+        draws: 103,
+        losses: 64
+      }
     },
     {
       id: 2,
@@ -52,7 +69,25 @@ export const liverpoolFCData = {
         firstAid: { status: "compliant", expiry: "2024-09-10" },
         coaching: { status: "compliant", expiry: "2025-05-15" }
       },
-      lastUpdated: "2024-01-10"
+      lastUpdated: "2024-01-10",
+      cpd: {
+        pointsNeeded: 100,
+        pointsCurrent: 63,
+        expiringPoints: [
+          { amount: 7, date: "2025-09-01" },
+          { amount: 18, date: "2026-01-01" }
+        ],
+        availableCourses: ["Player Development Strategies", "Match Analysis"]
+      },
+      ageGroupsCoached: ["First Team", "U18s"],
+      playersCoachedCount: 23,
+      totalSessionsCoached: 427,
+      totalDrillsCoached: 2673,
+      totalGames: {
+        wins: 189,
+        draws: 87,
+        losses: 46
+      }
     },
     {
       id: 3,
@@ -70,7 +105,24 @@ export const liverpoolFCData = {
         firstAid: { status: "expiring", expiry: "2024-02-28" },
         coaching: { status: "compliant", expiry: "2025-03-20" }
       },
-      lastUpdated: "2024-01-08"
+      lastUpdated: "2024-01-08",
+      cpd: {
+        pointsNeeded: 100,
+        pointsCurrent: 92,
+        expiringPoints: [
+          { amount: 23, date: "2025-10-01" }
+        ],
+        availableCourses: ["Opposition Scouting", "Set-Piece Coaching"]
+      },
+      ageGroupsCoached: ["First Team"],
+      playersCoachedCount: 27,
+      totalSessionsCoached: 318,
+      totalDrillsCoached: 2147,
+      totalGames: {
+        wins: 174,
+        draws: 73,
+        losses: 41
+      }
     },
     {
       id: 4,
@@ -88,7 +140,24 @@ export const liverpoolFCData = {
         firstAid: { status: "compliant", expiry: "2024-07-22" },
         coaching: { status: "compliant", expiry: "2025-01-10" }
       },
-      lastUpdated: "2024-01-12"
+      lastUpdated: "2024-01-12",
+      cpd: {
+        pointsNeeded: 100,
+        pointsCurrent: 74,
+        expiringPoints: [
+          { amount: 13, date: "2025-09-15" }
+        ],
+        availableCourses: ["Modern Goalkeeping Techniques", "Psychology of Goalkeeping"]
+      },
+      ageGroupsCoached: ["First Team", "U23s Goalkeepers"],
+      playersCoachedCount: 11,
+      totalSessionsCoached: 263,
+      totalDrillsCoached: 1847,
+      totalGames: {
+        wins: 156,
+        draws: 67,
+        losses: 29
+      }
     },
     {
       id: 5,
@@ -106,11 +175,28 @@ export const liverpoolFCData = {
         firstAid: { status: "compliant", expiry: "2024-06-15" },
         coaching: { status: "compliant", expiry: "2025-04-10" }
       },
-      lastUpdated: "2024-01-05"
+      lastUpdated: "2024-01-05",
+      cpd: {
+        pointsNeeded: 100,
+        pointsCurrent: 97,
+        expiringPoints: [
+          { amount: 8, date: "2025-08-30" }
+        ],
+        availableCourses: ["Academy Management", "Talent Identification"]
+      },
+      ageGroupsCoached: ["U9s", "U16s", "U23s"],
+      playersCoachedCount: 167,
+      totalSessionsCoached: 634,
+      totalDrillsCoached: 4281,
+      totalGames: {
+        wins: 312,
+        draws: 108,
+        losses: 73
+      }
     },
     {
       id: 6,
-      name: "Sarah Thompson",
+      name: "Sarah Thompson", 
       role: "Women's First Team Coach", 
       department: "Women's Team",
       age: 34,
@@ -124,7 +210,24 @@ export const liverpoolFCData = {
         firstAid: { status: "non-compliant", expiry: "2024-01-20" },
         coaching: { status: "compliant", expiry: "2025-02-28" }
       },
-      lastUpdated: "2024-01-18"
+      lastUpdated: "2024-01-18",
+      cpd: {
+        pointsNeeded: 100,
+        pointsCurrent: 54,
+        expiringPoints: [
+          { amount: 14, date: "2025-09-01" }
+        ],
+        availableCourses: ["Women's Football Development", "Sports Nutrition"]
+      },
+      ageGroupsCoached: ["Women's First Team", "U21 Women"],
+      playersCoachedCount: 26,
+      totalSessionsCoached: 371,
+      totalDrillsCoached: 2387,
+      totalGames: {
+        wins: 127,
+        draws: 43,
+        losses: 24
+      }
     },
     {
       id: 7,
@@ -142,7 +245,24 @@ export const liverpoolFCData = {
         firstAid: { status: "compliant", expiry: "2024-05-20" },
         coaching: { status: "compliant", expiry: "2025-01-15" }
       },
-      lastUpdated: "2024-01-14"
+      lastUpdated: "2024-01-14",
+      cpd: {
+        pointsNeeded: 100,
+        pointsCurrent: 83,
+        expiringPoints: [
+          { amount: 17, date: "2025-10-10" }
+        ],
+        availableCourses: ["Youth Player Psychology", "Talent Pathway Management"]
+      },
+      ageGroupsCoached: ["U18s", "U21s"],
+      playersCoachedCount: 43,
+      totalSessionsCoached: 472,
+      totalDrillsCoached: 2934,
+      totalGames: {
+        wins: 186,
+        draws: 71,
+        losses: 33
+      }
     },
     {
       id: 8,
@@ -160,7 +280,24 @@ export const liverpoolFCData = {
         firstAid: { status: "compliant", expiry: "2024-08-30" },
         coaching: { status: "not-required", expiry: null }
       },
-      lastUpdated: "2024-01-16"
+      lastUpdated: "2024-01-16",
+      cpd: {
+        pointsNeeded: 100,
+        pointsCurrent: 42,
+        expiringPoints: [
+          { amount: 6, date: "2025-12-01" }
+        ],
+        availableCourses: ["Advanced Biomechanics", "Data Analysis in Sport"]
+      },
+      ageGroupsCoached: ["All Age Groups (Support)"],
+      playersCoachedCount: 0,
+      totalSessionsCoached: 127,
+      totalDrillsCoached: 0,
+      totalGames: {
+        wins: 0,
+        draws: 0,
+        losses: 0
+      }
     }
   ],
 

@@ -1,22 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
 import ukRegionsData from '../assets/uk-regions.json'
 
 function UKMap({ data, width = 600, height = 400 }) {
   const svgRef = useRef()
-  const [geoData, setGeoData] = useState(null)
 
-  // Create color scale based on actual coach count
-  const getColorIntensity = (value) => {
+  const getColorIntensity = useCallback((value) => {
     const max = Math.max(...data.map(d => d.coachCount || d.coachesPerMillion))
     const min = Math.min(...data.map(d => d.coachCount || d.coachesPerMillion))
     return max === min ? 0.5 : (value - min) / (max - min)
-  }
+  }, [data])
 
-  // Map region names from GeoJSON to our data
-  const getRegionData = (geoRegionName) => {
-    // Create mapping between geographic regions and our data regions
+  const getRegionData = useCallback((geoRegionName) => {
     const regionMappings = {
       'Cumbria': 'North West',
       'Lancashire': 'North West', 
@@ -44,27 +40,20 @@ function UKMap({ data, width = 600, height = 400 }) {
       'Essex': 'South East & London'
     }
 
-    // Find matching region in our data
     for (const [geoKey, dataRegion] of Object.entries(regionMappings)) {
       if (geoRegionName.toLowerCase().includes(geoKey.toLowerCase())) {
         return data.find(d => d.region === dataRegion)
       }
     }
 
-    // Default fallback - assign regions cyclically for demonstration
     const regionIndex = Math.abs(geoRegionName.length) % data.length
     return data[regionIndex]
-  }
+  }, [data])
 
   useEffect(() => {
-    setGeoData(ukRegionsData)
-  }, [])
-
-  useEffect(() => {
-    if (!geoData) return
-
-    const svg = d3.select(svgRef.current)
-    svg.selectAll("*").remove()
+    const geoData = ukRegionsData;
+    const svg = d3.select(svgRef.current);
+    svg.selectAll("*").remove();
 
     // Set up dimensions and projection
     const projection = d3.geoMercator()
@@ -129,7 +118,7 @@ function UKMap({ data, width = 600, height = 400 }) {
       .style('z-index', 1000)
 
     // Add regions
-    const regions = g.selectAll('path')
+    g.selectAll('path')
       .data(geoData.features)
       .enter()
       .append('path')
@@ -289,7 +278,7 @@ function UKMap({ data, width = 600, height = 400 }) {
       .attr('fill', '#333')
       .text('⌂')
 
-  }, [geoData, data, width, height])
+  }, [data, width, height, getColorIntensity, getRegionData])
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>

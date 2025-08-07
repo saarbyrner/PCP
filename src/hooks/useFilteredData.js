@@ -30,7 +30,7 @@ export const useFilteredData = (baseData, filters) => {
     })
 
     // Apply filters to different data types
-    const applyFilters = (data, dataType) => {
+    const applyFilters = (data) => {
       if (!data) return data
 
       // Apply to different data structures

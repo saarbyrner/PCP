@@ -67,21 +67,8 @@ export const generateCoachDataset = (numCoaches = 8450) => {
     }
   }
 
-  // Career stage mapping for Sankey flows
-  const careerStages = [
-    'entry_level',
-    'academy_coach', 
-    'development_coach',
-    'assistant_coach',
-    'first_team_assistant',
-    'head_coach',
-    'technical_director',
-    'other_roles',
-    'exit'
-  ]
-
   // Realistic correlations between demographics
-  const getCorrelatedData = (baseProbs) => {
+  const getCorrelatedData = () => {
     const coach = {}
     
     // Generate base demographics

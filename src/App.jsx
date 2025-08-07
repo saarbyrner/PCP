@@ -4,7 +4,6 @@ import SimplePage from './pages/SimplePage'
 import Athletes from './pages/Athletes'
 import AnalysisPage from './pages/AnalysisPage'
 import WorkforceOverviewDashboard from './pages/WorkforceOverviewDashboard'
-import DevelopmentPathwaysDashboard from './pages/DevelopmentPathwaysDashboard'
 import CareerProgressionSankeyDashboard from './pages/CareerProgressionSankeyDashboard'
 import GeospatialDashboard from './pages/GeospatialDashboard'
 import CoachManagementDashboard from './pages/CoachManagementDashboard'
@@ -20,7 +19,6 @@ function App() {
         <Route path="/medical" element={<SimplePage pageName="Medical" />} />
         <Route path="/analysis" element={<AnalysisPage />} />
         <Route path="/analysis/workforce-overview" element={<WorkforceOverviewDashboard />} />
-        <Route path="/analysis/development-pathways" element={<DevelopmentPathwaysDashboard />} />
         <Route path="/analysis/career-progression-flow" element={<CareerProgressionSankeyDashboard />} />
         <Route path="/analysis/geospatial" element={<GeospatialDashboard />} />
         <Route path="/analysis/coach-management" element={<CoachManagementDashboard />} />

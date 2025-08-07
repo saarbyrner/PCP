@@ -4,16 +4,17 @@ import {
   Box, 
   Typography, 
   Grid, 
-  IconButton
+  IconButton,
+  Chip
 } from '@mui/material'
 import { ArrowBackOutlined } from '@mui/icons-material'
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, LineChart, Line, Tooltip } from 'recharts'
+import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, Tooltip, LineChart, Line } from 'recharts'
 import DashboardCard from '../components/DashboardCard'
 import FilterButton from '../components/FilterButton'
 import FilterDrawer from '../components/FilterDrawer'
 import { useCoachData } from '../hooks/useCoachData'
 
-const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0']
+const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0', '#2196f3', '#ff5722', '#607d8b']
 
 function WorkforceOverviewDashboard() {
   const navigate = useNavigate()
@@ -70,7 +71,7 @@ function WorkforceOverviewDashboard() {
           </IconButton>
           <Box>
             <Typography variant="h5" sx={{ fontWeight: 600, fontSize: '20px', mb: 0.5 }}>
-              Workforce Stats
+              Workforce Overview
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
               High-level statistics and demographic analysis of the entire coaching workforce
@@ -103,8 +104,8 @@ function WorkforceOverviewDashboard() {
       </Grid>
 
       <Grid container spacing={2}>
-        {/* Gender Distribution */}
-        <Grid item xs={12} md={6}>
+        {/* Gender Distribution, Position Type Distribution, Employment Status Distribution */}
+        <Grid item xs={12} md={4}>
           <DashboardCard title="Gender Distribution" height="240px">
             <ResponsiveContainer width="100%" height={180}>
               <PieChart>
@@ -116,8 +117,8 @@ function WorkforceOverviewDashboard() {
                   outerRadius={60}
                   fill="#8884d8"
                   dataKey="value"
-                  label={({ name, value }) => `${name}: ${value}%`}
-                  labelStyle={{ fontSize: '10px', fill: '#333' }}
+                  label={({ name, value }) => value > 3 ? `${value}%` : ''}
+                  labelStyle={{ fontSize: '0.6rem', fill: '#333', fontWeight: '600', fontFamily: 'Open Sans, Arial, sans-serif' }}
                 >
                   {genderData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -136,11 +137,105 @@ function WorkforceOverviewDashboard() {
             </ResponsiveContainer>
           </DashboardCard>
         </Grid>
-
-        {/* Ethnicity Breakdown */}
-        <Grid item xs={12} md={6}>
-          <DashboardCard title="Ethnicity Breakdown" height="240px">
+        <Grid item xs={12} md={4}>
+          <DashboardCard title="Position Types" height="240px">
             <ResponsiveContainer width="100%" height={180}>
+              <PieChart>
+                <Pie
+                  data={positionData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={35}
+                  outerRadius={60}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label={({ name, value }) => value > 3 ? `${value}%` : ''}
+                  labelStyle={{ fontSize: '0.6rem', fill: '#333', fontWeight: '600', fontFamily: 'Open Sans, Arial, sans-serif' }}
+                >
+                  {positionData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#fff', 
+                    border: '1px solid #ccc', 
+                    borderRadius: '4px',
+                    fontSize: '11px'
+                  }}
+                  formatter={(value) => [`${value}%`, 'Percentage']}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </DashboardCard>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <DashboardCard title="Employment Status" height="240px">
+            <ResponsiveContainer width="100%" height={180}>
+              <PieChart>
+                <Pie
+                  data={employmentData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={35}
+                  outerRadius={60}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label={({ name, value }) => value > 3 ? `${value}%` : ''}
+                  labelStyle={{ fontSize: '0.6rem', fill: '#333', fontWeight: '600', fontFamily: 'Open Sans, Arial, sans-serif' }}
+                >
+                  {employmentData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={index === 0 ? '#4caf50' : '#ff6b35'} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#fff', 
+                    border: '1px solid #ccc', 
+                    borderRadius: '4px',
+                    fontSize: '11px'
+                  }}
+                  formatter={(value) => [`${value}%`, 'Percentage']}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </DashboardCard>
+        </Grid>
+
+        {/* Qualifications Trend and Ethnicity Breakdown */}
+        <Grid item xs={12} md={6}>
+          <DashboardCard title="Qualifications Trend (5 Years)" height="280px">
+            <ResponsiveContainer width="100%" height={220}>
+              <LineChart data={qualificationsTrend} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="season" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#666' }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#666' }} />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#fff', 
+                    border: '1px solid #ccc', 
+                    borderRadius: '4px',
+                    fontSize: '11px'
+                  }}
+                  formatter={(value, name) => [value, name]}
+                  labelFormatter={(label) => `Season: ${label}`}
+                />
+                <Legend 
+                  wrapperStyle={{ fontSize: '12px', color: '#333' }} 
+                  iconType="circle"
+                  iconSize={6}
+                  formatter={(value) => <span style={{ color: '#333' }}>{value}</span>}
+                />
+                <Line type="monotone" dataKey="uefaB" stroke="#4caf50" strokeWidth={2} dot={{ r: 3 }} name="UEFA B" />
+                <Line type="monotone" dataKey="uefaA" stroke="#ff6b35" strokeWidth={2} dot={{ r: 3 }} name="UEFA A" />
+                <Line type="monotone" dataKey="uefaPro" stroke="#1976d2" strokeWidth={2} dot={{ r: 3 }} name="UEFA Pro" />
+              </LineChart>
+            </ResponsiveContainer>
+          </DashboardCard>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <DashboardCard title="Ethnicity Breakdown" height="280px">
+            <ResponsiveContainer width="100%" height={220}>
               <BarChart data={ethnicityChartData} margin={{ top: 10, right: 30, left: 20, bottom: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis hide />
@@ -174,14 +269,29 @@ function WorkforceOverviewDashboard() {
           </DashboardCard>
         </Grid>
 
-        {/* Qualifications Trend */}
-        <Grid item xs={12} md={8}>
-          <DashboardCard title="Qualifications Trend (5 Years)" height="280px">
-            <ResponsiveContainer width="100%" height={220}>
-              <LineChart data={qualificationsTrend} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+        {/* Regional Distribution Bar Chart */}
+        <Grid item xs={12}>
+          <DashboardCard title="Regional Distribution" height="420px">
+            <ResponsiveContainer width="100%" height={360}>
+              <BarChart 
+                data={coachData.regionalDistribution} 
+                margin={{ top: 20, right: 30, left: 20, bottom: 80 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="season" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#666' }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#666' }} />
+                <XAxis 
+                  dataKey="region" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fontSize: 9, fill: '#666' }}
+                  angle={-45}
+                  textAnchor="end"
+                  height={70}
+                />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fontSize: 10, fill: '#666' }}
+                />
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: '#fff', 
@@ -189,87 +299,15 @@ function WorkforceOverviewDashboard() {
                     borderRadius: '4px',
                     fontSize: '11px'
                   }}
-                  formatter={(value, name) => [value, name]}
-                  labelFormatter={(label) => `Season: ${label}`}
+                  formatter={(value) => [`${value} coaches`, 'Coach Count']}
+                  labelFormatter={(label) => `${label}`}
                 />
-                <Legend 
-                  wrapperStyle={{ fontSize: '12px', color: '#333' }} 
-                  iconType="circle"
-                  iconSize={6}
-                  formatter={(value) => <span style={{ color: '#333' }}>{value}</span>}
+                <Bar 
+                  dataKey="coachCount" 
+                  fill="#1976d2" 
+                  radius={[4, 4, 0, 0]}
                 />
-                <Line type="monotone" dataKey="uefaB" stroke="#4caf50" strokeWidth={2} dot={{ r: 3 }} name="UEFA B" />
-                <Line type="monotone" dataKey="uefaA" stroke="#ff6b35" strokeWidth={2} dot={{ r: 3 }} name="UEFA A" />
-                <Line type="monotone" dataKey="uefaPro" stroke="#1976d2" strokeWidth={2} dot={{ r: 3 }} name="UEFA Pro" />
-              </LineChart>
-            </ResponsiveContainer>
-          </DashboardCard>
-        </Grid>
-
-        {/* Position Type Distribution */}
-        <Grid item xs={12} md={4}>
-          <DashboardCard title="Position Types" height="280px">
-            <ResponsiveContainer width="100%" height={220}>
-              <PieChart>
-                <Pie
-                  data={positionData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={40}
-                  outerRadius={70}
-                  fill="#8884d8"
-                  dataKey="value"
-                  label={({ name, value }) => `${name}\n${value}%`}
-                  labelStyle={{ fontSize: '10px', textAnchor: 'middle', fill: '#333' }}
-                >
-                  {positionData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #ccc', 
-                    borderRadius: '4px',
-                    fontSize: '11px'
-                  }}
-                  formatter={(value) => [`${value}%`, 'Percentage']}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </DashboardCard>
-        </Grid>
-
-        {/* Employment Status Distribution */}
-        <Grid item xs={12} md={6}>
-          <DashboardCard title="Employment Status" height="240px">
-            <ResponsiveContainer width="100%" height={180}>
-              <PieChart>
-                <Pie
-                  data={employmentData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={35}
-                  outerRadius={60}
-                  fill="#8884d8"
-                  dataKey="value"
-                  label={({ name, value }) => `${name}: ${value}%`}
-                  labelStyle={{ fontSize: '10px', fill: '#333' }}
-                >
-                  {employmentData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={index === 0 ? '#4caf50' : '#ff6b35'} />
-                  ))}
-                </Pie>
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #ccc', 
-                    borderRadius: '4px',
-                    fontSize: '11px'
-                  }}
-                  formatter={(value) => [`${value}%`, 'Percentage']}
-                />
-              </PieChart>
+              </BarChart>
             </ResponsiveContainer>
           </DashboardCard>
         </Grid>

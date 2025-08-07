@@ -7,8 +7,6 @@ import DashboardCard from '../components/DashboardCard'
 import { 
   Box, 
   Typography, 
-  Card, 
-  CardContent, 
   Grid, 
   Chip,
   IconButton,
@@ -21,24 +19,13 @@ import {
   Avatar,
   LinearProgress,
   Alert,
-  Stack,
-  TextField,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select
+  Stack
 } from '@mui/material'
 import { 
   ArrowBackOutlined,
-  PeopleOutlined,
-  SchoolOutlined,
-  PersonOutlined,
-  AssignmentTurnedInOutlined,
   WarningOutlined,
   CheckCircleOutlined,
-  ErrorOutlined,
-  TrendingUpOutlined as TrendingUp,
-  TrendingDownOutlined as TrendingDown
+  ErrorOutlined
 } from '@mui/icons-material'
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 import { liverpoolFCData } from '../data/liverpool-fc-coaches'
@@ -444,26 +431,33 @@ function CoachManagementDashboard() {
           <Grid item xs={12} md={6}>
             <DashboardCard 
               title="Department Distribution"
-              height="280px"
+              height="320px"
             >
               
-              <ResponsiveContainer width="100%" height={200}>
+              <ResponsiveContainer width="100%" height={240}>
                 <PieChart>
                   <Pie
                     data={liverpoolFCData.departmentBreakdown}
                     cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={80}
-                    paddingAngle={5}
+                    cy="45%"
+                    innerRadius={35}
+                    outerRadius={70}
+                    paddingAngle={2}
                     dataKey="value"
+                    label={({name, percentage}) => `${name}: ${percentage}%`}
+                    labelLine={false}
+                    labelStyle={{ fontSize: '0.7rem', fill: '#333', fontFamily: 'Open Sans, Arial, sans-serif' }}
                   >
                     {liverpoolFCData.departmentBreakdown.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={index === 0 ? currentTheme.primaryColor : `${currentTheme.primaryColor}${Math.floor(255 - (index * 40)).toString(16)}`} />
                     ))}
                   </Pie>
-                  <Tooltip />
-                  <Legend />
+                  <Tooltip formatter={(value, name) => [`${value} coaches`, name]} />
+                  <Legend 
+                    verticalAlign="bottom" 
+                    height={36}
+                    wrapperStyle={{ paddingTop: '10px', fontSize: '12px' }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </DashboardCard>

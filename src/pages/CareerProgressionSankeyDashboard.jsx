@@ -10,10 +10,12 @@ import {
   Button,
   Chip,
   Stack,
-  Divider
+  Tabs,
+  Tab
 } from '@mui/material'
 import { ArrowBackOutlined } from '@mui/icons-material'
 import SankeyDiagram from '../components/SankeyDiagram'
+import TimelineVisualization from '../components/TimelineVisualization'
 import FilterButton from '../components/FilterButton'
 import FilterDrawer from '../components/FilterDrawer'
 import { useCoachData } from '../hooks/useCoachData'
@@ -25,6 +27,8 @@ function CareerProgressionSankeyDashboard() {
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
   const [leftSideViews, setLeftSideViews] = useState(['gender']) // Default to gender on left
   const [rightSideViews, setRightSideViews] = useState(['primaryCoachingRole']) // Default to coaching role on right
+  const [activeTab, setActiveTab] = useState(0) // 0: Sankey, 1: Timeline
+  const [timelineDemographics, setTimelineDemographics] = useState(['gender']) // Demographics for timeline view
 
   // Use coach data with filtering
   const coachData = useCoachData(filters)
@@ -51,10 +55,12 @@ function CareerProgressionSankeyDashboard() {
     }
   }
 
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue)
+  }
+
   // Function to generate Sankey data based on left/right side views and filters
   const generateSankeyData = () => {
-    
-    const baseSankeyData = coachData.sankeyData
     
     // If no views are selected on either side, return empty
     if (leftSideViews.length === 0 || rightSideViews.length === 0) {
@@ -181,7 +187,7 @@ function CareerProgressionSankeyDashboard() {
   }
 
   // Generate all combinations of selected demographics
-  const generateDemographicCombinations = (views, side) => {
+  const generateDemographicCombinations = (views) => {
     if (views.length === 0) return [{ label: 'All', values: {} }]
     
     let combinations = [{ label: '', values: {} }]
@@ -290,7 +296,7 @@ function CareerProgressionSankeyDashboard() {
 
 
 
-  const sankeyData = useMemo(() => generateSankeyData(), [leftSideViews, rightSideViews, filters, coachData])
+    const sankeyData = useMemo(generateSankeyData, [leftSideViews, rightSideViews, coachData, generateSankeyData]);
 
 
   return (
@@ -309,10 +315,10 @@ function CareerProgressionSankeyDashboard() {
             </IconButton>
             <Box>
               <Typography variant="h5" sx={{ fontWeight: 600, fontSize: '20px', mb: 0.5 }}>
-                Progression Flow
+                Coaches Pathway
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
-                Select attributes for left side (demographics) and right side (professional) • Filters narrow data within selections
+                Analyze career progression patterns through Sankey flows and milestone timelines • Filters narrow data within selections
               </Typography>
             </Box>
           </Box>
@@ -322,7 +328,31 @@ function CareerProgressionSankeyDashboard() {
           />
         </Box>
 
-        {/* Left and Right Side Selection */}
+        {/* Tab Navigation */}
+        <Box sx={{ mb: 2 }}>
+          <Tabs
+            value={activeTab}
+            onChange={handleTabChange}
+            sx={{
+              minHeight: 'auto',
+              '& .MuiTab-root': {
+                fontSize: '13px',
+                fontWeight: 500,
+                textTransform: 'none',
+                minHeight: 'auto',
+                py: 1,
+                px: 2
+              }
+            }}
+          >
+            <Tab label="Sankey Diagram" />
+            <Tab label="Timeline View" />
+          </Tabs>
+        </Box>
+
+        {/* Controls - Different for each tab */}
+        {activeTab === 0 ? (
+          // Sankey Controls
         <Grid container spacing={2} sx={{ mb: 1 }}>
           {/* Left Side Selection */}
           <Grid item xs={12} md={6}>
@@ -436,6 +466,63 @@ function CareerProgressionSankeyDashboard() {
             </Box>
           </Grid>
         </Grid>
+        ) : (
+          // Timeline Controls  
+          <Box sx={{ mb: 1 }}>
+            <Typography variant="body2" sx={{ 
+              fontSize: '13px', 
+              fontWeight: 600, 
+              color: '#333', 
+              mb: 1
+            }}>
+              Compare Demographics
+            </Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              <Button 
+                size="small" 
+                variant={timelineDemographics.includes('gender') ? 'contained' : 'outlined'}
+                onClick={() => {
+                  if (timelineDemographics.includes('gender')) {
+                    setTimelineDemographics(timelineDemographics.filter(d => d !== 'gender'))
+                  } else {
+                    setTimelineDemographics([...timelineDemographics, 'gender'])
+                  }
+                }}
+                sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+              >
+                Gender
+              </Button>
+              <Button 
+                size="small" 
+                variant={timelineDemographics.includes('ethnicity') ? 'contained' : 'outlined'}
+                onClick={() => {
+                  if (timelineDemographics.includes('ethnicity')) {
+                    setTimelineDemographics(timelineDemographics.filter(d => d !== 'ethnicity'))
+                  } else {
+                    setTimelineDemographics([...timelineDemographics, 'ethnicity'])
+                  }
+                }}
+                sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+              >
+                Ethnicity
+              </Button>
+              <Button 
+                size="small" 
+                variant={timelineDemographics.includes('region') ? 'contained' : 'outlined'}
+                onClick={() => {
+                  if (timelineDemographics.includes('region')) {
+                    setTimelineDemographics(timelineDemographics.filter(d => d !== 'region'))
+                  } else {
+                    setTimelineDemographics([...timelineDemographics, 'region'])
+                  }
+                }}
+                sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+              >
+                Region
+              </Button>
+            </Box>
+          </Box>
+        )}
 
         {/* Active Filters Display */}
         {getActiveFiltersCount() > 0 && (
@@ -465,28 +552,53 @@ function CareerProgressionSankeyDashboard() {
           </Box>
         )}
 
-        {/* Main Sankey Diagram - Full Width */}
+        {/* Main Visualization Area */}
         <Card sx={{ borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.12)', mt: 1 }}>
           <CardContent sx={{ p: 3 }}>
-            <Box sx={{ height: '800px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              {sankeyData && sankeyData.nodes && sankeyData.nodes.length > 0 ? (
-                <SankeyDiagram 
-                  key={JSON.stringify(leftSideViews) + JSON.stringify(rightSideViews) + JSON.stringify(filters)}
-                  data={sankeyData} 
-                  width={Math.min(1100, window.innerWidth - 320)} 
-                  height={780} 
-                />
-              ) : (
-                <Box sx={{ textAlign: 'center', color: '#666' }}>
-                  <Typography variant="body2" sx={{ fontSize: '14px', mb: 1 }}>
-                    Select attributes for both left and right sides to view progression flows
-                  </Typography>
-                  <Typography variant="caption" sx={{ fontSize: '12px' }}>
-                    Choose at least one demographic (left) and one professional attribute (right)
-                  </Typography>
-                </Box>
-              )}
-            </Box>
+            {activeTab === 0 ? (
+              // Sankey Diagram Tab
+              <Box sx={{ height: '800px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {sankeyData && sankeyData.nodes && sankeyData.nodes.length > 0 ? (
+                  <SankeyDiagram 
+                    key={JSON.stringify(leftSideViews) + JSON.stringify(rightSideViews) + JSON.stringify(filters)}
+                    data={sankeyData} 
+                    width={Math.min(1100, window.innerWidth - 320)} 
+                    height={780} 
+                  />
+                ) : (
+                  <Box sx={{ textAlign: 'center', color: '#666' }}>
+                    <Typography variant="body2" sx={{ fontSize: '14px', mb: 1 }}>
+                      Select attributes for both left and right sides to view progression flows
+                    </Typography>
+                    <Typography variant="caption" sx={{ fontSize: '12px' }}>
+                      Choose at least one demographic (left) and one professional attribute (right)
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
+            ) : (
+              // Timeline View Tab
+              <Box sx={{ height: '600px', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                {timelineDemographics.length > 0 ? (
+                  <TimelineVisualization
+                    key={JSON.stringify(timelineDemographics) + JSON.stringify(filters)}
+                    data={coachData}
+                    width={Math.min(1000, window.innerWidth - 360)}
+                    height={520}
+                    demographics={timelineDemographics}
+                  />
+                ) : (
+                  <Box sx={{ textAlign: 'center', color: '#666' }}>
+                    <Typography variant="body2" sx={{ fontSize: '14px', mb: 1 }}>
+                      Select at least one demographic to compare milestone timelines
+                    </Typography>
+                    <Typography variant="caption" sx={{ fontSize: '12px' }}>
+                      Choose Gender, Ethnicity, or Region to see career progression patterns
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
+            )}
           </CardContent>
         </Card>
       </Box>

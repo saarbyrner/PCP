@@ -13,14 +13,10 @@ import {
   TableRow
 } from '@mui/material'
 import { ArrowBackOutlined } from '@mui/icons-material'
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell } from 'recharts'
 import DashboardCard from '../components/DashboardCard'
 import FilterButton from '../components/FilterButton'
 import FilterDrawer from '../components/FilterDrawer'
-import UKMap from '../components/UKMap'
 import { useCoachData } from '../hooks/useCoachData'
-
-const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0']
 
 function ImpactInterventionsDashboard() {
   const navigate = useNavigate()
@@ -30,18 +26,6 @@ function ImpactInterventionsDashboard() {
   // Use coach data with filtering
   const coachData = useCoachData(filters)
 
-  // Generate intervention impact data based on coach data
-  const interventionData = [
-    { season: '18/19', percentage: 22 },
-    { season: '19/20', percentage: 24 },
-    { season: '20/21', percentage: 26 },
-    { season: '21/22', percentage: 28 },
-    { season: '22/23', percentage: 35 },
-    { season: '23/24', percentage: 38 },
-    { season: '24/25', percentage: 42 }
-  ]
-  
-  const regionalData = coachData.regionalDistribution
   const ethnicityData = coachData.ethnicityDistribution
 
   const handleFiltersChange = (newFilters) => {

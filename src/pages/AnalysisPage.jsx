@@ -8,46 +8,18 @@ import {
   CardContent, 
   Grid, 
   Chip,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Avatar,
-  Badge,
-  LinearProgress,
-  Alert,
-  Divider,
-  Stack,
-  TextField,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
-  Toolbar
+  IconButton
 } from '@mui/material'
 import { 
   DashboardOutlined, 
-  TrendingUpOutlined, 
-  AnalyticsOutlined,
   ArrowForwardOutlined,
   AccountTreeOutlined,
   MapOutlined,
-  PeopleOutlined,
-  SchoolOutlined,
   PersonOutlined,
   AssignmentTurnedInOutlined,
-  WarningOutlined,
-  CheckCircleOutlined,
-  ErrorOutlined,
-  TrendingUpOutlined as TrendingUp,
-  TrendingDownOutlined as TrendingDown,
   EqualizerOutlined
 } from '@mui/icons-material'
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line, Area, AreaChart } from 'recharts'
+import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, LineChart, Line, Area, AreaChart } from 'recharts'
 import pcpData from '../data/pcp.json'
 import { liverpoolFCData } from '../data/liverpool-fc-coaches'
 
@@ -288,36 +260,15 @@ function AnalysisPage() {
   }
   
   // Club View Filter State
-  const [filters, setFilters] = useState({
+  const [filters, ] = useState({
     department: '',
     role: '',
     search: '',
     compliance: ''
   })
 
-  // Helper function to get compliance status color
-  const getComplianceStatusColor = (status) => {
-    switch (status) {
-      case 'compliant': return '#28a745'
-      case 'expiring': return '#ffc107'
-      case 'non-compliant': return '#dc3545'
-      case 'not-required': return '#6c757d'
-      default: return '#6c757d'
-    }
-  }
-
-  // Helper function to get compliance status icon
-  const getComplianceStatusIcon = (status) => {
-    switch (status) {
-      case 'compliant': return <CheckCircleOutlined sx={{ fontSize: 16 }} />
-      case 'expiring': return <WarningOutlined sx={{ fontSize: 16 }} />
-      case 'non-compliant': return <ErrorOutlined sx={{ fontSize: 16 }} />
-      default: return <CheckCircleOutlined sx={{ fontSize: 16 }} />
-    }
-  }
-
   // Filter coaches based on current filters
-  const filteredCoaches = useMemo(() => {
+  useMemo(() => {
     return liverpoolFCData.coaches.filter(coach => {
       // Search filter
       if (filters.search && !coach.name.toLowerCase().includes(filters.search.toLowerCase())) {
@@ -345,7 +296,7 @@ function AnalysisPage() {
   }, [filters])
 
   // Get unique filter options
-  const filterOptions = useMemo(() => ({
+  useMemo(() => ({
     departments: [...new Set(liverpoolFCData.coaches.map(coach => coach.department))],
     roles: [...new Set(liverpoolFCData.coaches.map(coach => coach.role))],
     complianceStates: ['compliant', 'expiring', 'non-compliant']
@@ -406,7 +357,7 @@ function AnalysisPage() {
           {clubDashboards.map((dashboard) => {
             const IconComponent = dashboard.icon
             return (
-              <Grid item xs={12} md={6} lg={4} key={dashboard.id}>
+              <Grid item xs={12} md={6} key={dashboard.id}>
                 <Card 
                   sx={{ 
                     height: 240,
@@ -461,22 +412,23 @@ function AnalysisPage() {
                     <Box sx={{ 
                       display: 'flex', 
                       gap: 0.5, 
-                      flexWrap: 'nowrap',
-                      overflow: 'hidden',
-                      mt: 'auto'
+                      flexWrap: 'wrap',
+                      mt: 'auto',
+                      minHeight: '32px'
                     }}>
-                      {dashboard.tags.slice(0, 4).map((tag, index) => (
+                      {dashboard.tags.slice(0, 3).map((tag, index) => (
                         <Chip 
                           key={index}
                           label={tag.label}
                           size="small"
                           sx={{ 
                             fontSize: '10px',
-                            height: '24px',
+                            height: '20px',
                             backgroundColor: `${tag.color}15`,
                             color: tag.color,
                             border: `1px solid ${tag.color}30`,
-                            fontWeight: 500
+                            fontWeight: 500,
+                            flexShrink: 0
                           }}
                         />
                       ))}
@@ -494,38 +446,24 @@ function AnalysisPage() {
   // League View (updated dashboard cards)
   const dashboards = [
     {
-      id: 'workforce-overview',
-      title: 'Workforce Stats',
-      description: 'Demographics and statistics across the entire coaching workforce',
-      icon: DashboardOutlined,
-      route: '/analysis/workforce-overview',
-      chartData: pcpData.leagueData.genderDistribution || [],
-      chartType: 'pie',
-      chartLabel: 'Gender Distribution',
-      tags: [
-        { label: 'Demographics', color: '#1976d2' },
-        { label: 'Statistics', color: '#4caf50' },
-        { label: 'KPIs', color: '#ff9800' }
-      ]
-    },
-    {
-      id: 'development-pathways',
-      title: 'Development Paths',
-      description: 'Career progression and qualification journey mapping',
-      icon: TrendingUpOutlined,
-      route: '/analysis/development-pathways',
-      chartData: [],
-      chartType: 'heatmap',
-      chartLabel: 'Qualification Heatmap',
-      tags: [
-        { label: 'Pathways', color: '#9c27b0' },
-        { label: 'Qualifications', color: '#2196f3' }
-      ]
-    },
+        id: 'workforce-overview',
+        title: 'Workforce Overview',
+        description: 'Demographics and statistics across the entire coaching workforce',
+        icon: DashboardOutlined,
+        route: '/analysis/workforce-overview',
+        chartData: pcpData.leagueData.positionTypeDistribution || [],
+        chartType: 'pie',
+        chartLabel: 'Position Types',
+        tags: [
+          { label: 'Demographics', color: '#1976d2' },
+          { label: 'Statistics', color: '#4caf50' },
+          { label: 'KPIs', color: '#ff9800' }
+        ]
+      },
     {
       id: 'career-progression-flow',
-      title: 'Progression Flow',
-      description: 'Career pathway analysis with demographic breakdowns',
+      title: 'Coaches Pathway',
+      description: 'Career progression analysis with Sankey flows and milestone timelines',
       icon: AccountTreeOutlined,
       route: '/analysis/career-progression-flow',
       chartData: [
@@ -535,7 +473,7 @@ function AnalysisPage() {
         { stage: 'Lead', value: 85 }
       ],
       chartType: 'area',
-      chartLabel: 'Career Progression Flow (Sankey Diagram)',
+      chartLabel: 'Coaches Pathway (Sankey & Timeline Views)',
       tags: [
         { label: 'Flow Analysis', color: '#ff5722' },
         { label: 'Demographics', color: '#795548' },
@@ -584,7 +522,7 @@ function AnalysisPage() {
     <Box sx={{ p: 2 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" sx={{ fontWeight: 600, fontSize: '20px', mb: 0.5 }}>
-          League Dashboards
+          PCP Dashboards
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ fontSize: '12px' }}>
           Comprehensive analytics and insights for the Pro Coach Partnership workforce
@@ -595,7 +533,7 @@ function AnalysisPage() {
         {dashboards.map((dashboard) => {
           const IconComponent = dashboard.icon
           return (
-            <Grid item xs={12} md={6} lg={4} key={dashboard.id}>
+            <Grid item xs={12} md={6} key={dashboard.id}>
               <Card 
                 sx={{ 
                   height: 240,
@@ -650,22 +588,23 @@ function AnalysisPage() {
                   <Box sx={{ 
                     display: 'flex', 
                     gap: 0.5, 
-                    flexWrap: 'nowrap',
-                    overflow: 'hidden',
-                    mt: 'auto'
+                    flexWrap: 'wrap',
+                    mt: 'auto',
+                    minHeight: '32px'
                   }}>
-                    {dashboard.tags.slice(0, 4).map((tag, index) => (
+                    {dashboard.tags.slice(0, 3).map((tag, index) => (
                       <Chip 
                         key={index}
                         label={tag.label}
                         size="small"
                         sx={{ 
                           fontSize: '10px',
-                          height: '24px',
+                          height: '20px',
                           backgroundColor: `${tag.color}15`,
                           color: tag.color,
                           border: `1px solid ${tag.color}30`,
-                          fontWeight: 500
+                          fontWeight: 500,
+                          flexShrink: 0
                         }}
                       />
                     ))}

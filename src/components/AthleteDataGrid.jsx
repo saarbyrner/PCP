@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Typography, IconButton, Menu, MenuItem, Tooltip, Chip } from '@mui/material';
+import { Box, Typography, Chip } from '@mui/material';
 // Handle MUI X License
-import { LicenseInfo } from '@mui/x-data-grid-premium';
 import { 
   DataGridPremium, 
   GridToolbarColumnsButton, 
@@ -10,16 +9,11 @@ import {
   GridToolbarDensitySelector,
   GridToolbarExport,
   GridToolbarQuickFilter,
-  GridPagination,
-  gridClasses
+  GridPagination
 } from '@mui/x-data-grid-premium';
 import { 
   DeleteOutlined, 
-  AssignmentOutlined,
-  PersonOutlined, 
-  EditOutlined,
-  FitnessCenterOutlined,
-  MedicalServicesOutlined
+  AssignmentOutlined
 } from '@mui/icons-material';
 import athletesData from '../data/athletes.json';
 import '../styles/design-tokens.css';
@@ -147,8 +141,6 @@ CustomToolbar.displayName = 'CustomToolbar';
 const AthleteDataGrid = ({ 
   data = athletesData, 
   height = 600,
-  showToolbar = true,
-  groupingEnabled = true,
   onBulkAction,
   ...props 
 }) => {
@@ -260,16 +252,16 @@ const AthleteDataGrid = ({
   
   const [selectedRows, setSelectedRows] = useState([]);
 
-  const handleBulkAction = (action) => {
-    if (onBulkAction) {
-      onBulkAction(action, selectedRows);
-    } else {
-      const selectedAthletes = data.filter(athlete => selectedRows.includes(athlete.id));
-      console.log(`Bulk action ${action} on athletes:`, selectedAthletes);
-    }
-  };
-
   const CustomToolbarComponent = useMemo(() => {
+    const handleBulkAction = (action) => {
+      if (onBulkAction) {
+        onBulkAction(action, selectedRows);
+      } else {
+        const selectedAthletes = data.filter(athlete => selectedRows.includes(athlete.id));
+        console.log(`Bulk action ${action} on athletes:`, selectedAthletes);
+      }
+    };
+
     return function CustomToolbarWithSelection(props) {
       return (
         <Box sx={{ position: 'relative' }}>
@@ -281,7 +273,7 @@ const AthleteDataGrid = ({
         </Box>
       );
     };
-  }, [selectedRows.length, handleBulkAction]);
+  }, [selectedRows, onBulkAction, data]);
 
   // Basic styling for the grid container
   const containerStyles = {

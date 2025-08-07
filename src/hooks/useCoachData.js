@@ -64,7 +64,7 @@ function aggregateCoachData(coaches) {
   const genderCounts = countBy(coaches, 'gender')
   const ethnicityCounts = countBy(coaches, 'ethnicity')
   const regionCounts = countBy(coaches, 'region')
-  const ageCounts = countBy(coaches, 'ageGroup')
+  countBy(coaches, 'ageGroup')
   const roleCounts = countBy(coaches, 'primaryCoachingRole')
   const levelCounts = countBy(coaches, 'level')
   const positionTypeCounts = countBy(coaches, 'positionType')

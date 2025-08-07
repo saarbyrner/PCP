@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Typography, Paper, Alert, Snackbar } from '@mui/material'
+import { Box, Paper, Alert, Snackbar } from '@mui/material'
 import { AthleteDataGrid } from '../components'
 import athletesData from '../data/athletes.json'
 import '../styles/design-tokens.css'

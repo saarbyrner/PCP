@@ -25,7 +25,6 @@ import {
   ArrowBackOutlined,
   PersonOutlined,
   SchoolOutlined,
-  AssignmentTurnedInOutlined,
   WorkOutlineOutlined,
   EmojiEventsOutlined,
   CheckCircleOutlined,
@@ -275,7 +274,7 @@ function IndividualCoachProfileDashboard() {
 
       {/* Career Highlights KPI Cards */}
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={2.4}>
           <DashboardCard height="90px">
             <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
@@ -287,7 +286,7 @@ function IndividualCoachProfileDashboard() {
             </Box>
           </DashboardCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={2.4}>
           <DashboardCard height="90px">
             <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
@@ -299,7 +298,7 @@ function IndividualCoachProfileDashboard() {
             </Box>
           </DashboardCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={2.4}>
           <DashboardCard height="90px">
             <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
@@ -311,7 +310,7 @@ function IndividualCoachProfileDashboard() {
             </Box>
           </DashboardCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={2.4}>
           <DashboardCard height="90px">
             <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
@@ -319,6 +318,54 @@ function IndividualCoachProfileDashboard() {
               </Typography>
               <Typography variant="caption" color="text.secondary" sx={{ fontSize: '11px', mt: 0.5 }}>
                 Compliance Rate
+              </Typography>
+            </Box>
+          </DashboardCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={2.4}>
+          <DashboardCard height="90px">
+            <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
+                {selectedCoach.playersCoachedCount}
+              </Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ fontSize: '11px', mt: 0.5 }}>
+                Players Coached
+              </Typography>
+            </Box>
+          </DashboardCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={2.4}>
+          <DashboardCard height="90px">
+            <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
+                {selectedCoach.totalSessionsCoached}
+              </Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ fontSize: '11px', mt: 0.5 }}>
+                Total Sessions Coached
+              </Typography>
+            </Box>
+          </DashboardCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={2.4}>
+          <DashboardCard height="90px">
+            <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
+                {selectedCoach.totalDrillsCoached}
+              </Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ fontSize: '11px', mt: 0.5 }}>
+                Total Drills Coached
+              </Typography>
+            </Box>
+          </DashboardCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={2.4}>
+          <DashboardCard height="90px">
+            <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
+                {selectedCoach.totalGames.wins}-{selectedCoach.totalGames.draws}-{selectedCoach.totalGames.losses}
+              </Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ fontSize: '11px', mt: 0.5 }}>
+                Games (W-D-L)
               </Typography>
             </Box>
           </DashboardCard>
@@ -384,6 +431,64 @@ function IndividualCoachProfileDashboard() {
                         />
                       </Box>
                     ))}
+                  </Stack>
+                </Box>
+
+                <Divider />
+
+                {/* CPD (Continuing Professional Development) */}
+                <Box>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1, color: currentTheme.primaryColor }}>
+                    CPD (Continuing Professional Development)
+                  </Typography>
+                  <Stack spacing={1}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <Typography variant="body2" color="text.secondary">Points Needed</Typography>
+                      <Typography variant="body2">{selectedCoach.cpd.pointsNeeded}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <Typography variant="body2" color="text.secondary">Points Today</Typography>
+                      <Typography variant="body2">{selectedCoach.cpd.pointsCurrent}</Typography>
+                    </Box>
+                    {selectedCoach.cpd.expiringPoints && selectedCoach.cpd.expiringPoints.length > 0 && (
+                      <Box>
+                        <Typography variant="body2" color="text.secondary" sx={{ mt: 1, mb: 0.5 }}>
+                          Expiring Points:
+                        </Typography>
+                        {selectedCoach.cpd.expiringPoints.map((item, index) => (
+                          <Typography key={index} variant="body2" sx={{ ml: 2 }}>
+                            - {item.amount} points expiring {new Date(item.date).toLocaleDateString()}
+                          </Typography>
+                        ))}
+                      </Box>
+                    )}
+                    {selectedCoach.cpd.availableCourses && selectedCoach.cpd.availableCourses.length > 0 && (
+                      <Box>
+                        <Typography variant="body2" color="text.secondary" sx={{ mt: 1, mb: 0.5 }}>
+                          Available Courses:
+                        </Typography>
+                        {selectedCoach.cpd.availableCourses.map((course, index) => (
+                          <Typography key={index} variant="body2" sx={{ ml: 2 }}>
+                            - {course}
+                          </Typography>
+                        ))}
+                      </Box>
+                    )}
+                  </Stack>
+                </Box>
+
+                <Divider />
+
+                {/* Coaching Details */}
+                <Box>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1, color: currentTheme.primaryColor }}>
+                    Coaching Details
+                  </Typography>
+                  <Stack spacing={1}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <Typography variant="body2" color="text.secondary">Age Groups Coached</Typography>
+                      <Typography variant="body2">{selectedCoach.ageGroupsCoached.join(', ')}</Typography>
+                    </Box>
                   </Stack>
                 </Box>
               </Stack>
