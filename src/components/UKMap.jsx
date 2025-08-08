@@ -108,7 +108,7 @@ function UKMap({ data, width = 600, height = 400 }) {
       .join('div')
       .attr('class', 'uk-map-tooltip')
       .style('position', 'absolute')
-      .style('background', 'rgba(0, 0, 0, 0.8)')
+      .style('background', 'var(--color-primary)')
       .style('color', 'white')
       .style('padding', '8px 12px')
       .style('border-radius', '4px')
@@ -128,11 +128,13 @@ function UKMap({ data, width = 600, height = 400 }) {
         if (regionData) {
           const coachValue = regionData.coachCount || regionData.coachesPerMillion
           const intensity = getColorIntensity(coachValue)
-          return `rgba(25, 118, 210, ${0.2 + intensity * 0.8})`
+          const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#1976d2'
+          const rgb = primaryColor.replace('#', '').match(/.{2}/g).map(hex => parseInt(hex, 16))
+          return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${0.2 + intensity * 0.8})`
         }
-        return '#e0e0e0'
+        return getComputedStyle(document.documentElement).getPropertyValue('--color-border-primary').trim() || '#e0e0e0'
       })
-      .attr('stroke', '#ffffff')
+      .attr('stroke', getComputedStyle(document.documentElement).getPropertyValue('--color-background-primary').trim() || '#ffffff')
       .attr('stroke-width', 0.5)
       .style('cursor', 'pointer')
       .on('mouseover', function(event, d) {
@@ -140,7 +142,7 @@ function UKMap({ data, width = 600, height = 400 }) {
         
         // Highlight region
         d3.select(this)
-          .attr('fill', '#1976d2')
+          .attr('fill', getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#1976d2')
           .attr('stroke-width', 2)
         
         // Show tooltip
@@ -164,9 +166,11 @@ function UKMap({ data, width = 600, height = 400 }) {
             if (regionData) {
               const coachValue = regionData.coachCount || regionData.coachesPerMillion
               const intensity = getColorIntensity(coachValue)
-              return `rgba(25, 118, 210, ${0.2 + intensity * 0.8})`
+              const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#1976d2'
+          const rgb = primaryColor.replace('#', '').match(/.{2}/g).map(hex => parseInt(hex, 16))
+          return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${0.2 + intensity * 0.8})`
             }
-            return '#e0e0e0'
+            return getComputedStyle(document.documentElement).getPropertyValue('--color-border-primary').trim() || '#e0e0e0'
           })
         
         // Hide tooltip
@@ -185,7 +189,7 @@ function UKMap({ data, width = 600, height = 400 }) {
       .attr('text-anchor', 'middle')
       .attr('font-size', '14px')
       .attr('font-weight', '600')
-      .attr('fill', '#333')
+      .attr('fill', 'var(--color-text-primary)')
       .style('pointer-events', 'none')
       .text('UK Regional Distribution')
 
@@ -194,7 +198,7 @@ function UKMap({ data, width = 600, height = 400 }) {
       .attr('y', 35)
       .attr('text-anchor', 'middle')
       .attr('font-size', '10px')
-      .attr('fill', '#666')
+      .attr('fill', 'var(--color-text-secondary)')
       .style('pointer-events', 'none')
       .text('Coach Distribution • Scroll to zoom • Hover for details')
 
@@ -217,8 +221,8 @@ function UKMap({ data, width = 600, height = 400 }) {
     zoomInButton.append('rect')
       .attr('width', 24)
       .attr('height', 24)
-      .attr('fill', 'rgba(255, 255, 255, 0.9)')
-      .attr('stroke', '#ccc')
+      .attr('fill', 'var(--color-background-primary)')
+      .attr('stroke', 'var(--color-border-primary)')
       .attr('rx', 3)
 
     zoomInButton.append('text')
@@ -227,7 +231,7 @@ function UKMap({ data, width = 600, height = 400 }) {
       .attr('text-anchor', 'middle')
       .attr('font-size', '16px')
       .attr('font-weight', 'bold')
-      .attr('fill', '#333')
+      .attr('fill', 'var(--color-text-primary)')
       .text('+')
 
     // Zoom out button
@@ -241,8 +245,8 @@ function UKMap({ data, width = 600, height = 400 }) {
     zoomOutButton.append('rect')
       .attr('width', 24)
       .attr('height', 24)
-      .attr('fill', 'rgba(255, 255, 255, 0.9)')
-      .attr('stroke', '#ccc')
+      .attr('fill', 'var(--color-background-primary)')
+      .attr('stroke', 'var(--color-border-primary)')
       .attr('rx', 3)
 
     zoomOutButton.append('text')
@@ -251,7 +255,7 @@ function UKMap({ data, width = 600, height = 400 }) {
       .attr('text-anchor', 'middle')
       .attr('font-size', '16px')
       .attr('font-weight', 'bold')
-      .attr('fill', '#333')
+      .attr('fill', 'var(--color-text-primary)')
       .text('−')
 
     // Reset zoom button
@@ -265,8 +269,8 @@ function UKMap({ data, width = 600, height = 400 }) {
     resetButton.append('rect')
       .attr('width', 24)
       .attr('height', 24)
-      .attr('fill', 'rgba(255, 255, 255, 0.9)')
-      .attr('stroke', '#ccc')
+      .attr('fill', 'var(--color-background-primary)')
+      .attr('stroke', 'var(--color-border-primary)')
       .attr('rx', 3)
 
     resetButton.append('text')
@@ -275,7 +279,7 @@ function UKMap({ data, width = 600, height = 400 }) {
       .attr('text-anchor', 'middle')
       .attr('font-size', '10px')
       .attr('font-weight', 'bold')
-      .attr('fill', '#333')
+      .attr('fill', 'var(--color-text-primary)')
       .text('⌂')
 
   }, [data, width, height, getColorIntensity, getRegionData])
@@ -287,7 +291,7 @@ function UKMap({ data, width = 600, height = 400 }) {
         style={{ 
           width: '100%',
           height: '100%',
-          background: '#f8f9fa'
+          background: 'var(--color-background-secondary)'
         }}
       />
       
@@ -296,15 +300,15 @@ function UKMap({ data, width = 600, height = 400 }) {
         position: 'absolute',
         bottom: '10px',
         right: '10px',
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backgroundColor: 'var(--color-background-primary)',
         padding: '12px',
         borderRadius: '6px',
-        border: '1px solid #e0e0e0',
+        border: '1px solid var(--color-border-primary)',
         fontSize: '11px',
         boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
         minWidth: '120px'
       }}>
-        <div style={{ fontWeight: 600, marginBottom: '8px', color: '#333' }}>
+        <div style={{ fontWeight: 600, marginBottom: '8px', color: 'var(--color-text-primary)' }}>
           Coach Count
         </div>
         {(() => {
@@ -321,19 +325,23 @@ function UKMap({ data, width = 600, height = 400 }) {
                 <div style={{
                   width: '16px',
                   height: '12px',
-                  backgroundColor: `rgba(25, 118, 210, ${0.2 + intensity * 0.8})`,
+                  backgroundColor: (() => {
+                    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#1976d2'
+                    const rgb = primaryColor.replace('#', '').match(/.{2}/g).map(hex => parseInt(hex, 16))
+                    return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${0.2 + intensity * 0.8})`
+                  })(),
                   marginRight: '8px',
-                  border: '1px solid #ccc',
+                  border: '1px solid var(--color-border-primary)',
                   borderRadius: '2px'
                 }}></div>
-                <span style={{ fontSize: '10px', color: '#666' }}>
+                <span style={{ fontSize: '10px', color: 'var(--color-text-secondary)' }}>
                   {value}
                 </span>
               </div>
             )
           })
         })()}
-        <div style={{ fontSize: '9px', color: '#999', marginTop: '4px', fontStyle: 'italic' }}>
+        <div style={{ fontSize: '9px', color: 'var(--color-text-disabled)', marginTop: '4px', fontStyle: 'italic' }}>
           Fewer ← → More
         </div>
       </div>

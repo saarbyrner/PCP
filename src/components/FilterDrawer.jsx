@@ -153,13 +153,13 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
               '& .MuiOutlinedInput-root': {
                 fontSize: '12px',
                 '& fieldset': {
-                  borderColor: '#e0e0e0',
+                  borderColor: 'var(--color-border-primary)',
                 },
                 '&:hover fieldset': {
-                  borderColor: '#1976d2',
+                  borderColor: 'var(--color-primary)',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#1976d2',
+                  borderColor: 'var(--color-primary)',
                 }
               }
             }}
@@ -172,9 +172,15 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
               key={option.value}
               label={option.label}
               size="small"
+              variant="filled"
               sx={{
                 fontSize: '11px',
-                height: '24px'
+                height: '24px',
+                backgroundColor: 'var(--color-primary)',
+                color: 'var(--color-white)',
+                '&:hover': {
+                  backgroundColor: 'var(--color-primary-dark)'
+                }
               }}
             />
           ))
@@ -260,7 +266,7 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
                   <Typography variant="caption" sx={{ 
                     fontSize: '11px', 
                     fontWeight: 600, 
-                    color: '#666', 
+                    color: 'var(--color-text-secondary)', 
                     mb: 0.5,
                     display: 'block'
                   }}>
@@ -276,13 +282,13 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
                       '& .MuiOutlinedInput-root': {
                         fontSize: '12px',
                         '& fieldset': {
-                          borderColor: '#e0e0e0',
+                          borderColor: 'var(--color-border-primary)',
                         },
                         '&:hover fieldset': {
-                          borderColor: '#1976d2',
+                          borderColor: 'var(--color-primary)',
                         },
                         '&.Mui-focused fieldset': {
-                          borderColor: '#1976d2',
+                          borderColor: 'var(--color-primary)',
                         }
                       }
                     }}
@@ -338,18 +344,21 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
               Apply filters
             </Button>
             <Button
-              variant="outlined"
+              variant="contained"
+              size="small"
               onClick={resetFilters}
               startIcon={<RefreshOutlined fontSize="small" />}
               sx={{
                 textTransform: 'none',
                 fontSize: '12px',
                 fontWeight: 500,
-                borderColor: 'var(--color-border, #E5E5E5)',
-                color: 'var(--color-text-secondary, #6B7280)',
+                backgroundColor: 'var(--color-background-primary)',
+                color: 'var(--color-text-secondary)',
+                border: '1px solid var(--color-border)',
                 '&:hover': {
-                  borderColor: 'var(--color-primary, #3B4960)',
-                  backgroundColor: 'var(--color-background-secondary, #F1F2F3)'
+                  backgroundColor: 'var(--color-background-secondary)',
+                  borderColor: 'var(--color-primary)',
+                  color: 'var(--color-primary)'
                 }
               }}
             >

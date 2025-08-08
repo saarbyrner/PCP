@@ -19,7 +19,22 @@ import FilterDrawer from '../components/FilterDrawer'
 import DashboardCard from '../components/DashboardCard'
 import { useCoachData } from '../hooks/useCoachData'
 
-const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0', '#2196f3', '#ff5722', '#607d8b']
+// Get design token colors for charts
+const getChartColors = () => {
+  const root = document.documentElement
+  return [
+    getComputedStyle(root).getPropertyValue('--color-chart-1').trim() || '#3B4960',
+    getComputedStyle(root).getPropertyValue('--color-chart-2').trim() || '#29AE61', 
+    getComputedStyle(root).getPropertyValue('--color-chart-3').trim() || '#F1C410',
+    getComputedStyle(root).getPropertyValue('--color-chart-4').trim() || '#C0392B',
+    getComputedStyle(root).getPropertyValue('--color-chart-5').trim() || '#9b58b5',
+    getComputedStyle(root).getPropertyValue('--color-chart-6').trim() || '#e74d3d',
+    getComputedStyle(root).getPropertyValue('--color-chart-7').trim() || '#fbcc1c',
+    getComputedStyle(root).getPropertyValue('--color-chart-8').trim() || '#f89938'
+  ]
+}
+
+const COLORS = getChartColors()
 
 function EDIDashboard() {
   const navigate = useNavigate()
@@ -231,8 +246,8 @@ function EDIDashboard() {
                   <Typography component="span" sx={{ 
                     ml: 2, 
                     fontSize: '14px', 
-                    color: '#1976d2',
-                    backgroundColor: '#e3f2fd',
+                    color: 'var(--color-primary)',
+                    backgroundColor: 'var(--color-info-light)',
                     px: 1,
                     py: 0.25,
                     borderRadius: '12px',
@@ -256,11 +271,11 @@ function EDIDashboard() {
 
         {/* Active Filters Display */}
         {getActiveFiltersCount() > 0 && (
-          <Box sx={{ mb: 3, p: 2, backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+          <Box sx={{ mb: 3, p: 2, backgroundColor: 'var(--color-background-tertiary)', borderRadius: '8px', border: '1px solid var(--color-border-primary)' }}>
             <Typography variant="body2" sx={{ 
               fontSize: '13px', 
               fontWeight: 600, 
-              color: '#333', 
+              color: 'var(--color-text-primary)', 
               mb: 1,
               display: 'block'
             }}>
@@ -273,8 +288,13 @@ function EDIDashboard() {
                     key={`${key}-${value}`}
                     label={`${key}: ${value}`}
                     size="small"
-                    variant="outlined"
-                    sx={{ fontSize: '10px', height: '24px' }}
+                    variant="filled"
+                    sx={{ 
+                      fontSize: '10px', 
+                      height: '24px',
+                      backgroundColor: 'var(--color-primary)',
+                      color: 'var(--color-white)'
+                    }}
                   />
                 )) : null
               ).flat().filter(Boolean)}
@@ -293,8 +313,8 @@ function EDIDashboard() {
             >
               {/* Warning for too many combinations */}
               {stackedBarData.length > 0 && Object.keys(stackedBarData[0]).filter(key => key !== 'period').length > 15 && (
-                <Box sx={{ mb: 1, p: 1, backgroundColor: '#fff3cd', borderRadius: '4px', border: '1px solid #ffeaa7' }}>
-                  <Typography variant="caption" sx={{ fontSize: '11px', color: '#856404' }}>
+                <Box sx={{ mb: 1, p: 1, backgroundColor: 'var(--color-warning-light)', borderRadius: '4px', border: '1px solid var(--color-warning)' }}>
+                  <Typography variant="caption" sx={{ fontSize: '11px', color: 'var(--color-warning-dark)' }}>
                     ⚠️ Large number of combinations ({Object.keys(stackedBarData[0]).filter(key => key !== 'period').length}) may make chart difficult to read. Consider selecting fewer criteria.
                   </Typography>
                 </Box>
@@ -315,7 +335,15 @@ function EDIDashboard() {
                             label={option.label}
                             {...getTagProps({ index })}
                             size="small"
+                            variant="filled"
                             key={option.value}
+                            sx={{
+                              backgroundColor: 'var(--color-primary)',
+                              color: 'var(--color-white)',
+                              '&:hover': {
+                                backgroundColor: 'var(--color-primary-hover)'
+                              }
+                            }}
                           />
                         ))
                       }
@@ -345,12 +373,12 @@ function EDIDashboard() {
                           textTransform: 'none',
                           px: 1.5,
                           py: 0.5,
-                          border: '1px solid #e0e0e0',
+                          border: '1px solid var(--color-border-primary)',
                           '&.Mui-selected': {
-                            backgroundColor: '#1976d2',
+                            backgroundColor: 'var(--color-primary)',
                             color: 'white',
                             '&:hover': {
-                              backgroundColor: '#1565c0'
+                              backgroundColor: 'var(--color-primary-hover)'
                             }
                           }
                         }
@@ -371,26 +399,26 @@ function EDIDashboard() {
                 {selectedCriteria.length > 0 && stackedBarData.length > 0 ? (
                   <ResponsiveContainer width="100%" height={400}>
                     <BarChart data={stackedBarData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border-secondary)" />
                       <XAxis 
                         dataKey="period" 
                         axisLine={false} 
                         tickLine={false} 
-                        tick={{ fontSize: 11, fill: '#666' }}
+                        tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
                       />
                       <YAxis 
                         axisLine={false} 
                         tickLine={false} 
-                        tick={{ fontSize: 11, fill: '#666' }}
+                        tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
                         domain={chartMode === 'percentage' ? [0, 100] : [0, 'dataMax']}
                         ticks={chartMode === 'percentage' ? [0, 20, 40, 60, 80, 100] : undefined}
                         tickFormatter={(value) => chartMode === 'percentage' ? `${Math.round(value)}%` : Math.round(value).toLocaleString()}
-                        label={{ value: chartMode === 'percentage' ? 'Percentage (%)' : 'Number of Coaches', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fontSize: '11px', fill: '#666' } }}
+                        label={{ value: chartMode === 'percentage' ? 'Percentage (%)' : 'Number of Coaches', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fontSize: '11px', fill: 'var(--color-text-secondary)' } }}
                       />
                       <Tooltip 
                         contentStyle={{ 
-                          backgroundColor: '#fff', 
-                          border: '1px solid #ccc', 
+                          backgroundColor: 'var(--color-background-primary)', 
+                          border: '1px solid var(--color-border-primary)', 
                           borderRadius: '4px',
                           fontSize: '11px'
                         }}
@@ -401,12 +429,12 @@ function EDIDashboard() {
                         labelFormatter={(label) => `Season: ${label}`}
                       />
                       <Legend 
-                        wrapperStyle={{ fontSize: '11px', color: '#333', paddingTop: '20px' }} 
+                        wrapperStyle={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-primary)', paddingTop: '20px' }} 
                         iconType="rect"
                         iconSize={12}
                         verticalAlign="bottom"
                         height={40}
-                        formatter={(value) => <span style={{ color: '#333', fontSize: '10px' }}>{value}</span>}
+                        formatter={(value) => <span style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-xs)' }}>{value}</span>}
                       />
                       {/* Dynamically generate bars for each combination */}
                       {stackedBarData.length > 0 && Object.keys(stackedBarData[0]).filter(key => key !== 'period').map((key, index) => (
@@ -421,7 +449,7 @@ function EDIDashboard() {
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
-                  <Box sx={{ textAlign: 'center', color: '#666' }}>
+                  <Box sx={{ textAlign: 'center', color: 'var(--color-text-secondary)' }}>
                     <Typography variant="body2" sx={{ fontSize: '14px', mb: 1 }}>
                       Select criteria above to display combined demographic analysis
                     </Typography>
@@ -447,7 +475,7 @@ function EDIDashboard() {
                     outerRadius={75}
                     dataKey="value"
                     label={({ value }) => value > 3 ? `${value}%` : ''}
-                    labelStyle={{ fontSize: '0.7rem', fill: '#333', fontWeight: '600', fontFamily: 'Open Sans, Arial, sans-serif' }}
+                    labelStyle={{ fontSize: '0.7rem', fill: 'var(--color-text-primary)', fontWeight: '600', fontFamily: 'var(--font-family-primary)' }}
                   >
                     {genderData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -463,12 +491,12 @@ function EDIDashboard() {
                     formatter={(value) => [`${value}%`, 'Percentage']}
                   />
                   <Legend 
-                    wrapperStyle={{ fontSize: '11px', color: '#333', paddingTop: '8px' }} 
+                    wrapperStyle={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-primary)', paddingTop: '8px' }} 
                     iconType="circle"
                     iconSize={6}
                     verticalAlign="bottom"
                     height={40}
-                    formatter={(value, entry) => <span style={{ color: '#333', fontSize: '11px' }}>{value} ({entry.payload.value}%)</span>}
+                    formatter={(value, entry) => <span style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-xs)' }}>{value} ({entry.payload.value}%)</span>}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -487,7 +515,7 @@ function EDIDashboard() {
                     outerRadius={75}
                     dataKey="value"
                     label={({ value }) => value > 0.5 ? `${value}%` : ''}
-                    labelStyle={{ fontSize: '0.7rem', fill: '#333', fontWeight: '600', fontFamily: 'Open Sans, Arial, sans-serif' }}
+                    labelStyle={{ fontSize: '0.7rem', fill: 'var(--color-text-primary)', fontWeight: '600', fontFamily: 'var(--font-family-primary)' }}
                   >
                     {ethnicityData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -503,14 +531,14 @@ function EDIDashboard() {
                     formatter={(value, name) => [`${value}%`, name.replace('/White British', '').replace('/Black British', '').replace('/Asian British', '')]}
                   />
                   <Legend 
-                    wrapperStyle={{ fontSize: '10px', color: '#333', paddingTop: '8px', lineHeight: '1.2' }} 
+                    wrapperStyle={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-primary)', paddingTop: '8px', lineHeight: '1.2' }} 
                     iconType="circle"
                     iconSize={6}
                     verticalAlign="bottom"
                     height={40}
                     formatter={(value, entry) => {
                       const cleanName = value.replace('/White British', '').replace('/Black British', '').replace('/Asian British', '')
-                      return <span style={{ color: '#333', fontSize: '10px' }}>{cleanName} ({entry.payload.value}%)</span>
+                      return <span style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-xs)' }}>{cleanName} ({entry.payload.value}%)</span>
                     }}
                   />
                 </PieChart>
@@ -530,7 +558,7 @@ function EDIDashboard() {
                     outerRadius={75}
                     dataKey="value"
                     label={({ value }) => value > 3 ? `${value}%` : ''}
-                    labelStyle={{ fontSize: '0.7rem', fill: '#333', fontWeight: '600', fontFamily: 'Open Sans, Arial, sans-serif' }}
+                    labelStyle={{ fontSize: '0.7rem', fill: 'var(--color-text-primary)', fontWeight: '600', fontFamily: 'var(--font-family-primary)' }}
                   >
                     {ageData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -546,12 +574,12 @@ function EDIDashboard() {
                     formatter={(value) => [`${value}%`, 'Percentage']}
                   />
                   <Legend 
-                    wrapperStyle={{ fontSize: '11px', color: '#333', paddingTop: '8px' }} 
+                    wrapperStyle={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-primary)', paddingTop: '8px' }} 
                     iconType="circle"
                     iconSize={6}
                     verticalAlign="bottom"
                     height={40}
-                    formatter={(value, entry) => <span style={{ color: '#333', fontSize: '11px' }}>{value} ({entry.payload.value}%)</span>}
+                    formatter={(value, entry) => <span style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-xs)' }}>{value} ({entry.payload.value}%)</span>}
                   />
                 </PieChart>
               </ResponsiveContainer>

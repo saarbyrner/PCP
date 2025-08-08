@@ -47,11 +47,11 @@ function CoachManagementDashboard() {
   // Helper function to get compliance status color
   const getComplianceStatusColor = (status) => {
     switch (status) {
-      case 'compliant': return '#28a745'
-      case 'expiring': return '#ffc107'
-      case 'non-compliant': return '#dc3545'
-      case 'not-required': return '#6c757d'
-      default: return '#6c757d'
+      case 'compliant': return 'var(--color-success)'
+      case 'expiring': return 'var(--color-warning)'
+      case 'non-compliant': return 'var(--color-error)'
+      case 'not-required': return 'var(--color-unknown)'
+      default: return 'var(--color-unknown)'
     }
   }
 
@@ -245,8 +245,12 @@ function CoachManagementDashboard() {
                           <Chip 
                             label={coach.department} 
                             size="small" 
-                            variant="outlined"
-                            sx={{ fontSize: '11px' }}
+                            variant="filled"
+                            sx={{ 
+                              fontSize: '11px',
+                              backgroundColor: 'var(--color-chart-2)',
+                              color: 'var(--color-white)'
+                            }}
                           />
                         </TableCell>
                         <TableCell align="center">
@@ -366,7 +370,7 @@ function CoachManagementDashboard() {
                           flexGrow: 1, 
                           height: 8, 
                           borderRadius: 4,
-                          backgroundColor: '#f0f0f0',
+                          backgroundColor: 'var(--color-border-secondary)',
                           '& .MuiLinearProgress-bar': {
                             backgroundColor: currentTheme.primaryColor
                           }
@@ -378,18 +382,18 @@ function CoachManagementDashboard() {
                     </Box>
                     <Box sx={{ display: 'flex', gap: 2, fontSize: '12px' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#28a745', mr: 0.5 }} />
+                        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'var(--color-success)', mr: 0.5 }} />
                         <Typography variant="caption">{data.compliant} Compliant</Typography>
                       </Box>
                       {data.expiring > 0 && (
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#ffc107', mr: 0.5 }} />
+                          <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'var(--color-warning)', mr: 0.5 }} />
                           <Typography variant="caption">{data.expiring} Expiring</Typography>
                         </Box>
                       )}
                       {data.nonCompliant > 0 && (
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#dc3545', mr: 0.5 }} />
+                          <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'var(--color-error)', mr: 0.5 }} />
                           <Typography variant="caption">{data.nonCompliant} Non-compliant</Typography>
                         </Box>
                       )}
@@ -446,7 +450,7 @@ function CoachManagementDashboard() {
                     dataKey="value"
                     label={({name, percentage}) => `${name}: ${percentage}%`}
                     labelLine={false}
-                    labelStyle={{ fontSize: '0.7rem', fill: '#333', fontFamily: 'Open Sans, Arial, sans-serif' }}
+                    labelStyle={{ fontSize: '0.7rem', fill: 'var(--color-text-primary)', fontFamily: 'var(--font-family-primary)' }}
                   >
                     {liverpoolFCData.departmentBreakdown.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={index === 0 ? currentTheme.primaryColor : `${currentTheme.primaryColor}${Math.floor(255 - (index * 40)).toString(16)}`} />
@@ -484,8 +488,12 @@ function CoachManagementDashboard() {
                         <Chip 
                           label={update.department} 
                           size="small" 
-                          variant="outlined"
-                          sx={{ fontSize: '11px' }}
+                          variant="filled"
+                          sx={{ 
+                            fontSize: '11px',
+                            backgroundColor: 'var(--color-info)',
+                            color: 'var(--color-white)'
+                          }}
                         />
                         <Typography variant="caption" color="text.secondary">
                           {new Date(update.date).toLocaleDateString()}

@@ -28,8 +28,8 @@ function AnalysisPage() {
   const { isLeagueView, currentTheme } = useView()
 
   // Chart rendering helper
-  const renderChart = (chartType, data, primaryColor = '#1976d2', label = '') => {
-    const COLORS = [primaryColor, '#4caf50', '#ff9800', '#f44336', '#9c27b0', '#2196f3', '#ff5722', '#607d8b']
+  const renderChart = (chartType, data, primaryColor = 'var(--color-primary)', label = '') => {
+    const COLORS = [primaryColor, 'var(--color-chart-2)', 'var(--color-chart-3)', 'var(--color-chart-4)', 'var(--color-chart-5)', 'var(--color-chart-6)', 'var(--color-chart-7)', 'var(--color-chart-8)']
     
     switch (chartType) {
       case 'pie':
@@ -77,7 +77,7 @@ function AnalysisPage() {
                 left: '10px', 
                 right: '10px', 
                 height: '2px', 
-                backgroundColor: '#e0e0e0',
+                backgroundColor: 'var(--color-border-primary)',
                 borderRadius: '1px'
               }} />
               
@@ -92,9 +92,9 @@ function AnalysisPage() {
                   <Box sx={{ 
                     width: '8px', 
                     height: '8px', 
-                    backgroundColor: index === 2 ? primaryColor : '#e0e0e0',
+                    backgroundColor: index === 2 ? primaryColor : 'var(--color-border-primary)',
                     borderRadius: '50%',
-                    border: `2px solid ${index === 2 ? 'white' : '#f5f5f5'}`,
+                    border: `2px solid ${index === 2 ? 'var(--color-white)' : 'var(--color-background-tertiary)'}`,
                     boxShadow: index === 2 ? '0 2px 4px rgba(0,0,0,0.2)' : 'none'
                   }} />
                   {index === 2 && (
@@ -315,9 +315,9 @@ function AnalysisPage() {
         chartType: 'pie',
         chartLabel: 'Department Distribution',
         tags: [
-          { label: 'Compliance', color: '#C8102E' },
-          { label: 'Management', color: '#8B0000' },
-          { label: 'Tracking', color: '#ff6b35' }
+          { label: 'Compliance', color: 'var(--color-error)' },
+          { label: 'Management', color: 'var(--color-error-dark)' },
+          { label: 'Tracking', color: 'var(--color-chart-3)' }
         ]
       },
       {
@@ -330,8 +330,8 @@ function AnalysisPage() {
         chartType: 'timeline',
         chartLabel: 'Career Timeline',
         tags: [
-          { label: 'Profiles', color: '#2196f3' },
-          { label: 'Timeline', color: '#4caf50' }
+          { label: 'Profiles', color: 'var(--color-chart-1)' },
+          { label: 'Timeline', color: 'var(--color-chart-2)' }
         ]
       }
     ]
@@ -363,7 +363,7 @@ function AnalysisPage() {
                     height: 240,
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
-                    border: '1px solid #e0e0e0',
+                    border: '1px solid var(--color-border-primary)',
                     '&:hover': {
                       transform: 'translateY(-2px)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
@@ -381,7 +381,7 @@ function AnalysisPage() {
                           {dashboard.title}
                         </Typography>
                       </Box>
-                      <IconButton size="small" sx={{ color: '#666' }}>
+                      <IconButton size="small" sx={{ color: 'var(--color-text-secondary)' }}>
                         <ArrowForwardOutlined fontSize="small" />
                       </IconButton>
                     </Box>
@@ -421,12 +421,12 @@ function AnalysisPage() {
                           key={index}
                           label={tag.label}
                           size="small"
+                          variant="filled"
                           sx={{ 
                             fontSize: '10px',
                             height: '20px',
-                            backgroundColor: `${tag.color}15`,
-                            color: tag.color,
-                            border: `1px solid ${tag.color}30`,
+                            backgroundColor: tag.color || 'var(--color-chart-1)',
+                            color: 'var(--color-white)',
                             fontWeight: 500,
                             flexShrink: 0
                           }}
@@ -455,9 +455,9 @@ function AnalysisPage() {
         chartType: 'pie',
         chartLabel: 'Position Types',
         tags: [
-          { label: 'Demographics', color: '#1976d2' },
-          { label: 'Statistics', color: '#4caf50' },
-          { label: 'KPIs', color: '#ff9800' }
+          { label: 'Demographics', color: 'var(--color-primary)' },
+          { label: 'Statistics', color: 'var(--color-chart-2)' },
+          { label: 'KPIs', color: 'var(--color-chart-3)' }
         ]
       },
     {
@@ -475,9 +475,9 @@ function AnalysisPage() {
       chartType: 'area',
       chartLabel: 'Coaches Pathway (Sankey & Timeline Views)',
       tags: [
-        { label: 'Flow Analysis', color: '#ff5722' },
-        { label: 'Demographics', color: '#795548' },
-        { label: 'Sankey', color: '#607d8b' }
+        { label: 'Flow Analysis', color: 'var(--color-chart-7)' },
+        { label: 'Demographics', color: 'var(--color-chart-8)' },
+        { label: 'Sankey', color: 'var(--color-chart-5)' }
       ]
     },
     {
@@ -490,8 +490,8 @@ function AnalysisPage() {
       chartType: 'bar',
       chartLabel: 'UK Regional Map',
       tags: [
-        { label: 'Geography', color: '#3f51b5' },
-        { label: 'Interactive', color: '#009688' }
+        { label: 'Geography', color: 'var(--color-chart-6)' },
+        { label: 'Interactive', color: 'var(--color-chart-4)' }
       ]
     },
     {
@@ -507,9 +507,9 @@ function AnalysisPage() {
       chartType: 'pie',
       chartLabel: 'Gender Distribution',
       tags: [
-        { label: 'Equality', color: '#e91e63' },
-        { label: 'Demographics', color: '#673ab7' },
-        { label: 'Interactive', color: '#009688' }
+        { label: 'Equality', color: 'var(--color-chart-9)' },
+        { label: 'Demographics', color: 'var(--color-chart-10)' },
+        { label: 'Interactive', color: 'var(--color-chart-4)' }
       ]
     }
   ]
@@ -539,11 +539,11 @@ function AnalysisPage() {
                   height: 240,
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
-                  border: '1px solid #e0e0e0',
+                  border: '1px solid var(--color-border-primary)',
                   '&:hover': {
                     transform: 'translateY(-2px)',
                     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                    borderColor: '#1976d2'
+                    borderColor: 'var(--color-primary)'
                   }
                 }}
                 onClick={() => handleDashboardClick(dashboard.route)}
@@ -552,12 +552,12 @@ function AnalysisPage() {
                   {/* Header */}
                   <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                      <IconComponent sx={{ color: '#1976d2', fontSize: 24 }} />
+                      <IconComponent sx={{ color: 'var(--color-primary)', fontSize: 24 }} />
                       <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '16px', lineHeight: 1.2 }}>
                         {dashboard.title}
                       </Typography>
                     </Box>
-                    <IconButton size="small" sx={{ color: '#666' }}>
+                    <IconButton size="small" sx={{ color: 'var(--color-text-secondary)' }}>
                       <ArrowForwardOutlined fontSize="small" />
                     </IconButton>
                   </Box>
@@ -581,7 +581,7 @@ function AnalysisPage() {
 
                   {/* Chart Preview */}
                   <Box sx={{ mb: 0.5, minHeight: 100, flex: '0 0 100px' }}>
-                    {renderChart(dashboard.chartType, dashboard.chartData, '#1976d2', dashboard.chartLabel)}
+                    {renderChart(dashboard.chartType, dashboard.chartData, 'var(--color-primary)', dashboard.chartLabel)}
                   </Box>
 
                   {/* Tags */}
@@ -597,12 +597,12 @@ function AnalysisPage() {
                         key={index}
                         label={tag.label}
                         size="small"
+                        variant="filled"
                         sx={{ 
                           fontSize: '10px',
                           height: '20px',
-                          backgroundColor: `${tag.color}15`,
-                          color: tag.color,
-                          border: `1px solid ${tag.color}30`,
+                          backgroundColor: tag.color || 'var(--color-chart-1)',
+                          color: 'var(--color-white)',
                           fontWeight: 500,
                           flexShrink: 0
                         }}

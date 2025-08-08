@@ -79,7 +79,30 @@ function MedinahLayoutWithMainNav({ children }) {
   return (
     <>
       <CssBaseline />
-      <Box sx={{ display: 'flex', gap: 0, height: '100vh', bgcolor: '#f8f9fa' }}>
+      {/* Skip Link for Accessibility */}
+      <a 
+        href="#main-content" 
+        style={{
+          position: 'absolute',
+          top: '-40px',
+          left: '6px',
+          background: 'var(--color-primary)',
+          color: 'var(--color-white)',
+          padding: '8px',
+          textDecoration: 'none',
+          zIndex: 100,
+          borderRadius: '4px',
+          fontSize: '14px',
+          fontWeight: '500',
+          transition: 'top 0.3s ease'
+        }}
+        onFocus={(e) => e.target.style.top = '6px'}
+        onBlur={(e) => e.target.style.top = '-40px'}
+      >
+        Skip to content
+      </a>
+      
+      <Box sx={{ display: 'flex', gap: 0, height: '100vh', bgcolor: 'var(--color-background-secondary)' }}>
       {/* Main Navigation */}
       <MainNavigation 
         isOpen={isNavOpen}
@@ -89,7 +112,9 @@ function MedinahLayoutWithMainNav({ children }) {
 
       {/* Main Content Area */}
       <Box 
-        component="main" 
+        component="main"
+        id="main-content"
+        role="main"
         sx={{ 
           flexGrow: 1, 
           display: 'flex', 
@@ -102,9 +127,9 @@ function MedinahLayoutWithMainNav({ children }) {
           position="sticky" 
           elevation={1}
           sx={{ 
-            bgcolor: '#ffffff',
-            color: '#333333',
-            borderBottom: '1px solid #e0e0e0',
+            bgcolor: 'var(--color-background-primary)',
+            color: 'var(--color-text-primary)',
+            borderBottom: '1px solid var(--color-border-primary)',
             boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
           }}
         >
@@ -133,7 +158,7 @@ function MedinahLayoutWithMainNav({ children }) {
                 sx={{ 
                   fontSize: '14px',
                   minWidth: 160,
-                  backgroundColor: '#ffffff',
+                  backgroundColor: 'var(--color-background-primary)',
                   border: 'none',
                   boxShadow: 'none',
                   '& .MuiOutlinedInput-notchedOutline': {
@@ -161,7 +186,15 @@ function MedinahLayoutWithMainNav({ children }) {
                   }
                 }}
               >
-                <Badge badgeContent={3} color="error">
+                <Badge 
+                  badgeContent={3} 
+                  sx={{
+                    '& .MuiBadge-badge': {
+                      backgroundColor: 'var(--color-error)',
+                      color: 'var(--color-white)'
+                    }
+                  }}
+                >
                   <Notifications />
                 </Badge>
               </IconButton>

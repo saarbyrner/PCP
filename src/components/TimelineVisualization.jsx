@@ -31,7 +31,18 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
     const processedData = processTimelineData(data.coaches, demographics, selectedMilestoneTypes)
     
     // Color scale - exactly matching other dashboards
-    const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0']
+    // Get design token colors for charts
+    const getChartColors = () => {
+      const root = document.documentElement
+      return [
+        getComputedStyle(root).getPropertyValue('--color-chart-1').trim() || '#3B4960',
+        getComputedStyle(root).getPropertyValue('--color-chart-2').trim() || '#29AE61', 
+        getComputedStyle(root).getPropertyValue('--color-chart-3').trim() || '#F1C410',
+        getComputedStyle(root).getPropertyValue('--color-chart-4').trim() || '#C0392B',
+        getComputedStyle(root).getPropertyValue('--color-chart-5').trim() || '#9b58b5'
+      ]
+    }
+    const COLORS = getChartColors()
     const colorScale = d3.scaleOrdinal()
       .domain(Object.keys(processedData))
       .range(COLORS)
@@ -54,10 +65,10 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
       .attr('class', 'timeline-tooltip')
       .style('position', 'absolute')
       .style('visibility', 'hidden')
-      .style('background-color', '#fff')
-      .style('color', '#333')
+      .style('background-color', 'var(--color-background-primary)')
+      .style('color', 'var(--color-text-primary)')
       .style('padding', '8px')
-      .style('border', '1px solid #ccc')
+      .style('border', '1px solid var(--color-border-primary)')
       .style('border-radius', '4px')
       .style('font-size', '11px')
       .style('box-shadow', '0 2px 8px rgba(0,0,0,0.1)')
@@ -74,21 +85,21 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
       )
       .selectAll('text')
       .style('font-size', '10px')
-      .style('fill', '#666')
+      .style('fill', 'var(--color-text-secondary)')
 
     // Draw Y axis
     g.append('g')
       .call(d3.axisLeft(yScale))
       .selectAll('text')
       .style('font-size', '10px')
-      .style('fill', '#666')
+      .style('fill', 'var(--color-text-secondary)')
 
     // Add axis labels
     g.append('text')
       .attr('transform', `translate(${innerWidth/2}, ${innerHeight + 40})`)
       .style('text-anchor', 'middle')
       .style('font-size', '12px')
-      .style('fill', '#333')
+      .style('fill', 'var(--color-text-primary)')
       .style('font-weight', '500')
       .text('Years in Career')
 
@@ -98,7 +109,7 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
       .attr('x', -innerHeight/2)
       .style('text-anchor', 'middle')
       .style('font-size', '12px')
-      .style('fill', '#333')
+      .style('fill', 'var(--color-text-primary)')
       .style('font-weight', '500')
       .text('Demographic Groups')
 
@@ -112,7 +123,7 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
         .attr('x2', innerWidth)
         .attr('y1', yPos)
         .attr('y2', yPos)
-        .attr('stroke', '#f0f0f0')
+        .attr('stroke', getComputedStyle(document.documentElement).getPropertyValue('--color-border-secondary').trim() || '#f0f0f0')
         .attr('stroke-width', 1)
         .attr('stroke-dasharray', '3 3')
 
@@ -125,7 +136,7 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
       const labelPositions = []
 
       // Draw milestone markers
-      sortedMilestones.forEach((milestone, index) => {
+      sortedMilestones.forEach((milestone) => {
         const xPos = xScale(milestone.avgTime)
         
         // Milestone circle
@@ -134,7 +145,7 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
           .attr('cy', yPos)
           .attr('r', 6)
           .attr('fill', colorScale(group))
-          .attr('stroke', '#fff')
+          .attr('stroke', 'var(--color-background-primary)')
           .attr('stroke-width', 2)
           .style('cursor', 'pointer')
           .on('mouseover', function(event) {
@@ -162,7 +173,6 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
 
         // Calculate label position, checking for collisions
         let labelY = yPos - 12
-        const minGap = 25 // Minimum gap between labels
 
         // Check if this position conflicts with previous labels
         let collision = true
@@ -184,7 +194,7 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
             .attr('y', labelY)
             .attr('text-anchor', 'middle')
             .style('font-size', '8px')
-            .style('fill', '#333')
+            .style('fill', 'var(--color-text-primary)')
             .style('font-weight', '600')
             .text(truncatedName)
 
@@ -210,7 +220,7 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
         .attr('y', 0)
         .attr('dy', '0.35em')
         .style('font-size', '12px')
-        .style('fill', '#333')
+        .style('fill', 'var(--color-text-primary)')
         .style('font-weight', '500')
         .text(group)
     })
@@ -421,7 +431,7 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
       <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
         {/* Time Scale Controls */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Typography variant="caption" sx={{ fontSize: '11px', fontWeight: 600, color: '#666' }}>
+          <Typography variant="caption" sx={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-secondary)' }}>
             Time Scale:
           </Typography>
           <ButtonGroup size="small" sx={{
@@ -461,7 +471,7 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
 
         {/* Milestone Type Selection */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Typography variant="caption" sx={{ fontSize: '11px', fontWeight: 600, color: '#666' }}>
+          <Typography variant="caption" sx={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-secondary)' }}>
             Show Milestones:
           </Typography>
           <ButtonGroup size="small" sx={{

@@ -190,12 +190,16 @@ const AthleteDataGrid = ({
         <Chip
           label={params.value}
           size="small"
-          color={
-            params.value === 'Available' ? 'success' :
-            params.value === 'Injured' ? 'error' :
-            'default'
-          }
-          variant={params.value === 'Available' ? 'filled' : 'outlined'}
+          variant="filled"
+          aria-label={`Player status: ${params.value}`}
+          sx={{
+            backgroundColor: 
+              params.value === 'Available' ? 'var(--color-success)' :
+              params.value === 'Injured' ? 'var(--color-error)' :
+              'var(--color-chart-1)',
+            color: 'var(--color-white)',
+            fontWeight: 500
+          }}
         />
       ),
     },

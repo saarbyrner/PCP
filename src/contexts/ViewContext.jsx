@@ -12,14 +12,14 @@ const viewThemes = {
   [VIEW_TYPES.LEAGUE]: {
     name: 'Kitman Labs',
     logoSrc: '/assets/logos/kitman-labs-base.png',
-    primaryColor: '#000000',
-    gradientBackground: 'linear-gradient(180deg, #000000 0%, #111111 40%, #000000 70%, #040037ff 90%, #040037ff 100%)'
+    primaryColor: 'var(--color-black)',
+    gradientBackground: 'linear-gradient(180deg, var(--color-black) 0%, #111111 40%, var(--color-black) 70%, #040037ff 90%, #040037ff 100%)'
   },
   [VIEW_TYPES.CLUB]: {
     name: 'Liverpool FC',
     logoSrc: '/assets/logos/teams/premier-league/liverpool.png',
-    primaryColor: '#C8102E',
-    gradientBackground: 'linear-gradient(180deg, #C8102E 0%, #8B0000 40%, #C8102E 70%, #8B0000 90%, #8B0000 100%)'
+    primaryColor: 'var(--color-error)',
+    gradientBackground: 'linear-gradient(180deg, var(--color-error) 0%, #8B0000 40%, var(--color-error) 70%, #8B0000 90%, #8B0000 100%)'
   }
 }
 

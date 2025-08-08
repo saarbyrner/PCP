@@ -2,14 +2,15 @@
 
 /* Global Font Family - High Specificity to Override MUI */
 * {
-  font-family: 'Open Sans', Arial, sans-serif !important;
+  font-family: 'Open Sans', arial, sans-serif !important;
 }
 
 body, html {
-  font-family: 'Open Sans', Arial, sans-serif !important;
+  font-family: 'Open Sans', arial, sans-serif !important;
 }
 
 /* Additional specificity for common MUI components */
+/* stylelint-disable selector-class-pattern */
 div, span, p, h1, h2, h3, h4, h5, h6, 
 button, input, textarea, select, label,
 .MuiTypography-root, 
@@ -22,14 +23,15 @@ button, input, textarea, select, label,
 .MuiMenuItem-root,
 .MuiTooltip-tooltip,
 .MuiAlert-message {
-  font-family: 'Open Sans', Arial, sans-serif !important;
+  font-family: 'Open Sans', arial, sans-serif !important;
 }
+/* stylelint-enable selector-class-pattern */
 
 /* Override chart text and SVG text elements */
 text, tspan, .recharts-text, .recharts-legend-item-text, 
 .recharts-label, .recharts-tooltip-wrapper,
 svg text, svg tspan {
-  font-family: 'Open Sans', Arial, sans-serif !important;
+  font-family: 'Open Sans', arial, sans-serif !important;
 }
 
 :root {
@@ -92,8 +94,8 @@ svg text, svg tspan {
   --color-chart-10: #ec008b;
 
   /* Typography */
-  --font-family-primary: 'Open Sans', Arial, sans-serif;
-  --font-family-secondary: 'Open Sans', Arial, sans-serif;
+  --font-family-primary: 'Open Sans', arial, sans-serif;
+  --font-family-secondary: 'Open Sans', arial, sans-serif;
   --font-family-mono: 'Roboto Mono', monospace;
   --font-size-xs: 12px;
   --font-size-sm: 14px;

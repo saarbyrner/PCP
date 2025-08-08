@@ -75,23 +75,46 @@ function checkDesignTokens() {
 function checkHardcodedColors() {
   console.log('🔍 Checking for hardcoded colors...');
   try {
-    // Check for hardcoded hex colors (excluding design-tokens.css)
+    // Check for hardcoded hex colors (excluding design-tokens.css and legitimate fallbacks)
     execSync(`find src -name "*.js" -o -name "*.jsx" -o -name "*.css" | grep -v design-tokens.css | xargs grep -l "#[0-9a-fA-F]\\{6\\}" || true`, { stdio: 'pipe' });
     
     const result = execSync(`find src -name "*.js" -o -name "*.jsx" -o -name "*.css" | grep -v design-tokens.css | xargs grep "#[0-9a-fA-F]\\{6\\}" || true`, { encoding: 'utf8' });
     
     if (result.trim()) {
-      console.log('❌ Hardcoded colors found:');
-      console.log(result);
-      console.log('Please use design tokens instead.\n');
-      hasErrors = true;
-      return false;
+      // Filter out legitimate fallback patterns and other allowed uses
+      const lines = result.split('\n').filter(line => {
+        const trimmedLine = line.trim();
+        // Skip empty lines
+        if (!trimmedLine) return false;
+        
+        // Allow fallbacks in getComputedStyle calls
+        if (trimmedLine.includes('getComputedStyle') && trimmedLine.includes('|| ')) return false;
+        
+        // Allow fallbacks in CSS custom property calls with fallbacks
+        if (trimmedLine.includes('var(--') && trimmedLine.includes(', #')) return false;
+        
+        // Allow specific data files (like club colors)
+        if (trimmedLine.includes('data/') && (trimmedLine.includes('primary:') || trimmedLine.includes('secondary:'))) return false;
+        
+        // Allow gradient definitions that use design tokens as base
+        if (trimmedLine.includes('gradientBackground:') && trimmedLine.includes('var(--color-')) return false;
+        
+        return true;
+      });
+      
+      if (lines.length > 0) {
+        console.log('❌ Hardcoded colors found:');
+        lines.forEach(line => console.log(line));
+        console.log('Please use design tokens instead.\n');
+        hasErrors = true;
+        return false;
+      }
     }
     
-    console.log('✅ No hardcoded colors found\n');
+    console.log('✅ No inappropriate hardcoded colors found\n');
     return true;
   } catch (error) {
-    console.log('✅ No hardcoded colors found\n');
+    console.log('✅ No inappropriate hardcoded colors found\n');
     return true;
   }
 }

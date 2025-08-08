@@ -29,6 +29,8 @@ function CareerProgressionSankeyDashboard() {
   const [rightSideViews, setRightSideViews] = useState(['primaryCoachingRole']) // Default to coaching role on right
   const [activeTab, setActiveTab] = useState(0) // 0: Sankey, 1: Timeline
   const [timelineDemographics, setTimelineDemographics] = useState(['gender']) // Demographics for timeline view
+  const [timeScale, setTimeScale] = useState('yearly') // yearly, monthly, quarterly
+  const [showMilestones, setShowMilestones] = useState(true) // Show milestone markers
 
   // Use coach data with filtering
   const coachData = useCoachData(filters)
@@ -335,13 +337,23 @@ function CareerProgressionSankeyDashboard() {
             onChange={handleTabChange}
             sx={{
               minHeight: 'auto',
+              '& .MuiTabs-indicator': {
+                backgroundColor: 'var(--color-primary)'
+              },
               '& .MuiTab-root': {
                 fontSize: '13px',
                 fontWeight: 500,
                 textTransform: 'none',
                 minHeight: 'auto',
                 py: 1,
-                px: 2
+                px: 2,
+                color: 'var(--color-text-secondary)',
+                '&.Mui-selected': {
+                  color: 'var(--color-primary)'
+                },
+                '&:hover': {
+                  color: 'var(--color-primary)'
+                }
               }
             }}
           >
@@ -360,7 +372,7 @@ function CareerProgressionSankeyDashboard() {
               <Typography variant="body2" sx={{ 
                 fontSize: '13px', 
                 fontWeight: 600, 
-                color: '#333', 
+                color: 'var(--color-text-primary)', 
                 mb: 0.5
               }}>
                 Left Side (Demographics)
@@ -368,33 +380,85 @@ function CareerProgressionSankeyDashboard() {
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                 <Button 
                   size="small" 
-                  variant={leftSideViews.includes('gender') ? 'contained' : 'outlined'}
+                  variant="contained"
                   onClick={() => handleLeftSideChange(null, leftSideViews.includes('gender') ? leftSideViews.filter(v => v !== 'gender') : [...leftSideViews, 'gender'])}
-                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: leftSideViews.includes('gender') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: leftSideViews.includes('gender') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: leftSideViews.includes('gender') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: leftSideViews.includes('gender') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: leftSideViews.includes('gender') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
                 >
                   Gender
                 </Button>
                 <Button 
                   size="small" 
-                  variant={leftSideViews.includes('ethnicity') ? 'contained' : 'outlined'}
+                  variant="contained"
                   onClick={() => handleLeftSideChange(null, leftSideViews.includes('ethnicity') ? leftSideViews.filter(v => v !== 'ethnicity') : [...leftSideViews, 'ethnicity'])}
-                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: leftSideViews.includes('ethnicity') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: leftSideViews.includes('ethnicity') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: leftSideViews.includes('ethnicity') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: leftSideViews.includes('ethnicity') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: leftSideViews.includes('ethnicity') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
                 >
                   Ethnicity
                 </Button>
                 <Button 
                   size="small" 
-                  variant={leftSideViews.includes('region') ? 'contained' : 'outlined'}
+                  variant="contained"
                   onClick={() => handleLeftSideChange(null, leftSideViews.includes('region') ? leftSideViews.filter(v => v !== 'region') : [...leftSideViews, 'region'])}
-                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: leftSideViews.includes('region') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: leftSideViews.includes('region') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: leftSideViews.includes('region') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: leftSideViews.includes('region') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: leftSideViews.includes('region') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
                 >
                   Region
                 </Button>
                 <Button 
                   size="small" 
-                  variant={leftSideViews.includes('ageGroup') ? 'contained' : 'outlined'}
+                  variant="contained"
                   onClick={() => handleLeftSideChange(null, leftSideViews.includes('ageGroup') ? leftSideViews.filter(v => v !== 'ageGroup') : [...leftSideViews, 'ageGroup'])}
-                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: leftSideViews.includes('ageGroup') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: leftSideViews.includes('ageGroup') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: leftSideViews.includes('ageGroup') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: leftSideViews.includes('ageGroup') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: leftSideViews.includes('ageGroup') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
                 >
                   Age Group
                 </Button>
@@ -408,7 +472,7 @@ function CareerProgressionSankeyDashboard() {
               <Typography variant="body2" sx={{ 
                 fontSize: '13px', 
                 fontWeight: 600, 
-                color: '#333', 
+                color: 'var(--color-text-primary)', 
                 mb: 0.5
               }}>
                 Right Side (Professional Attributes)
@@ -416,49 +480,127 @@ function CareerProgressionSankeyDashboard() {
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                 <Button 
                   size="small" 
-                  variant={rightSideViews.includes('primaryCoachingRole') ? 'contained' : 'outlined'}
+                  variant="contained"
                   onClick={() => handleRightSideChange(null, rightSideViews.includes('primaryCoachingRole') ? rightSideViews.filter(v => v !== 'primaryCoachingRole') : [...rightSideViews, 'primaryCoachingRole'])}
-                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: rightSideViews.includes('primaryCoachingRole') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: rightSideViews.includes('primaryCoachingRole') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: rightSideViews.includes('primaryCoachingRole') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: rightSideViews.includes('primaryCoachingRole') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: rightSideViews.includes('primaryCoachingRole') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
                 >
                   Coaching Role
                 </Button>
                 <Button 
                   size="small" 
-                  variant={rightSideViews.includes('level') ? 'contained' : 'outlined'}
+                  variant="contained"
                   onClick={() => handleRightSideChange(null, rightSideViews.includes('level') ? rightSideViews.filter(v => v !== 'level') : [...rightSideViews, 'level'])}
-                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: rightSideViews.includes('level') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: rightSideViews.includes('level') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: rightSideViews.includes('level') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: rightSideViews.includes('level') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: rightSideViews.includes('level') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
                 >
                   Level
                 </Button>
                 <Button 
                   size="small" 
-                  variant={rightSideViews.includes('positionType') ? 'contained' : 'outlined'}
+                  variant="contained"
                   onClick={() => handleRightSideChange(null, rightSideViews.includes('positionType') ? rightSideViews.filter(v => v !== 'positionType') : [...rightSideViews, 'positionType'])}
-                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: rightSideViews.includes('positionType') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: rightSideViews.includes('positionType') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: rightSideViews.includes('positionType') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: rightSideViews.includes('positionType') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: rightSideViews.includes('positionType') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
                 >
                   Position Type
                 </Button>
                 <Button 
                   size="small" 
-                  variant={rightSideViews.includes('division') ? 'contained' : 'outlined'}
+                  variant="contained"
                   onClick={() => handleRightSideChange(null, rightSideViews.includes('division') ? rightSideViews.filter(v => v !== 'division') : [...rightSideViews, 'division'])}
-                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: rightSideViews.includes('division') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: rightSideViews.includes('division') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: rightSideViews.includes('division') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: rightSideViews.includes('division') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: rightSideViews.includes('division') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
                 >
                   Division
                 </Button>
                 <Button 
                   size="small" 
-                  variant={rightSideViews.includes('employmentStatus') ? 'contained' : 'outlined'}
+                  variant="contained"
                   onClick={() => handleRightSideChange(null, rightSideViews.includes('employmentStatus') ? rightSideViews.filter(v => v !== 'employmentStatus') : [...rightSideViews, 'employmentStatus'])}
-                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: rightSideViews.includes('employmentStatus') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: rightSideViews.includes('employmentStatus') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: rightSideViews.includes('employmentStatus') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: rightSideViews.includes('employmentStatus') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: rightSideViews.includes('employmentStatus') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
                 >
                   Employment Status
                 </Button>
                 <Button 
                   size="small" 
-                  variant={rightSideViews.includes('uefaBadges') ? 'contained' : 'outlined'}
+                  variant="contained"
                   onClick={() => handleRightSideChange(null, rightSideViews.includes('uefaBadges') ? rightSideViews.filter(v => v !== 'uefaBadges') : [...rightSideViews, 'uefaBadges'])}
-                  sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: rightSideViews.includes('uefaBadges') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: rightSideViews.includes('uefaBadges') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: rightSideViews.includes('uefaBadges') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: rightSideViews.includes('uefaBadges') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: rightSideViews.includes('uefaBadges') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
                 >
                   UEFA Badges
                 </Button>
@@ -467,70 +609,203 @@ function CareerProgressionSankeyDashboard() {
           </Grid>
         </Grid>
         ) : (
-          // Timeline Controls  
-          <Box sx={{ mb: 1 }}>
-            <Typography variant="body2" sx={{ 
-              fontSize: '13px', 
-              fontWeight: 600, 
-              color: '#333', 
-              mb: 1
-            }}>
-              Compare Demographics
-            </Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              <Button 
-                size="small" 
-                variant={timelineDemographics.includes('gender') ? 'contained' : 'outlined'}
-                onClick={() => {
-                  if (timelineDemographics.includes('gender')) {
-                    setTimelineDemographics(timelineDemographics.filter(d => d !== 'gender'))
-                  } else {
-                    setTimelineDemographics([...timelineDemographics, 'gender'])
-                  }
-                }}
-                sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
-              >
-                Gender
-              </Button>
-              <Button 
-                size="small" 
-                variant={timelineDemographics.includes('ethnicity') ? 'contained' : 'outlined'}
-                onClick={() => {
-                  if (timelineDemographics.includes('ethnicity')) {
-                    setTimelineDemographics(timelineDemographics.filter(d => d !== 'ethnicity'))
-                  } else {
-                    setTimelineDemographics([...timelineDemographics, 'ethnicity'])
-                  }
-                }}
-                sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
-              >
-                Ethnicity
-              </Button>
-              <Button 
-                size="small" 
-                variant={timelineDemographics.includes('region') ? 'contained' : 'outlined'}
-                onClick={() => {
-                  if (timelineDemographics.includes('region')) {
-                    setTimelineDemographics(timelineDemographics.filter(d => d !== 'region'))
-                  } else {
-                    setTimelineDemographics([...timelineDemographics, 'region'])
-                  }
-                }}
-                sx={{ fontSize: '11px', textTransform: 'none', minWidth: 'auto', px: 1.5, py: 0.5 }}
-              >
-                Region
-              </Button>
-            </Box>
-          </Box>
+          // Timeline Controls - All on same line
+          <Grid container spacing={3} sx={{ mb: 1 }}>
+            {/* Compare Demographics */}
+            <Grid item xs={12} md={6}>
+              <Typography variant="body2" sx={{ 
+                fontSize: '13px', 
+                fontWeight: 600, 
+                color: 'var(--color-text-primary)', 
+                mb: 0.5
+              }}>
+                Compare Demographics
+              </Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                <Button 
+                  size="small" 
+                  variant="contained"
+                  onClick={() => {
+                    if (timelineDemographics.includes('gender')) {
+                      setTimelineDemographics(timelineDemographics.filter(d => d !== 'gender'))
+                    } else {
+                      setTimelineDemographics([...timelineDemographics, 'gender'])
+                    }
+                  }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: timelineDemographics.includes('gender') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: timelineDemographics.includes('gender') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: timelineDemographics.includes('gender') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: timelineDemographics.includes('gender') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: timelineDemographics.includes('gender') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
+                >
+                  Gender
+                </Button>
+                <Button 
+                  size="small" 
+                  variant="contained"
+                  onClick={() => {
+                    if (timelineDemographics.includes('ethnicity')) {
+                      setTimelineDemographics(timelineDemographics.filter(d => d !== 'ethnicity'))
+                    } else {
+                      setTimelineDemographics([...timelineDemographics, 'ethnicity'])
+                    }
+                  }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: timelineDemographics.includes('ethnicity') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: timelineDemographics.includes('ethnicity') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: timelineDemographics.includes('ethnicity') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: timelineDemographics.includes('ethnicity') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: timelineDemographics.includes('ethnicity') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
+                >
+                  Ethnicity
+                </Button>
+                <Button 
+                  size="small" 
+                  variant="contained"
+                  onClick={() => {
+                    if (timelineDemographics.includes('region')) {
+                      setTimelineDemographics(timelineDemographics.filter(d => d !== 'region'))
+                    } else {
+                      setTimelineDemographics([...timelineDemographics, 'region'])
+                    }
+                  }}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: timelineDemographics.includes('region') ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: timelineDemographics.includes('region') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: timelineDemographics.includes('region') ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: timelineDemographics.includes('region') ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: timelineDemographics.includes('region') ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
+                >
+                  Region
+                </Button>
+              </Box>
+            </Grid>
+
+            {/* Time Scale */}
+            <Grid item xs={12} md={3}>
+              <Typography variant="body2" sx={{ 
+                fontSize: '13px', 
+                fontWeight: 600, 
+                color: 'var(--color-text-primary)', 
+                mb: 0.5
+              }}>
+                Time Scale
+              </Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                <Button 
+                  size="small" 
+                  variant="contained"
+                  onClick={() => setTimeScale('yearly')}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: timeScale === 'yearly' ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: timeScale === 'yearly' ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: timeScale === 'yearly' ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: timeScale === 'yearly' ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: timeScale === 'yearly' ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
+                >
+                  Yearly
+                </Button>
+                <Button 
+                  size="small" 
+                  variant="contained"
+                  onClick={() => setTimeScale('quarterly')}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: timeScale === 'quarterly' ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                    color: timeScale === 'quarterly' ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: timeScale === 'quarterly' ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: timeScale === 'quarterly' ? 'var(--color-primary-dark)' : 'var(--color-background-secondary)',
+                      color: timeScale === 'quarterly' ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
+                >
+                  Quarterly
+                </Button>
+              </Box>
+            </Grid>
+
+            {/* Show Milestones */}
+            <Grid item xs={12} md={3}>
+              <Typography variant="body2" sx={{ 
+                fontSize: '13px', 
+                fontWeight: 600, 
+                color: 'var(--color-text-primary)', 
+                mb: 0.5
+              }}>
+                Show Milestones
+              </Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                <Button 
+                  size="small" 
+                  variant="contained"
+                  onClick={() => setShowMilestones(!showMilestones)}
+                  sx={{ 
+                    fontSize: '11px', 
+                    textTransform: 'none', 
+                    minWidth: 'auto', 
+                    px: 1.5, 
+                    py: 0.5,
+                    backgroundColor: showMilestones ? 'var(--color-success)' : 'var(--color-background-primary)',
+                    color: showMilestones ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                    border: showMilestones ? 'none' : '1px solid var(--color-border)',
+                    '&:hover': {
+                      backgroundColor: showMilestones ? 'var(--color-success)' : 'var(--color-background-secondary)',
+                      color: showMilestones ? 'var(--color-white)' : 'var(--color-primary)'
+                    }
+                  }}
+                >
+                  {showMilestones ? 'Hide' : 'Show'}
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
         )}
 
         {/* Active Filters Display */}
         {getActiveFiltersCount() > 0 && (
-          <Box sx={{ mb: 1, p: 2, backgroundColor: '#f5f5f5', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+          <Box sx={{ mb: 1, p: 2, backgroundColor: 'var(--color-background-tertiary)', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-primary)' }}>
             <Typography variant="body2" sx={{ 
               fontSize: '13px', 
               fontWeight: 600, 
-              color: '#333', 
+              color: 'var(--color-text-primary)', 
               mb: 1,
               display: 'block'
             }}>
@@ -543,8 +818,13 @@ function CareerProgressionSankeyDashboard() {
                     key={`${key}-${value}`}
                     label={`${key}: ${value}`}
                     size="small"
-                    variant="outlined"
-                    sx={{ fontSize: '10px', height: '24px' }}
+                    variant="filled"
+                    sx={{ 
+                      fontSize: '10px', 
+                      height: '24px',
+                      backgroundColor: 'var(--color-primary)',
+                      color: 'var(--color-white)'
+                    }}
                   />
                 )) : null
               ).flat().filter(Boolean)}
@@ -566,7 +846,7 @@ function CareerProgressionSankeyDashboard() {
                     height={780} 
                   />
                 ) : (
-                  <Box sx={{ textAlign: 'center', color: '#666' }}>
+                  <Box sx={{ textAlign: 'center', color: 'var(--color-text-secondary)' }}>
                     <Typography variant="body2" sx={{ fontSize: '14px', mb: 1 }}>
                       Select attributes for both left and right sides to view progression flows
                     </Typography>
@@ -581,14 +861,16 @@ function CareerProgressionSankeyDashboard() {
               <Box sx={{ height: '600px', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                 {timelineDemographics.length > 0 ? (
                   <TimelineVisualization
-                    key={JSON.stringify(timelineDemographics) + JSON.stringify(filters)}
+                    key={JSON.stringify(timelineDemographics) + JSON.stringify(filters) + timeScale + showMilestones}
                     data={coachData}
                     width={Math.min(1000, window.innerWidth - 360)}
                     height={520}
                     demographics={timelineDemographics}
+                    timeScale={timeScale}
+                    showMilestones={showMilestones}
                   />
                 ) : (
-                  <Box sx={{ textAlign: 'center', color: '#666' }}>
+                  <Box sx={{ textAlign: 'center', color: 'var(--color-text-secondary)' }}>
                     <Typography variant="body2" sx={{ fontSize: '14px', mb: 1 }}>
                       Select at least one demographic to compare milestone timelines
                     </Typography>

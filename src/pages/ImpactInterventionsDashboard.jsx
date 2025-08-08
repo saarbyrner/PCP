@@ -96,7 +96,7 @@ function ImpactInterventionsDashboard() {
                           variant="h5" 
                           sx={{ 
                             fontWeight: 600, 
-                            color: groupIndex === 0 ? '#4caf50' : '#ff6b35',
+                            color: groupIndex === 0 ? 'var(--color-chart-2)' : 'var(--color-chart-3)',
                             mb: 0.5,
                             fontSize: '18px'
                           }}
@@ -122,35 +122,35 @@ function ImpactInterventionsDashboard() {
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ fontSize: '10px', fontWeight: 600, color: '#666', py: 1 }}>Source</TableCell>
-                    <TableCell sx={{ fontSize: '10px', fontWeight: 600, color: '#666', py: 1 }}>Coverage</TableCell>
-                    <TableCell sx={{ fontSize: '10px', fontWeight: 600, color: '#666', py: 1 }}>Missing Data</TableCell>
+                    <TableCell sx={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--color-text-secondary)', py: 1 }}>Source</TableCell>
+                    <TableCell sx={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--color-text-secondary)', py: 1 }}>Coverage</TableCell>
+                    <TableCell sx={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--color-text-secondary)', py: 1 }}>Missing Data</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow>
                     <TableCell sx={{ fontSize: '10px', py: 0.5 }}>LCA</TableCell>
                     <TableCell sx={{ fontSize: '10px', py: 0.5 }}>88%</TableCell>
-                    <TableCell sx={{ fontSize: '10px', color: '#ff6b35', py: 0.5 }}>
+                    <TableCell sx={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-chart-3)', py: 0.5 }}>
                       {ethnicityData.missingData.lca}
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ fontSize: '10px', py: 0.5 }}>LMA</TableCell>
                     <TableCell sx={{ fontSize: '10px', py: 0.5 }}>23%</TableCell>
-                    <TableCell sx={{ fontSize: '10px', color: '#f44336', py: 0.5 }}>
+                    <TableCell sx={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-error)', py: 0.5 }}>
                       {ethnicityData.missingData.lma}
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ fontSize: '10px', py: 0.5 }}>FA Regional</TableCell>
                     <TableCell sx={{ fontSize: '10px', py: 0.5 }}>95%</TableCell>
-                    <TableCell sx={{ fontSize: '10px', color: '#4caf50', py: 0.5 }}>5%</TableCell>
+                    <TableCell sx={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-chart-2)', py: 0.5 }}>5%</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ fontSize: '10px', py: 0.5 }}>PCP Unified</TableCell>
                     <TableCell sx={{ fontSize: '10px', py: 0.5 }}>100%</TableCell>
-                    <TableCell sx={{ fontSize: '10px', color: '#4caf50', py: 0.5 }}>0%</TableCell>
+                    <TableCell sx={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-chart-2)', py: 0.5 }}>0%</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

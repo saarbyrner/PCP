@@ -145,13 +145,13 @@ function IndividualCoachProfileDashboard() {
   const getComplianceDisplay = (status) => {
     switch (status) {
       case 'compliant':
-        return { color: '#28a745', icon: <CheckCircleOutlined />, text: 'Active' }
+        return { color: 'var(--color-success)', icon: <CheckCircleOutlined />, text: 'Active' }
       case 'expiring':
-        return { color: '#ffc107', icon: <WarningOutlined />, text: 'Expiring Soon' }
+        return { color: 'var(--color-warning)', icon: <WarningOutlined />, text: 'Expiring Soon' }
       case 'non-compliant':
-        return { color: '#dc3545', icon: <ErrorOutlined />, text: 'Expired' }
+        return { color: 'var(--color-error)', icon: <ErrorOutlined />, text: 'Expired' }
       default:
-        return { color: '#6c757d', icon: <CheckCircleOutlined />, text: 'Unknown' }
+        return { color: 'var(--color-unknown)', icon: <CheckCircleOutlined />, text: 'Unknown' }
     }
   }
 
@@ -174,11 +174,11 @@ function IndividualCoachProfileDashboard() {
       case 'job':
         return currentTheme.primaryColor
       case 'certificate':
-        return '#1976d2'
+        return 'var(--color-primary)'
       case 'success':
-        return '#f57c00'
+        return 'var(--color-warning)'
       default:
-        return '#757575'
+        return 'var(--color-text-muted)'
     }
   }
 
@@ -378,7 +378,7 @@ function IndividualCoachProfileDashboard() {
           <Card sx={{ height: '100%' }}>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: '14px', color: '#333', lineHeight: 1.2 }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: 'var(--font-size-sm)', color: 'var(--color-text-primary)', lineHeight: 1.2 }}>
                   Digital CV
                 </Typography>
                 <Button 
@@ -423,8 +423,8 @@ function IndividualCoachProfileDashboard() {
                           label="Active" 
                           size="small" 
                           sx={{ 
-                            bgcolor: '#28a74520', 
-                            color: '#28a745',
+                            bgcolor: 'var(--color-success)', 
+                            color: 'var(--color-white)',
                             fontSize: '10px',
                             height: '20px'
                           }} 
@@ -501,7 +501,7 @@ function IndividualCoachProfileDashboard() {
           <Card sx={{ height: '100%' }}>
             <CardContent>
               <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: '14px', color: '#333', lineHeight: 1.2 }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: 'var(--font-size-sm)', color: 'var(--color-text-primary)', lineHeight: 1.2 }}>
                   Compliance Status
                 </Typography>
               </Box>
@@ -553,7 +553,7 @@ function IndividualCoachProfileDashboard() {
           <Card sx={{ height: '100%' }}>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: '14px', color: '#333', lineHeight: 1.2 }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: 'var(--font-size-sm)', color: 'var(--color-text-primary)', lineHeight: 1.2 }}>
                   Career Timeline
                 </Typography>
                 <Button 
@@ -596,7 +596,7 @@ function IndividualCoachProfileDashboard() {
                           sx={{ 
                             width: 2, 
                             height: 40, 
-                            bgcolor: '#e0e0e0',
+                            bgcolor: 'var(--color-border-primary)',
                             mt: 1
                           }} 
                         />
@@ -616,8 +616,8 @@ function IndividualCoachProfileDashboard() {
                           label={event.achievement} 
                           size="small" 
                           sx={{ 
-                            bgcolor: '#f57c0020', 
-                            color: '#f57c00',
+                            bgcolor: 'var(--color-warning)', 
+                            color: 'var(--color-white)',
                             fontSize: '10px',
                             height: '18px'
                           }} 

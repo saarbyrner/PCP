@@ -36,7 +36,7 @@ function PlayerAvatar({
     playerName, 
     config.size * 2, // Higher resolution for sharp display
     'var(--color-primary)', 
-    '#ffffff'
+    'var(--color-white)'
   )
 
   const handleImageError = () => {

@@ -81,8 +81,8 @@ export function getBadgeImage(badgeId) {
 export function generateInitialsImage(
   name = '', 
   size = 400, 
-  bgColor = '#3B4960', 
-  textColor = '#ffffff'
+  bgColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#3B4960', 
+  textColor = getComputedStyle(document.documentElement).getPropertyValue('--color-white').trim() || '#ffffff'
 ) {
   // Extract initials from name
   const initials = name

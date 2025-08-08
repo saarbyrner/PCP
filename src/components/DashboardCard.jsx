@@ -14,7 +14,7 @@ function DashboardCard({
     <Card 
       sx={{ 
         height,
-        border: '1px solid #e0e0e0',
+        border: '1px solid var(--color-border-primary)',
         boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
         ...props.sx 
       }}

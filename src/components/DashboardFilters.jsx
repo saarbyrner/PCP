@@ -112,7 +112,7 @@ function DashboardFilters({ onFiltersChange, initialFilters = {} }) {
 
   const FilterSelect = ({ label, value, options, onChange }) => (
     <FormControl size="small" sx={{ minWidth: 140 }}>
-      <Typography variant="caption" sx={{ fontSize: '11px', fontWeight: 600, color: '#666', mb: 0.5 }}>
+      <Typography variant="caption" sx={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-secondary)', mb: 0.5 }}>
         {label}
       </Typography>
       <Select
@@ -126,13 +126,13 @@ function DashboardFilters({ onFiltersChange, initialFilters = {} }) {
             px: 1.5
           },
           '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#e0e0e0'
+            borderColor: 'var(--color-border-primary)'
           },
           '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#1976d2'
+            borderColor: 'var(--color-primary)'
           },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#1976d2'
+            borderColor: 'var(--color-primary)'
           }
         }}
       >
@@ -149,9 +149,9 @@ function DashboardFilters({ onFiltersChange, initialFilters = {} }) {
     <Box sx={{ 
       mb: 3, 
       p: 2, 
-      backgroundColor: '#f8f9fa', 
+      backgroundColor: 'var(--color-background-secondary)', 
       borderRadius: '8px',
-      border: '1px solid #e0e0e0'
+      border: '1px solid var(--color-border-primary)'
     }}>
       <Grid container spacing={2} alignItems="end">
         <Grid item xs={12} sm={6} md={2}>
@@ -222,18 +222,19 @@ function DashboardFilters({ onFiltersChange, initialFilters = {} }) {
       
       <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
         <Button
-          variant="outlined"
+          variant="contained"
           size="small"
           onClick={resetFilters}
           sx={{
             fontSize: '11px',
             py: 0.5,
             px: 2,
-            borderColor: '#e0e0e0',
-            color: '#666',
+            borderColor: 'var(--color-border-primary)',
+            color: 'var(--color-text-secondary)',
+            backgroundColor: 'var(--color-background-primary)',
             '&:hover': {
-              borderColor: '#1976d2',
-              backgroundColor: 'rgba(25, 118, 210, 0.04)'
+              borderColor: 'var(--color-primary)',
+              backgroundColor: 'var(--color-background-secondary)'
             }
           }}
         >

@@ -86,7 +86,7 @@ function GeospatialDashboard() {
             <Typography variant="caption" sx={{ 
               fontSize: '11px', 
               fontWeight: 600, 
-              color: '#666', 
+              color: 'var(--color-text-secondary)', 
               mb: 1,
               display: 'block'
             }}>
@@ -99,8 +99,13 @@ function GeospatialDashboard() {
                     key={`${key}-${value}`}
                     label={`${key}: ${value}`}
                     size="small"
-                    variant="outlined"
-                    sx={{ fontSize: '10px', height: '24px' }}
+                    variant="filled"
+                    sx={{ 
+                      fontSize: '10px', 
+                      height: '24px',
+                      backgroundColor: 'var(--color-primary)',
+                      color: 'var(--color-white)'
+                    }}
                   />
                 )) : null
               ).flat().filter(Boolean)}

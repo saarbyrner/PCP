@@ -7,7 +7,6 @@ function FilterButton({ onClick, activeFiltersCount = 0 }) {
   return (
     <Badge 
       badgeContent={activeFiltersCount} 
-      color="primary"
       sx={{
         '& .MuiBadge-badge': {
           backgroundColor: 'var(--color-primary, #3B4960)',
@@ -19,10 +18,10 @@ function FilterButton({ onClick, activeFiltersCount = 0 }) {
       }}
     >
       <Button
-        variant="outlined"
+        variant="contained" 
+        size="small"
         onClick={onClick}
         startIcon={<FilterListOutlined fontSize="small" />}
-        size="small"
         sx={{
           textTransform: 'none',
           fontSize: '12px',

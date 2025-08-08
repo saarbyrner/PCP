@@ -146,7 +146,7 @@ function MainNavigation({
               mb: 0.5,
               position: 'relative',
               backgroundColor: isActive ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
-              color: '#ffffff',
+              color: 'var(--color-white)',
               '&::before': isActive ? {
                 content: '""',
                 position: 'absolute',
@@ -154,12 +154,12 @@ function MainNavigation({
                 top: 0,
                 bottom: 0,
                 width: '3px',
-                backgroundColor: '#ffffff',
+                backgroundColor: 'var(--color-white)',
                 borderRadius: '0 2px 2px 0'
               } : {},
               '&:hover': {
                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                color: '#ffffff'
+                color: 'var(--color-white)'
               },
               transition: 'all 0.2s ease'
             }}
@@ -192,16 +192,17 @@ function MainNavigation({
   }
 
   const drawerContent = (
-    <Box
-      sx={{
-        width: isOpen ? DRAWER_WIDTH : DRAWER_WIDTH_COLLAPSED,
-        height: '100vh',
-        background: currentTheme.gradientBackground,
-        color: '#ffffff',
-        display: 'flex',
-        flexDirection: 'column'
-      }}
-    >
+    <nav role="navigation" aria-label="Main navigation">
+      <Box
+        sx={{
+          width: isOpen ? DRAWER_WIDTH : DRAWER_WIDTH_COLLAPSED,
+          height: '100vh',
+          background: currentTheme.gradientBackground,
+          color: 'var(--color-white)',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
       {/* Header with Logo - Clickable to toggle views */}
       <Box
         sx={{
@@ -261,9 +262,10 @@ function MainNavigation({
         <Box sx={{ p: 1, textAlign: 'left', pl: 2 }}>
           <IconButton
             onClick={onToggle}
+            aria-label={isOpen ? "Collapse navigation" : "Expand navigation"}
             sx={{ 
-              color: '#9ca3af',
-              '&:hover': { color: '#ffffff' },
+              color: 'var(--color-text-muted)',
+              '&:hover': { color: 'var(--color-white)' },
               p: 0.5
             }}
           >
@@ -272,6 +274,7 @@ function MainNavigation({
         </Box>
       </Box>
     </Box>
+    </nav>
   )
 
   return (

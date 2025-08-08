@@ -60,7 +60,21 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
       .attr('transform', `translate(${margin.left},${margin.top})`)
 
     // Color scale - consistent with other charts
-    const COLORS = ['#1976d2', '#ff6b35', '#4caf50', '#ff9800', '#9c27b0', '#e91e63', '#00bcd4', '#8bc34a']
+    // Get design token colors for charts
+    const getChartColors = () => {
+      const root = document.documentElement
+      return [
+        getComputedStyle(root).getPropertyValue('--color-chart-1').trim() || '#3B4960',
+        getComputedStyle(root).getPropertyValue('--color-chart-2').trim() || '#29AE61', 
+        getComputedStyle(root).getPropertyValue('--color-chart-3').trim() || '#F1C410',
+        getComputedStyle(root).getPropertyValue('--color-chart-4').trim() || '#C0392B',
+        getComputedStyle(root).getPropertyValue('--color-chart-5').trim() || '#9b58b5',
+        getComputedStyle(root).getPropertyValue('--color-chart-6').trim() || '#e74d3d',
+        getComputedStyle(root).getPropertyValue('--color-chart-7').trim() || '#fbcc1c',
+        getComputedStyle(root).getPropertyValue('--color-chart-8').trim() || '#f89938'
+      ]
+    }
+    const COLORS = getChartColors()
     const color = d3.scaleOrdinal()
       .range(COLORS)
 
@@ -83,10 +97,10 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
       .attr('class', 'sankey-tooltip')
       .style('position', 'absolute')
       .style('visibility', 'hidden')
-      .style('background-color', '#fff')
-      .style('color', '#333')
+      .style('background-color', 'var(--color-background-primary)')
+      .style('color', 'var(--color-text-primary)')
       .style('padding', '8px')
-      .style('border', '1px solid #ccc')
+      .style('border', '1px solid var(--color-border-primary)')
       .style('border-radius', '4px')
       .style('font-size', '11px')
       .style('box-shadow', '0 2px 8px rgba(0,0,0,0.1)')
@@ -176,12 +190,13 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
         // Highlight funnel - keep nodes opaque but dim links only
         nodes.style('opacity', 1)
         links.style('opacity', link => connected.links.has(link) ? 0.8 : 0.1)
-          .style('stroke', link => connected.links.has(link) ? color(link.source.name) : '#ccc')
+          .style('stroke', link => connected.links.has(link) ? color(link.source.name) : 'var(--color-border-primary)')
         
         // Show all labels for connected nodes
-        labels.style('visibility', node => connected.nodes.has(node) ? 'visible' : 'hidden')
-          .style('font-weight', node => connected.nodes.has(node) ? '600' : '400')
-          .style('font-size', node => connected.nodes.has(node) ? '12px' : '8px')
+        labels.style('visibility', node => connected.nodes.has(node) ? 'visible' : (node.y1 - node.y0) > 15 ? 'visible' : 'hidden')
+          .style('font-weight', node => connected.nodes.has(node) ? '600' : '500')
+          .style('font-size', node => connected.nodes.has(node) ? '14px' : '12px')
+          .style('fill', node => connected.nodes.has(node) ? 'var(--color-text-primary)' : 'var(--color-text-primary)')
       })
       .on('mousemove', function(event) {
         const tooltipWidth = 200
@@ -206,9 +221,10 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
           .style('stroke', d => color(d.source.name))
         
         // Hide all labels again
-        labels.style('visibility', d => (d.y1 - d.y0) > 20 ? 'visible' : 'hidden')
+        labels.style('visibility', d => (d.y1 - d.y0) > 15 ? 'visible' : 'hidden')
           .style('font-weight', '500')
-          .style('font-size', '8px')
+          .style('font-size', '12px')
+          .style('fill', 'var(--color-text-primary)')
       })
 
     // Add node labels - initially hidden, shown on hover
@@ -220,11 +236,11 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
       .attr('y', d => (d.y1 + d.y0) / 2)
       .attr('dy', '0.35em')
       .attr('text-anchor', d => d.x0 < innerWidth / 2 ? 'start' : 'end')
-      .style('font-size', '10px')
+      .style('font-size', '12px')
       .style('font-weight', '500')
-      .style('fill', '#666')
+      .style('fill', 'var(--color-text-primary)')
       .style('pointer-events', 'none')
-      .style('visibility', d => (d.y1 - d.y0) > 20 ? 'visible' : 'hidden')
+      .style('visibility', d => (d.y1 - d.y0) > 15 ? 'visible' : 'hidden')
       .each(function(d) {
         const text = d3.select(this)
         
@@ -252,16 +268,28 @@ function SankeyDiagram({ data, width = 600, height = 300 }) {
           text.append('tspan')
             .attr('x', d.x0 < innerWidth / 2 ? d.x1 + 6 : d.x0 - 6)
             .attr('dy', i === 0 ? 0 : '1.2em')
-            .style('font-size', i === 0 ? '10px' : '9px')
-            .style('font-weight', i === 0 ? '600' : '400')
-            .style('fill', '#666')
+            .style('font-size', i === 0 ? '12px' : '11px')
+            .style('font-weight', i === 0 ? '600' : '500')
+            .style('fill', 'var(--color-text-primary)')
             .text(word)
         })
       })
 
   }, [data, width, height, sankeyLib])
 
-  return <svg ref={svgRef}></svg>
+  return (
+    <svg 
+      ref={svgRef}
+      role="img"
+      aria-label="Sankey flow diagram showing relationships between different demographic and professional categories"
+      aria-describedby="sankey-description"
+    >
+      <desc id="sankey-description">
+        Interactive flow diagram displaying connections and relationships between coaching demographics and professional attributes. 
+        Hover over nodes and links to highlight connected paths and view detailed information.
+      </desc>
+    </svg>
+  )
 }
 
 SankeyDiagram.propTypes = {
