@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Button, ButtonGroup, Typography } from '@mui/material'
 import * as d3 from 'd3'
 
-function TimelineVisualization({ data, width = 800, height = 400, demographics = ['gender'] }) {
+function TimelineVisualization({ data, width = 800, height = 400, demographics = ['gender'], onDemographicsChange }) {
   const svgRef = useRef()
   const [timeScale, setTimeScale] = useState(15) // Default to 15 years
   const [selectedMilestoneTypes, setSelectedMilestoneTypes] = useState(['badge', 'role']) // Default to badges and roles
@@ -123,9 +123,9 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
         .attr('x2', innerWidth)
         .attr('y1', yPos)
         .attr('y2', yPos)
-        .attr('stroke', getComputedStyle(document.documentElement).getPropertyValue('--color-border-secondary').trim() || '#f0f0f0')
-        .attr('stroke-width', 1)
-        .attr('stroke-dasharray', '3 3')
+        .attr('stroke', getComputedStyle(document.documentElement).getPropertyValue('--color-border-primary').trim() || '#d1d5db')
+        .attr('stroke-width', 1.5)
+        .attr('stroke-dasharray', '4 2')
 
       // Sort milestones by time to help with label positioning
       const sortedMilestones = milestones
@@ -425,10 +425,94 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
     )
   }
 
+  const toggleDemographic = (demo) => {
+    if (onDemographicsChange) {
+      const newDemographics = demographics.includes(demo) 
+        ? demographics.filter(d => d !== demo)
+        : [...demographics, demo]
+      onDemographicsChange(newDemographics)
+    }
+  }
+
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
       {/* Controls Container */}
       <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
+        {/* Compare Demographics Controls */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Typography variant="caption" sx={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-secondary)' }}>
+            Compare Demographics:
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 0.5 }}>
+            <Button 
+              size="small" 
+              variant={demographics.includes('gender') ? 'contained' : 'outlined'}
+              onClick={() => toggleDemographic('gender')}
+              sx={{ 
+                fontSize: '10px', 
+                textTransform: 'none', 
+                minWidth: 'auto', 
+                px: 1.5, 
+                py: 0.5,
+                backgroundColor: demographics.includes('gender') ? 'var(--color-primary)' : 'var(--color-background-secondary)',
+                color: demographics.includes('gender') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                border: '1px solid var(--color-border)',
+                '&:hover': {
+                  backgroundColor: demographics.includes('gender') ? 'var(--color-primary-dark)' : 'var(--color-background-tertiary)',
+                  color: demographics.includes('gender') ? 'var(--color-white)' : 'var(--color-primary)',
+                  border: '1px solid var(--color-border)'
+                }
+              }}
+            >
+              Gender
+            </Button>
+            <Button 
+              size="small" 
+              variant={demographics.includes('ethnicity') ? 'contained' : 'outlined'}
+              onClick={() => toggleDemographic('ethnicity')}
+              sx={{ 
+                fontSize: '10px', 
+                textTransform: 'none', 
+                minWidth: 'auto', 
+                px: 1.5, 
+                py: 0.5,
+                backgroundColor: demographics.includes('ethnicity') ? 'var(--color-primary)' : 'var(--color-background-secondary)',
+                color: demographics.includes('ethnicity') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                border: '1px solid var(--color-border)',
+                '&:hover': {
+                  backgroundColor: demographics.includes('ethnicity') ? 'var(--color-primary-dark)' : 'var(--color-background-tertiary)',
+                  color: demographics.includes('ethnicity') ? 'var(--color-white)' : 'var(--color-primary)',
+                  border: '1px solid var(--color-border)'
+                }
+              }}
+            >
+              Ethnicity
+            </Button>
+            <Button 
+              size="small" 
+              variant={demographics.includes('region') ? 'contained' : 'outlined'}
+              onClick={() => toggleDemographic('region')}
+              sx={{ 
+                fontSize: '10px', 
+                textTransform: 'none', 
+                minWidth: 'auto', 
+                px: 1.5, 
+                py: 0.5,
+                backgroundColor: demographics.includes('region') ? 'var(--color-primary)' : 'var(--color-background-secondary)',
+                color: demographics.includes('region') ? 'var(--color-white)' : 'var(--color-text-secondary)',
+                border: '1px solid var(--color-border)',
+                '&:hover': {
+                  backgroundColor: demographics.includes('region') ? 'var(--color-primary-dark)' : 'var(--color-background-tertiary)',
+                  color: demographics.includes('region') ? 'var(--color-white)' : 'var(--color-primary)',
+                  border: '1px solid var(--color-border)'
+                }
+              }}
+            >
+              Region
+            </Button>
+          </Box>
+        </Box>
+
         {/* Time Scale Controls */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Typography variant="caption" sx={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-secondary)' }}>
@@ -439,7 +523,25 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
               fontSize: '10px',
               textTransform: 'none',
               minWidth: '45px',
-              px: 1
+              px: 1,
+              backgroundColor: 'var(--color-background-secondary)',
+              color: 'var(--color-text-secondary)',
+              border: '1px solid var(--color-border)',
+              '&:hover': {
+                backgroundColor: 'var(--color-background-tertiary)',
+                color: 'var(--color-primary)',
+                border: '1px solid var(--color-border)'
+              },
+              '&.MuiButton-contained': {
+                backgroundColor: 'var(--color-primary)',
+                color: 'var(--color-white)',
+                border: '1px solid var(--color-primary)',
+                '&:hover': {
+                  backgroundColor: 'var(--color-primary-dark)',
+                  color: 'var(--color-white)',
+                  border: '1px solid var(--color-primary-dark)'
+                }
+              }
             }
           }}>
             <Button 
@@ -479,7 +581,25 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
               fontSize: '10px',
               textTransform: 'none',
               minWidth: '70px',
-              px: 1.5
+              px: 1.5,
+              backgroundColor: 'var(--color-background-secondary)',
+              color: 'var(--color-text-secondary)',
+              border: '1px solid var(--color-border)',
+              '&:hover': {
+                backgroundColor: 'var(--color-background-tertiary)',
+                color: 'var(--color-primary)',
+                border: '1px solid var(--color-border)'
+              },
+              '&.MuiButton-contained': {
+                backgroundColor: 'var(--color-primary)',
+                color: 'var(--color-white)',
+                border: '1px solid var(--color-primary)',
+                '&:hover': {
+                  backgroundColor: 'var(--color-primary-dark)',
+                  color: 'var(--color-white)',
+                  border: '1px solid var(--color-primary-dark)'
+                }
+              }
             }
           }}>
             <Button 
@@ -505,7 +625,26 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
       </Box>
       
       {/* Timeline Visualization */}
-      <svg ref={svgRef}></svg>
+      {demographics.length > 0 ? (
+        <svg ref={svgRef}></svg>
+      ) : (
+        <Box sx={{ 
+          height: '400px', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          textAlign: 'center', 
+          color: 'var(--color-text-secondary)' 
+        }}>
+          <Typography variant="body2" sx={{ fontSize: '14px', mb: 1 }}>
+            Select at least one demographic to compare milestone timelines
+          </Typography>
+          <Typography variant="caption" sx={{ fontSize: '12px' }}>
+            Choose Gender, Ethnicity, or Region to see career progression patterns
+          </Typography>
+        </Box>
+      )}
     </Box>
   )
 }
@@ -514,7 +653,8 @@ TimelineVisualization.propTypes = {
   data: PropTypes.object.isRequired,
   width: PropTypes.number,
   height: PropTypes.number,
-  demographics: PropTypes.arrayOf(PropTypes.string)
+  demographics: PropTypes.arrayOf(PropTypes.string),
+  onDemographicsChange: PropTypes.func
 }
 
 export default TimelineVisualization
