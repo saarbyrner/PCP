@@ -58,6 +58,21 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
       .range([0, innerHeight])
       .padding(0.3)
 
+    // Radius scale based on number of coaches per milestone (visible within current time window)
+    const allVisibleMilestones = Object.values(processedData)
+      .flat()
+      .filter(m => m.avgTime <= timeScale)
+
+    const minCount = d3.min(allVisibleMilestones, m => m.count)
+    const maxCount = d3.max(allVisibleMilestones, m => m.count)
+
+    // Use sqrt so area ~ count, with sensible min/max radii
+    const radiusScale = (maxCount && maxCount > 0)
+      ? d3.scaleSqrt()
+          .domain([Math.max(1, minCount || 1), maxCount])
+          .range([4, 12])
+      : () => 6
+
     // Create tooltip
     const tooltip = d3.select('body').selectAll('.timeline-tooltip')
       .data([0])
@@ -138,12 +153,13 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
       // Draw milestone markers
       sortedMilestones.forEach((milestone) => {
         const xPos = xScale(milestone.avgTime)
+        const circleRadius = radiusScale(milestone.count)
         
         // Milestone circle
         g.append('circle')
           .attr('cx', xPos)
           .attr('cy', yPos)
-          .attr('r', 6)
+          .attr('r', circleRadius)
           .attr('fill', colorScale(group))
           .attr('stroke', 'var(--color-background-primary)')
           .attr('stroke-width', 2)
@@ -159,11 +175,11 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
               .style('left', (event.pageX + 10) + 'px')
               .style('top', (event.pageY - 10) + 'px')
             
-            d3.select(this).attr('r', 8)
+            d3.select(this).attr('r', Math.min(circleRadius + 2, circleRadius * 1.4))
           })
           .on('mouseout', function() {
             tooltip.style('visibility', 'hidden')
-            d3.select(this).attr('r', 6)
+            d3.select(this).attr('r', circleRadius)
           })
 
         // Smart label positioning to avoid overlaps

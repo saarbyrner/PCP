@@ -41,12 +41,21 @@ function WorkforceOverviewDashboard() {
   const kpis = coachData.kpis || []
   const genderData = coachData.genderDistribution || []
   const ethnicityData = coachData.ethnicityDistribution?.breakdown || []
-  const qualificationsTrend = (coachData.seasonDistribution || []).map(season => ({
-    ...season,
-    uefaB: Math.floor((season.coaches || 0) * 0.6),
-    uefaA: Math.floor((season.coaches || 0) * 0.3),
-    uefaPro: Math.floor((season.coaches || 0) * 0.1)
-  }))
+  // Ensure seasons like "19/20", "24/25" are sorted left->right by start year
+  const seasonStartValue = (season) => {
+    if (!season || typeof season !== 'string') return -Infinity
+    const start = parseInt(season.split('/')[0], 10)
+    return Number.isFinite(start) ? start : -Infinity
+  }
+
+  const qualificationsTrend = ([...(coachData.seasonDistribution || [])]
+    .sort((a, b) => seasonStartValue(a.season) - seasonStartValue(b.season))
+    .map((season) => ({
+      ...season,
+      uefaB: Math.floor((season.coaches || 0) * 0.6),
+      uefaA: Math.floor((season.coaches || 0) * 0.3),
+      uefaPro: Math.floor((season.coaches || 0) * 0.1)
+    })))
   const positionData = coachData.positionTypeDistribution || []
   const employmentData = coachData.employmentStatusDistribution || []
 
@@ -133,8 +142,8 @@ function WorkforceOverviewDashboard() {
         <Grid container spacing={2}>
         {/* Gender Distribution, Position Type Distribution, Employment Status Distribution */}
         <Grid item xs={12} md={4}>
-          <DashboardCard title="Gender Distribution" height="240px">
-            <ResponsiveContainer width="100%" height={180}>
+          <DashboardCard title="Gender Distribution" height="360px">
+            <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
                   data={genderData}
@@ -145,12 +154,21 @@ function WorkforceOverviewDashboard() {
                   fill="var(--color-chart-1)"
                   dataKey="value"
                   label={({ value }) => value > 3 ? `${value}%` : ''}
-                  labelStyle={{ fontSize: '0.6rem', fill: 'var(--color-text-primary)', fontWeight: '600', fontFamily: 'var(--font-family-primary)' }}
+                  labelLine
+                  labelStyle={{ fontSize: '0.7rem', fill: 'var(--color-text-primary)', fontWeight: '600', fontFamily: 'var(--font-family-primary)' }}
                 >
                   {genderData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
+                <Legend 
+                  wrapperStyle={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-primary)', paddingTop: '8px' }}
+                  iconType="circle"
+                  iconSize={6}
+                  verticalAlign="bottom"
+                  height={40}
+                  formatter={(value, entry) => <span style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-xs)' }}>{value} ({entry.payload.value}%)</span>}
+                />
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: 'var(--color-background-primary)', 
@@ -165,8 +183,8 @@ function WorkforceOverviewDashboard() {
           </DashboardCard>
         </Grid>
         <Grid item xs={12} md={4}>
-          <DashboardCard title="Position Types" height="240px">
-            <ResponsiveContainer width="100%" height={180}>
+          <DashboardCard title="Position Types" height="360px">
+            <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
                   data={positionData}
@@ -177,12 +195,21 @@ function WorkforceOverviewDashboard() {
                   fill="var(--color-chart-1)"
                   dataKey="value"
                   label={({ value }) => value > 3 ? `${value}%` : ''}
-                  labelStyle={{ fontSize: '0.6rem', fill: 'var(--color-text-primary)', fontWeight: '600', fontFamily: 'var(--font-family-primary)' }}
+                  labelLine
+                  labelStyle={{ fontSize: '0.7rem', fill: 'var(--color-text-primary)', fontWeight: '600', fontFamily: 'var(--font-family-primary)' }}
                 >
                   {positionData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
+                <Legend 
+                  wrapperStyle={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-primary)', paddingTop: '8px' }}
+                  iconType="circle"
+                  iconSize={6}
+                  verticalAlign="bottom"
+                  height={40}
+                  formatter={(value, entry) => <span style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-xs)' }}>{value} ({entry.payload.value}%)</span>}
+                />
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: 'var(--color-background-primary)', 
@@ -197,8 +224,8 @@ function WorkforceOverviewDashboard() {
           </DashboardCard>
         </Grid>
         <Grid item xs={12} md={4}>
-          <DashboardCard title="Employment Status" height="240px">
-            <ResponsiveContainer width="100%" height={180}>
+          <DashboardCard title="Employment Status" height="360px">
+            <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
                   data={employmentData}
@@ -209,12 +236,21 @@ function WorkforceOverviewDashboard() {
                   fill="var(--color-chart-1)"
                   dataKey="value"
                   label={({ value }) => value > 3 ? `${value}%` : ''}
-                  labelStyle={{ fontSize: '0.6rem', fill: 'var(--color-text-primary)', fontWeight: '600', fontFamily: 'var(--font-family-primary)' }}
+                  labelLine
+                  labelStyle={{ fontSize: '0.7rem', fill: 'var(--color-text-primary)', fontWeight: '600', fontFamily: 'var(--font-family-primary)' }}
                 >
                   {employmentData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={index === 0 ? 'var(--color-chart-2)' : 'var(--color-chart-3)'} />
                   ))}
                 </Pie>
+                <Legend 
+                  wrapperStyle={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-primary)', paddingTop: '8px' }}
+                  iconType="circle"
+                  iconSize={6}
+                  verticalAlign="bottom"
+                  height={40}
+                  formatter={(value, entry) => <span style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-xs)' }}>{value} ({entry.payload.value}%)</span>}
+                />
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: 'var(--color-background-primary)', 

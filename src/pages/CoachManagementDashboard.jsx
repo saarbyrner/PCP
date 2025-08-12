@@ -18,7 +18,6 @@ import {
   TableRow,
   Avatar,
   LinearProgress,
-  Alert,
   Stack
 } from '@mui/material'
 import { 
@@ -409,10 +408,10 @@ function CoachManagementDashboard() {
           <Grid item xs={12} md={6}>
             <DashboardCard 
               title="Qualifications Breakdown"
-              height="280px"
+              height="320px"
             >
               
-              <ResponsiveContainer width="100%" height={200}>
+              <ResponsiveContainer width="100%" height={240}>
                 <BarChart data={liverpoolFCData.qualificationsBreakdown}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis 
@@ -467,44 +466,7 @@ function CoachManagementDashboard() {
             </DashboardCard>
           </Grid>
 
-          {/* Recent Updates */}
-          <Grid item xs={12}>
-            <DashboardCard title="Recent Updates">
-              
-              <Stack spacing={2}>
-                {liverpoolFCData.recentUpdates.map((update, index) => (
-                  <Alert 
-                    key={index}
-                    severity={update.type === 'compliance_expiry' ? 'warning' : 'info'}
-                    sx={{ 
-                      '& .MuiAlert-message': { flexGrow: 1 }
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                      <Typography variant="body2">
-                        {update.message}
-                      </Typography>
-                      <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                        <Chip 
-                          label={update.department} 
-                          size="small" 
-                          variant="filled"
-                          sx={{ 
-                            fontSize: '11px',
-                            backgroundColor: 'var(--color-info)',
-                            color: 'var(--color-white)'
-                          }}
-                        />
-                        <Typography variant="caption" color="text.secondary">
-                          {new Date(update.date).toLocaleDateString()}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Alert>
-                ))}
-              </Stack>
-            </DashboardCard>
-          </Grid>
+          
         </Grid>
       </Box>
 
