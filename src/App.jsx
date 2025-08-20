@@ -10,6 +10,7 @@ import CoachManagementDashboard from './pages/CoachManagementDashboard'
 import IndividualCoachProfileDashboard from './pages/IndividualCoachProfileDashboard'
 import EDIDashboard from './pages/EDIDashboard'
 import CompletenessQualityDashboard from './pages/CompletenessQualityDashboard'
+import OrganizationLogosTest from './pages/OrganizationLogosTest'
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/activity" element={<SimplePage pageName="Activity log" />} />
         <Route path="/settings" element={<SimplePage pageName="Admin" />} />
         <Route path="/help" element={<SimplePage pageName="Help" />} />
+        <Route path="/test/logos" element={<OrganizationLogosTest />} />
       </Routes>
     </LayoutWithMainNav>
   )

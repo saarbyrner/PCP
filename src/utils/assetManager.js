@@ -8,7 +8,8 @@ export const ASSET_PATHS = {
   players: '/assets/players',
   logos: '/assets/logos', 
   badges: '/assets/badges',
-  teams: '/assets/logos/teams'
+  teams: '/assets/logos/teams',
+  organizations: '/assets/logos/organizations'
 }
 
 /**
@@ -19,6 +20,38 @@ export const PLACEHOLDERS = {
   player: '/assets/players/placeholder-player.jpg',
   team: '/assets/teams/placeholder-team.png',
   badge: '/assets/badges/placeholder-badge.png'
+}
+
+/**
+ * Organization logo dimensions and aspect ratios
+ * Used for better sizing and layout
+ */
+export const ORGANIZATION_DIMENSIONS = {
+  'efl': { width: 600, height: 600, aspectRatio: 1 }, // Square
+  'fa': { width: 600, height: 600, aspectRatio: 1 }, // Square
+  'lca': { width: 840, height: 430, aspectRatio: 1.95 }, // Wide
+  'lma': { width: 284, height: 111, aspectRatio: 2.56 }, // Very wide
+  'pfa': { width: 1200, height: 628, aspectRatio: 1.91 }, // Wide
+  'premier-league': { width: 225, height: 225, aspectRatio: 1 }, // Square
+  'womens-professional-game': { width: 318, height: 159, aspectRatio: 2 } // Wide
+}
+
+/**
+ * Get recommended dimensions for organization logo
+ * @param {string} logoName - Logo filename without extension
+ * @param {number} baseHeight - Base height in pixels
+ * @returns {object} Recommended width and height
+ */
+export function getOrganizationLogoDimensions(logoName, baseHeight = 64) {
+  const dimensions = ORGANIZATION_DIMENSIONS[logoName]
+  if (!dimensions) {
+    return { width: baseHeight * 1.5, height: baseHeight }
+  }
+  
+  const aspectRatio = dimensions.aspectRatio
+  const width = Math.round(baseHeight * aspectRatio)
+  
+  return { width, height: baseHeight }
 }
 
 /**
@@ -57,7 +90,23 @@ export function getTeamLogo(teamSlug, league = 'premier-league', fallback = PLAC
  * @returns {string} Logo URL
  */
 export function getOrganizationLogo(logoName = 'kitman-labs-base') {
-  return `${ASSET_PATHS.logos}/${logoName}.png`
+  // Check if it's a special case for kitman-labs-base
+  if (logoName === 'kitman-labs-base') {
+    return `${ASSET_PATHS.logos}/${logoName}.png`
+  }
+  
+  // Special cases for different file formats
+  const specialCases = {
+    'pfa': 'jpg',
+    'womens-professional-game': 'jpg'
+  }
+  
+  if (specialCases[logoName]) {
+    return `${ASSET_PATHS.organizations}/${logoName}.${specialCases[logoName]}`
+  }
+  
+  // For other organizations, use PNG as default
+  return `${ASSET_PATHS.organizations}/${logoName}.png`
 }
 
 /**

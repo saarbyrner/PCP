@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DashboardCard from '../components/DashboardCard'
 import RAGStatusChip from '../components/RAGStatusChip'
@@ -25,6 +25,8 @@ import {
 import {
   ArrowBackOutlined
 } from '@mui/icons-material'
+import LogoImage from '../components/LogoImage'
+import { getOrganizationLogoDimensions } from '../utils/assetManager'
 
 function CompletenessQualityDashboard() {
   const navigate = useNavigate()
@@ -93,13 +95,18 @@ function CompletenessQualityDashboard() {
 
       {/* Organization Header */}
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, gap: 2 }}>
-        <Avatar
-          src={selectedOrganization.logo}
-          alt={selectedOrganization.name}
-          sx={{ width: 48, height: 48 }}
-        >
-          {selectedOrganization.name.charAt(0)}
-        </Avatar>
+        {(() => {
+          const logoDimensions = getOrganizationLogoDimensions(selectedOrganization.id, 64)
+          return (
+            <LogoImage
+              type="organization"
+              logoId={selectedOrganization.id}
+              alt={selectedOrganization.name}
+              height={logoDimensions.height}
+              width={logoDimensions.width}
+            />
+          )
+        })()}
         <Box>
           <Typography variant="h5" sx={{ fontWeight: 600 }}>
             {selectedOrganization.name}
