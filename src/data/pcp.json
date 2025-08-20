@@ -31,6 +31,14 @@
       { "season": "2023", "uefaB": 563, "uefaA": 229, "uefaPro": 22 },
       { "season": "2024", "uefaB": 584, "uefaA": 232, "uefaPro": 22 }
     ],
+    "qualificationsBreakdown": [
+      { "qualification": "UEFA Pro License", "count": 10, "percentage": 12.3 },
+      { "qualification": "UEFA A License", "count": 15, "percentage": 18.5 },
+      { "qualification": "UEFA B License", "count": 14, "percentage": 17.3 },
+      { "qualification": "FA Youth Award", "count": 10, "percentage": 12.3 },
+      { "qualification": "Goalkeeping Specialist", "count": 5, "percentage": 6.2 },
+      { "qualification": "Sports Science", "count": 7, "percentage": 8.6 }
+    ],
     "regionalDistribution": [
       { "region": "London", "coachesPerMillion": 145 },
       { "region": "South East", "coachesPerMillion": 132 },

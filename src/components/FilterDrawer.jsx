@@ -27,6 +27,15 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
       { value: '20/21', label: '20/21' },
       { value: '19/20', label: '19/20' }
     ],
+    gamePartners: [
+      { value: 'premier-league', label: 'Premier League' },
+      { value: 'efl', label: 'English Football League (EFL)' },
+      { value: 'fa', label: 'Football Association (FA)' },
+      { value: 'womens-professional-game', label: "Women's Professional Game" },
+      { value: 'pfa', label: 'Professional Footballers\' Association (PFA)' },
+      { value: 'lma', label: 'League Managers Association (LMA)' },
+      { value: 'lca', label: 'League Coaches Association (LCA)' }
+    ],
     regions: [
       { value: 'london', label: 'London' },
       { value: 'south-east', label: 'South East' },
@@ -112,6 +121,7 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
     } else {
       // Default league filter configuration
       resetFilters = {
+        gamePartners: [],
         region: [],
         ethnicity: [],
         gender: [],
@@ -307,6 +317,7 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
           ) : (
             /* Default league filter configuration */
             <>
+              <FilterSection title="Game Partners" filterKey="gamePartners" options={filterOptions.gamePartners} />
               <FilterSection title="Regions" filterKey="region" options={filterOptions.regions} />
               <FilterSection title="Ethnicities" filterKey="ethnicity" options={filterOptions.ethnicities} />
               <FilterSection title="Genders" filterKey="gender" options={filterOptions.genders} />

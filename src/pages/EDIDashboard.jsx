@@ -10,9 +10,13 @@ import {
   Chip,
   Stack,
   ToggleButtonGroup,
-  ToggleButton
+  ToggleButton,
+  Card,
+  CardContent,
+  LinearProgress,
+  Alert
 } from '@mui/material'
-import { ArrowBackOutlined } from '@mui/icons-material'
+import { ArrowBackOutlined, TrendingUp, TrendingDown, CheckCircle, Warning } from '@mui/icons-material'
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from 'recharts'
 import FilterButton from '../components/FilterButton'
 import FilterDrawer from '../components/FilterDrawer'
@@ -55,6 +59,60 @@ function EDIDashboard() {
       Array.isArray(value) && value.length > 0
     ).length
   }
+
+  // Calculate EDI pathway metrics based on customer requirements
+  const ediPathwayMetrics = useMemo(() => {
+    if (!coachData.coaches || coachData.coaches.length === 0) {
+      return {
+        headCoaches: { total: 0, ethnicMinority: 0, percentage: 0, target: 15, status: 'neutral' },
+        academyCoaches: { total: 0, ethnicMinority: 0, percentage: 0, target: 10, status: 'neutral' },
+        uefaBLicense: { total: 0, ethnicMinority: 0, percentage: 0, target: 15, status: 'neutral' }
+      }
+    }
+
+    const headCoaches = coachData.coaches.filter(coach => coach.primaryCoachingRole === 'head-coach')
+    const academyCoaches = coachData.coaches.filter(coach => coach.primaryCoachingRole === 'academy-coach')
+    const uefaBLicense = coachData.coaches.filter(coach => coach.uefaBadges === 'uefa-b')
+
+    const calculateMetrics = (group, target) => {
+      const total = group.length
+      const ethnicMinority = group.filter(coach => coach.ethnicity !== 'white').length
+      const percentage = total > 0 ? (ethnicMinority / total) * 100 : 0
+      
+      let status = 'neutral'
+      if (percentage >= target) status = 'success'
+      else if (percentage < target * 0.8) status = 'warning'
+      else status = 'progress'
+
+      return { total, ethnicMinority, percentage, target, status }
+    }
+
+    return {
+      headCoaches: calculateMetrics(headCoaches, 15),
+      academyCoaches: calculateMetrics(academyCoaches, 10),
+      uefaBLicense: calculateMetrics(uefaBLicense, 15)
+    }
+  }, [coachData.coaches])
+
+  // Generate pathway progression data
+  const pathwayData = useMemo(() => {
+    if (!coachData.coaches || coachData.coaches.length === 0) return []
+
+    const stages = [
+      { name: 'UEFA B License', target: 15, current: ediPathwayMetrics.uefaBLicense.percentage },
+      { name: 'Academy Coach', target: 10, current: ediPathwayMetrics.academyCoaches.percentage },
+      { name: 'Head Coach', target: 15, current: ediPathwayMetrics.headCoaches.percentage }
+    ]
+
+    return stages.map((stage, index) => ({
+      stage: stage.name,
+      target: stage.target,
+      current: Math.round(stage.current * 10) / 10,
+      progress: Math.min((stage.current / stage.target) * 100, 100),
+      status: stage.current >= stage.target ? 'success' : stage.current < stage.target * 0.8 ? 'warning' : 'progress',
+      color: COLORS[index % COLORS.length]
+    }))
+  }, [ediPathwayMetrics, coachData.coaches])
 
   // Generate combined demographic data from actual filtered coaches
   const stackedBarData = useMemo(() => {
@@ -225,6 +283,32 @@ function EDIDashboard() {
     { value: 'ageGroup', label: 'Age Groups' }
   ]
 
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'success':
+        return <CheckCircle sx={{ color: 'var(--color-success)', fontSize: 20 }} />
+      case 'warning':
+        return <Warning sx={{ color: 'var(--color-warning)', fontSize: 20 }} />
+      case 'progress':
+        return <TrendingUp sx={{ color: 'var(--color-info)', fontSize: 20 }} />
+      default:
+        return <TrendingDown sx={{ color: 'var(--color-text-secondary)', fontSize: 20 }} />
+    }
+  }
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'success':
+        return 'var(--color-success)'
+      case 'warning':
+        return 'var(--color-warning)'
+      case 'progress':
+        return 'var(--color-info)'
+      default:
+        return 'var(--color-text-secondary)'
+    }
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <Box sx={{ 
@@ -268,6 +352,17 @@ function EDIDashboard() {
           />
         </Box>
 
+        {/* Customer Requirements Alert */}
+        <Alert severity="info" sx={{ mb: 3, fontSize: '13px' }}>
+          <Typography variant="body2" sx={{ fontSize: '13px', fontWeight: 500, mb: 0.5 }}>
+            Customer Requirements: Ethnic Minority Representation Targets
+          </Typography>
+          <Typography variant="body2" sx={{ fontSize: '12px' }}>
+            Goal: 14 (~15%) of head coaches across 92 clubs from ethnic minorities. 
+            Pathway: 15% UEFA B license holders (✓), 10% academy coaches (investment needed), 
+            15% head coaches (investment needed).
+          </Typography>
+        </Alert>
 
         {/* Active Filters Display */}
         {getActiveFiltersCount() > 0 && (
@@ -301,6 +396,59 @@ function EDIDashboard() {
             </Stack>
           </Box>
         )}
+
+        {/* EDI Pathway Progress Cards */}
+        <Grid container spacing={2} sx={{ mb: 3 }}>
+          <Grid item xs={12}>
+            <Typography variant="h6" sx={{ fontSize: '16px', fontWeight: 600, mb: 2 }}>
+              Ethnic Minority Representation Pathway
+            </Typography>
+          </Grid>
+          {pathwayData.map((stage) => (
+            <Grid item xs={12} md={4} key={stage.stage}>
+              <Card sx={{ 
+                height: '100%', 
+                border: `1px solid ${getStatusColor(stage.status)}`,
+                backgroundColor: 'var(--color-background-primary)'
+              }}>
+                <CardContent sx={{ p: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+                    <Typography variant="body2" sx={{ fontSize: '13px', fontWeight: 600 }}>
+                      {stage.stage}
+                    </Typography>
+                    {getStatusIcon(stage.status)}
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'baseline', mb: 1 }}>
+                    <Typography variant="h6" sx={{ fontSize: '18px', fontWeight: 700, color: getStatusColor(stage.status) }}>
+                      {stage.current}%
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontSize: '11px', color: 'var(--color-text-secondary)', ml: 1 }}>
+                      / {stage.target}% target
+                    </Typography>
+                  </Box>
+                  <LinearProgress 
+                    variant="determinate" 
+                    value={stage.progress} 
+                    sx={{ 
+                      height: 6, 
+                      borderRadius: 3,
+                      backgroundColor: 'var(--color-border-secondary)',
+                      '& .MuiLinearProgress-bar': {
+                        backgroundColor: getStatusColor(stage.status),
+                        borderRadius: 3
+                      }
+                    }} 
+                  />
+                  <Typography variant="caption" sx={{ fontSize: '10px', color: 'var(--color-text-secondary)', mt: 0.5, display: 'block' }}>
+                    {stage.progress >= 100 ? 'Target achieved' : 
+                     stage.progress >= 80 ? 'Close to target' : 
+                     stage.progress >= 60 ? 'Making progress' : 'Needs investment'}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
 
         {/* Main Charts */}
         <Grid container spacing={2}>

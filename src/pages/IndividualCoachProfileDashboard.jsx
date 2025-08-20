@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useView } from '../contexts/ViewContext'
 import DashboardCard from '../components/DashboardCard'
+import DrillBreakdownModal from '../components/DrillBreakdownModal'
 import { 
   Box, 
   Typography, 
@@ -40,7 +41,8 @@ import { liverpoolFCData } from '../data/liverpool-fc-coaches'
 function IndividualCoachProfileDashboard() {
   const navigate = useNavigate()
   const { currentTheme } = useView()
-  const [selectedCoachId, setSelectedCoachId] = useState(1) // Default to first coach
+  const [selectedCoachId, setSelectedCoachId] = useState(7) // Default to Marc Bridge-Wilkinson
+  const [drillModalOpen, setDrillModalOpen] = useState(false)
 
   // Get selected coach data
   const selectedCoach = liverpoolFCData.coaches.find(coach => coach.id === selectedCoachId)
@@ -182,6 +184,15 @@ function IndividualCoachProfileDashboard() {
     }
   }
 
+  // Handle drill breakdown modal
+  const handleDrillBreakdownClick = () => {
+    setDrillModalOpen(true)
+  }
+
+  const handleCloseDrillModal = () => {
+    setDrillModalOpen(false)
+  }
+
   return (
     <Box sx={{ p: 2 }}>
       {/* Header */}
@@ -274,7 +285,7 @@ function IndividualCoachProfileDashboard() {
 
       {/* Career Highlights KPI Cards */}
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} md={2.4}>
+        <Grid item xs={12} sm={6} md={3} lg={2.4}>
           <DashboardCard height="90px">
             <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
@@ -286,7 +297,7 @@ function IndividualCoachProfileDashboard() {
             </Box>
           </DashboardCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
+        <Grid item xs={12} sm={6} md={3} lg={2.4}>
           <DashboardCard height="90px">
             <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
@@ -298,7 +309,7 @@ function IndividualCoachProfileDashboard() {
             </Box>
           </DashboardCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
+        <Grid item xs={12} sm={6} md={3} lg={2.4}>
           <DashboardCard height="90px">
             <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
@@ -310,7 +321,7 @@ function IndividualCoachProfileDashboard() {
             </Box>
           </DashboardCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
+        <Grid item xs={12} sm={6} md={3} lg={2.4}>
           <DashboardCard height="90px">
             <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
@@ -322,7 +333,7 @@ function IndividualCoachProfileDashboard() {
             </Box>
           </DashboardCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
+        <Grid item xs={12} sm={6} md={3} lg={2.4}>
           <DashboardCard height="90px">
             <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
@@ -334,7 +345,7 @@ function IndividualCoachProfileDashboard() {
             </Box>
           </DashboardCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
+        <Grid item xs={12} sm={6} md={3} lg={2.4}>
           <DashboardCard height="90px">
             <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
@@ -346,8 +357,19 @@ function IndividualCoachProfileDashboard() {
             </Box>
           </DashboardCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
-          <DashboardCard height="90px">
+        <Grid item xs={12} sm={6} md={3} lg={2.4}>
+          <DashboardCard 
+            height="90px"
+            onClick={handleDrillBreakdownClick}
+            sx={{
+              cursor: 'pointer',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                borderColor: currentTheme.primaryColor
+              }
+            }}
+          >
             <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
                 {selectedCoach.totalDrillsCoached}
@@ -358,7 +380,7 @@ function IndividualCoachProfileDashboard() {
             </Box>
           </DashboardCard>
         </Grid>
-        <Grid item xs={12} sm={6} md={2.4}>
+        <Grid item xs={12} sm={6} md={3} lg={2.4}>
           <DashboardCard height="90px">
             <Box sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Typography variant="h4" sx={{ fontWeight: 600, color: currentTheme.primaryColor, fontSize: '28px', lineHeight: 1 }}>
@@ -469,7 +491,24 @@ function IndividualCoachProfileDashboard() {
                         </Typography>
                         {selectedCoach.cpd.availableCourses.map((course, index) => (
                           <Typography key={index} variant="body2" sx={{ ml: 2 }}>
-                            - {course}
+                            - {typeof course === 'string' ? (
+                              course
+                            ) : (
+                              <a 
+                                href={course.url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                style={{ 
+                                  color: 'var(--color-primary)', 
+                                  textDecoration: 'none',
+                                  fontWeight: 500
+                                }}
+                                onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
+                                onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+                              >
+                                {course.name}
+                              </a>
+                            )}
                           </Typography>
                         ))}
                       </Box>
@@ -631,6 +670,14 @@ function IndividualCoachProfileDashboard() {
           </Card>
         </Grid>
       </Grid>
+
+      {/* Drill Breakdown Modal */}
+      <DrillBreakdownModal
+        open={drillModalOpen}
+        onClose={handleCloseDrillModal}
+        coach={selectedCoach}
+        drillData={selectedCoach?.drillBreakdown}
+      />
     </Box>
   )
 }

@@ -29,8 +29,8 @@ function CareerProgressionSankeyDashboard() {
   const [rightSideViews, setRightSideViews] = useState(['primaryCoachingRole']) // Default to coaching role on right
   const [activeTab, setActiveTab] = useState(0) // 0: Sankey, 1: Timeline
   const [timelineDemographics, setTimelineDemographics] = useState(['gender']) // Demographics for timeline view
-  const [timeScale, setTimeScale] = useState('yearly') // yearly, monthly, quarterly
-  const [showMilestones, setShowMilestones] = useState(true) // Show milestone markers
+  const [timeScale] = useState('yearly') // yearly, monthly, quarterly
+  const [showMilestones] = useState(true) // Show milestone markers
 
   // Use coach data with filtering
   const coachData = useCoachData(filters)

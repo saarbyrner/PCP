@@ -41,12 +41,24 @@ export const liverpoolFCData = {
         expiringPoints: [
           { amount: 12, date: "2025-12-31" }
         ],
-        availableCourses: ["Advanced Tactics", "Leadership in Football"]
+        availableCourses: [
+          { name: "Advanced Tactics", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" },
+          { name: "Leadership in Football", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" }
+        ]
       },
       ageGroupsCoached: ["First Team"],
       playersCoachedCount: 28,
       totalSessionsCoached: 847,
       totalDrillsCoached: 4923,
+      drillBreakdown: {
+        defending: 423,
+        attacking: 1247,
+        possession: 923,
+        finishing: 745,
+        "1v1": 612,
+        passing: 789,
+        dribbling: 184
+      },
       totalGames: {
         wins: 287,
         draws: 103,
@@ -77,12 +89,24 @@ export const liverpoolFCData = {
           { amount: 7, date: "2025-09-01" },
           { amount: 18, date: "2026-01-01" }
         ],
-        availableCourses: ["Player Development Strategies", "Match Analysis"]
+        availableCourses: [
+          { name: "Player Development Strategies", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" },
+          { name: "Match Analysis", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" }
+        ]
       },
       ageGroupsCoached: ["First Team", "U18s"],
       playersCoachedCount: 23,
       totalSessionsCoached: 427,
       totalDrillsCoached: 2673,
+      drillBreakdown: {
+        defending: 234,
+        attacking: 723,
+        possession: 567,
+        finishing: 423,
+        "1v1": 345,
+        passing: 456,
+        dribbling: 125
+      },
       totalGames: {
         wins: 189,
         draws: 87,
@@ -112,12 +136,24 @@ export const liverpoolFCData = {
         expiringPoints: [
           { amount: 23, date: "2025-10-01" }
         ],
-        availableCourses: ["Opposition Scouting", "Set-Piece Coaching"]
+        availableCourses: [
+          { name: "Opposition Scouting", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" },
+          { name: "Set-Piece Coaching", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" }
+        ]
       },
       ageGroupsCoached: ["First Team"],
       playersCoachedCount: 27,
       totalSessionsCoached: 318,
       totalDrillsCoached: 2147,
+      drillBreakdown: {
+        defending: 189,
+        attacking: 567,
+        possession: 445,
+        finishing: 334,
+        "1v1": 278,
+        passing: 367,
+        dribbling: 67
+      },
       totalGames: {
         wins: 174,
         draws: 73,
@@ -147,12 +183,24 @@ export const liverpoolFCData = {
         expiringPoints: [
           { amount: 13, date: "2025-09-15" }
         ],
-        availableCourses: ["Modern Goalkeeping Techniques", "Psychology of Goalkeeping"]
+        availableCourses: [
+          { name: "Modern Goalkeeping Techniques", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" },
+          { name: "Psychology of Goalkeeping", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" }
+        ]
       },
       ageGroupsCoached: ["First Team", "U23s Goalkeepers"],
       playersCoachedCount: 11,
       totalSessionsCoached: 263,
       totalDrillsCoached: 1847,
+      drillBreakdown: {
+        defending: 145,
+        attacking: 456,
+        possession: 378,
+        finishing: 289,
+        "1v1": 234,
+        passing: 312,
+        dribbling: 33
+      },
       totalGames: {
         wins: 156,
         draws: 67,
@@ -182,12 +230,24 @@ export const liverpoolFCData = {
         expiringPoints: [
           { amount: 8, date: "2025-08-30" }
         ],
-        availableCourses: ["Academy Management", "Talent Identification"]
+        availableCourses: [
+          { name: "Academy Management", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" },
+          { name: "Talent Identification", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" }
+        ]
       },
       ageGroupsCoached: ["U9s", "U16s", "U23s"],
       playersCoachedCount: 167,
       totalSessionsCoached: 634,
       totalDrillsCoached: 4281,
+      drillBreakdown: {
+        defending: 567,
+        attacking: 1234,
+        possession: 987,
+        finishing: 678,
+        "1v1": 456,
+        passing: 789,
+        dribbling: 381
+      },
       totalGames: {
         wins: 312,
         draws: 108,
@@ -217,12 +277,24 @@ export const liverpoolFCData = {
         expiringPoints: [
           { amount: 14, date: "2025-09-01" }
         ],
-        availableCourses: ["Women's Football Development", "Sports Nutrition"]
+        availableCourses: [
+          { name: "Women's Football Development", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" },
+          { name: "Sports Nutrition", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" }
+        ]
       },
       ageGroupsCoached: ["Women's First Team", "U21 Women"],
       playersCoachedCount: 26,
       totalSessionsCoached: 371,
       totalDrillsCoached: 2387,
+      drillBreakdown: {
+        defending: 234,
+        attacking: 678,
+        possession: 456,
+        finishing: 389,
+        "1v1": 345,
+        passing: 567,
+        dribbling: 118
+      },
       totalGames: {
         wins: 127,
         draws: 43,
@@ -252,12 +324,25 @@ export const liverpoolFCData = {
         expiringPoints: [
           { amount: 17, date: "2025-10-10" }
         ],
-        availableCourses: ["Youth Player Psychology", "Talent Pathway Management"]
+        availableCourses: [
+          { name: "Youth Player Psychology", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" },
+          { name: "Talent Pathway Management", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" },
+          { name: "Defensive Masterclass", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" }
+        ]
       },
       ageGroupsCoached: ["U18s", "U21s"],
       playersCoachedCount: 43,
       totalSessionsCoached: 472,
       totalDrillsCoached: 2934,
+      drillBreakdown: {
+        defending: 89,
+        attacking: 823,
+        possession: 567,
+        finishing: 445,
+        "1v1": 378,
+        passing: 456,
+        dribbling: 176
+      },
       totalGames: {
         wins: 186,
         draws: 71,
@@ -287,12 +372,24 @@ export const liverpoolFCData = {
         expiringPoints: [
           { amount: 6, date: "2025-12-01" }
         ],
-        availableCourses: ["Advanced Biomechanics", "Data Analysis in Sport"]
+        availableCourses: [
+          { name: "Advanced Biomechanics", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" },
+          { name: "Data Analysis in Sport", url: "https://www.thepfa.com/players/education/course-options/lma-diploma-in-football-management" }
+        ]
       },
       ageGroupsCoached: ["All Age Groups (Support)"],
       playersCoachedCount: 0,
       totalSessionsCoached: 127,
       totalDrillsCoached: 0,
+      drillBreakdown: {
+        defending: 0,
+        attacking: 0,
+        possession: 0,
+        finishing: 0,
+        "1v1": 0,
+        passing: 0,
+        dribbling: 0
+      },
       totalGames: {
         wins: 0,
         draws: 0,
@@ -322,6 +419,13 @@ export const liverpoolFCData = {
     { name: "Women's Team", value: 8, percentage: 17.0 },
     { name: "Performance", value: 6, percentage: 12.8 },
     { name: "Medical", value: 3, percentage: 6.4 }
+  ],
+
+  ageGroupBreakdown: [
+    { name: "20-29", value: 3, percentage: 6.4 },
+    { name: "30-39", value: 12, percentage: 25.5 },
+    { name: "40-49", value: 18, percentage: 38.3 },
+    { name: "50+", value: 14, percentage: 29.8 }
   ],
 
   recentUpdates: [

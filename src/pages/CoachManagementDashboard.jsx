@@ -4,6 +4,7 @@ import { useView } from '../contexts/ViewContext'
 import FilterDrawer from '../components/FilterDrawer'
 import FilterButton from '../components/FilterButton'
 import DashboardCard from '../components/DashboardCard'
+
 import { 
   Box, 
   Typography, 
@@ -26,12 +27,18 @@ import {
   CheckCircleOutlined,
   ErrorOutlined
 } from '@mui/icons-material'
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
+import { PieChart, Pie, Cell, ResponsiveContainer, Bar, ComposedChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 import { liverpoolFCData } from '../data/liverpool-fc-coaches'
+import pcpData from '../data/pcp.json'
 
 function CoachManagementDashboard() {
   const navigate = useNavigate()
   const { currentTheme } = useView()
+  
+  // Debug: Check if pcpData is imported correctly
+  console.log('pcpData available:', !!pcpData)
+  console.log('pcpData.leagueData:', pcpData?.leagueData)
+  console.log('pcpData.leagueData.qualificationsBreakdown:', pcpData?.leagueData?.qualificationsBreakdown)
   
   // Filter State - updated for drawer system
   const [filters, setFilters] = useState({
@@ -63,6 +70,27 @@ function CoachManagementDashboard() {
       default: return <CheckCircleOutlined sx={{ fontSize: 16 }} />
     }
   }
+
+  // Create combined data for qualifications breakdown chart with Premier League averages
+  const qualificationsChartData = useMemo(() => {
+    const liverpoolData = liverpoolFCData.qualificationsBreakdown
+    const premierLeagueData = pcpData.leagueData.qualificationsBreakdown
+    
+    const combinedData = liverpoolData.map(liverpoolItem => {
+      const premierLeagueItem = premierLeagueData.find(plItem => 
+        plItem.qualification === liverpoolItem.qualification
+      )
+      return {
+        ...liverpoolItem,
+        premierLeagueAverage: premierLeagueItem ? premierLeagueItem.count : 0
+      }
+    })
+    
+    console.log('Liverpool Data:', liverpoolData)
+    console.log('Premier League Data:', premierLeagueData)
+    console.log('Combined Chart Data:', combinedData)
+    return combinedData
+  }, [])
 
   // Filter coaches based on current filters
   const filteredCoaches = useMemo(() => {
@@ -151,6 +179,8 @@ function CoachManagementDashboard() {
            complianceStatus.length + 
            nationalities.length
   }
+
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -404,52 +434,26 @@ function CoachManagementDashboard() {
             </DashboardCard>
           </Grid>
 
-          {/* Qualifications Breakdown Chart */}
-          <Grid item xs={12} md={6}>
-            <DashboardCard 
-              title="Qualifications Breakdown"
-              height="320px"
-            >
-              
-              <ResponsiveContainer width="100%" height={240}>
-                <BarChart data={liverpoolFCData.qualificationsBreakdown}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
-                    dataKey="qualification" 
-                    angle={-45}
-                    textAnchor="end"
-                    height={100}
-                    interval={0}
-                    fontSize={11}
-                  />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="count" fill={currentTheme.primaryColor} />
-                </BarChart>
-              </ResponsiveContainer>
-            </DashboardCard>
-          </Grid>
-
           {/* Department Breakdown */}
           <Grid item xs={12} md={6}>
             <DashboardCard 
               title="Department Distribution"
-              height="320px"
+              height="380px"
             >
               
-              <ResponsiveContainer width="100%" height={240}>
+              <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie
                     data={liverpoolFCData.departmentBreakdown}
                     cx="50%"
-                    cy="45%"
-                    innerRadius={35}
-                    outerRadius={70}
+                    cy="40%"
+                    innerRadius={30}
+                    outerRadius={60}
                     paddingAngle={2}
                     dataKey="value"
                     label={({name, percentage}) => `${name}: ${percentage}%`}
-                    labelLine={false}
-                    labelStyle={{ fontSize: '0.7rem', fill: 'var(--color-text-primary)', fontFamily: 'var(--font-family-primary)' }}
+                    labelLine={{ stroke: 'var(--color-text-primary)', strokeWidth: 1 }}
+                    labelStyle={{ fontSize: '0.65rem', fill: 'var(--color-text-primary)', fontFamily: 'var(--font-family-primary)' }}
                   >
                     {liverpoolFCData.departmentBreakdown.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={index === 0 ? currentTheme.primaryColor : `${currentTheme.primaryColor}${Math.floor(255 - (index * 40)).toString(16)}`} />
@@ -462,6 +466,91 @@ function CoachManagementDashboard() {
                     wrapperStyle={{ paddingTop: '10px', fontSize: '12px' }}
                   />
                 </PieChart>
+              </ResponsiveContainer>
+            </DashboardCard>
+          </Grid>
+
+          {/* Age Group X Coaches */}
+          <Grid item xs={12} md={6}>
+            <DashboardCard 
+              title="Age Group X Coaches"
+              height="380px"
+            >
+              
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={liverpoolFCData.ageGroupBreakdown}
+                    cx="50%"
+                    cy="40%"
+                    innerRadius={30}
+                    outerRadius={60}
+                    paddingAngle={2}
+                    dataKey="value"
+                    label={({name, percentage}) => `${name}: ${percentage}%`}
+                    labelLine={{ stroke: 'var(--color-text-primary)', strokeWidth: 1 }}
+                    labelStyle={{ fontSize: '0.65rem', fill: 'var(--color-text-primary)', fontFamily: 'var(--font-family-primary)' }}
+                  >
+                    {liverpoolFCData.ageGroupBreakdown.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={index === 0 ? currentTheme.primaryColor : `${currentTheme.primaryColor}${Math.floor(255 - (index * 40)).toString(16)}`} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value, name) => [`${value} coaches`, name]} />
+                  <Legend 
+                    verticalAlign="bottom" 
+                    height={36}
+                    wrapperStyle={{ paddingTop: '10px', fontSize: '12px' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </DashboardCard>
+          </Grid>
+
+          {/* Qualifications Breakdown Chart - Full Width */}
+          <Grid item xs={12}>
+            <DashboardCard 
+              title="Qualifications Breakdown"
+              subtitle="vs Premier League Averages"
+              height="350px"
+            >
+              
+              <ResponsiveContainer width="100%" height={270}>
+                <ComposedChart data={qualificationsChartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="qualification" 
+                    angle={-45}
+                    textAnchor="end"
+                    height={100}
+                    interval={0}
+                    fontSize={11}
+                  />
+                  <YAxis />
+                  <Tooltip 
+                    formatter={(value, name) => [
+                      name === 'Premier League Average' ? `${value} coaches` : value, 
+                      name
+                    ]}
+                  />
+                  <Legend 
+                    wrapperStyle={{ fontSize: '12px', color: 'var(--color-text-primary)', paddingTop: '15px' }} 
+                    iconType="rect"
+                    iconSize={12}
+                    verticalAlign="bottom"
+                    height={50}
+                    formatter={(value) => <span style={{ color: 'var(--color-text-primary)', fontSize: '12px', fontWeight: '500' }}>{value}</span>}
+                  />
+                  <Bar dataKey="count" fill={currentTheme.primaryColor} name="Liverpool FC" />
+                  <Line 
+                    type="monotone" 
+                    dataKey="premierLeagueAverage" 
+                    stroke="var(--color-chart-2)" 
+                    strokeWidth={4}
+                    strokeDasharray="5 5"
+                    dot={{ r: 5, fill: "var(--color-chart-2)", stroke: "white", strokeWidth: 2 }}
+                    name="Premier League Average" 
+                  />
+                </ComposedChart>
               </ResponsiveContainer>
             </DashboardCard>
           </Grid>

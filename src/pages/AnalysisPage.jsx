@@ -17,7 +17,8 @@ import {
   MapOutlined,
   PersonOutlined,
   AssignmentTurnedInOutlined,
-  EqualizerOutlined
+  EqualizerOutlined,
+  AssessmentOutlined
 } from '@mui/icons-material'
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, LineChart, Line, Area, AreaChart } from 'recharts'
 import pcpData from '../data/pcp.json'
@@ -510,6 +511,25 @@ function AnalysisPage() {
         { label: 'Equality', color: 'var(--color-chart-9)' },
         { label: 'Demographics', color: 'var(--color-chart-10)' },
         { label: 'Interactive', color: 'var(--color-chart-4)' }
+      ]
+    },
+    {
+      id: 'completeness-quality',
+      title: 'Data Quality & Completeness',
+      description: 'Completeness and quality tables for partner organizations with RAG status indicators',
+      icon: AssessmentOutlined,
+      route: '/analysis/completeness-quality',
+      chartData: [
+        { name: 'Good', value: 60 },
+        { name: 'Needs Attention', value: 25 },
+        { name: 'Critical', value: 15 }
+      ],
+      chartType: 'pie',
+      chartLabel: 'Data Quality Status',
+      tags: [
+        { label: 'Quality', color: 'var(--color-success)' },
+        { label: 'RAG Status', color: 'var(--color-warning)' },
+        { label: 'Organizations', color: 'var(--color-error)' }
       ]
     }
   ]

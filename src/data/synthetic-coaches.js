@@ -64,6 +64,15 @@ export const generateCoachDataset = (numCoaches = 8450) => {
       'uefa-b': 0.30, 
       'uefa-a': 0.25, 
       'uefa-pro': 0.10 
+    },
+    gamePartners: {
+      'premier-league': 0.081,
+      'efl': 0.345,
+      'fa': 0.200,
+      'womens-professional-game': 0.109,
+      'pfa': 0.150,
+      'lma': 0.080,
+      'lca': 0.035
     }
   }
 
@@ -83,6 +92,7 @@ export const generateCoachDataset = (numCoaches = 8450) => {
     const roleProbs = { ...distributions.primaryCoachingRole }
     const divisionProbs = { ...distributions.division }
     const positionTypeProbs = { ...distributions.positionType }
+    const gamePartnerProbs = { ...distributions.gamePartners }
     
     // Older coaches more likely to be senior
     if (coach.ageGroup === '46-55' || coach.ageGroup === '56+') {
@@ -96,18 +106,55 @@ export const generateCoachDataset = (numCoaches = 8450) => {
       divisionProbs['womens-championship'] *= 6
       divisionProbs['premier-league'] *= 0.2
       divisionProbs['efl'] *= 0.3
+      gamePartnerProbs['womens-professional-game'] *= 8
+      gamePartnerProbs['premier-league'] *= 0.3
+      gamePartnerProbs['efl'] *= 0.4
     }
     
     // Regional correlations
     if (coach.region === 'london' || coach.region === 'south-east') {
       divisionProbs['premier-league'] *= 2.5
       roleProbs['head-coach'] *= 1.3
+      gamePartnerProbs['premier-league'] *= 2.5
     }
     
-    // Ethnicity correlations (subtle but realistic)
+    // Ethnicity correlations - Updated to align with customer requirements
     if (coach.ethnicity !== 'white') {
-      levelProbs.senior *= 0.9 // Slight underrepresentation in senior roles
-      roleProbs['head-coach'] *= 0.85
+      // Reduce ethnic minority representation in academy roles (target: 10%)
+      roleProbs['academy-coach'] *= 0.65
+      
+      // Slightly reduce head coach representation but not as much (target: 15%)
+      roleProbs['head-coach'] *= 0.9
+      
+      // Keep UEFA B license representation around 15% (current is good)
+      // No adjustment needed for uefaBadges
+      
+      // Slight underrepresentation in senior roles
+      levelProbs.senior *= 0.9
+    }
+    
+    // Game partner correlations based on division and role
+    if (divisionProbs['premier-league'] > 0.1) {
+      gamePartnerProbs['premier-league'] *= 3
+      gamePartnerProbs['lma'] *= 2
+    }
+    
+    if (divisionProbs['efl'] > 0.2) {
+      gamePartnerProbs['efl'] *= 2.5
+      gamePartnerProbs['lma'] *= 1.5
+    }
+    
+    if (roleProbs['head-coach'] > 0.1) {
+      gamePartnerProbs['lma'] *= 2
+      gamePartnerProbs['lca'] *= 1.5
+    }
+    
+    // FA has broader reach across all levels
+    gamePartnerProbs['fa'] *= 1.2
+    
+    // PFA membership correlates with professional experience
+    if (coach.ageGroup === '26-35' || coach.ageGroup === '36-45') {
+      gamePartnerProbs['pfa'] *= 1.3
     }
     
     coach.level = weightedRandom(normalizeProbs(levelProbs))
@@ -116,6 +163,7 @@ export const generateCoachDataset = (numCoaches = 8450) => {
     coach.positionType = weightedRandom(normalizeProbs(positionTypeProbs))
     coach.employmentStatus = weightedRandom(distributions.employmentStatus)
     coach.uefaBadges = weightedRandom(distributions.uefaBadges)
+    coach.gamePartners = weightedRandom(normalizeProbs(gamePartnerProbs))
     
     // Map age group to actual age
     const ageRanges = {

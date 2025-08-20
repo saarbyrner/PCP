@@ -48,7 +48,8 @@ function getCoachProperty(coach, filterKey) {
     division: coach.division,
     ageGroup: coach.ageGroup,
     employmentStatus: coach.employmentStatus,
-    uefaBadges: coach.uefaBadges
+    uefaBadges: coach.uefaBadges,
+    gamePartners: coach.gamePartners
   }
   return propertyMap[filterKey]
 }
@@ -71,6 +72,7 @@ function aggregateCoachData(coaches) {
   const divisionCounts = countBy(coaches, 'division')
   const seasonCounts = countBy(coaches, 'season')
   const employmentCounts = countBy(coaches, 'employmentStatus')
+  const gamePartnerCounts = countBy(coaches, 'gamePartners')
 
   // Calculate average age
   const averageAge = coaches.reduce((sum, coach) => sum + coach.age, 0) / total
@@ -131,7 +133,11 @@ function aggregateCoachData(coaches) {
     employmentStatusDistribution: [
       { name: "Employed", value: Math.round(((employmentCounts['employed'] || 0) / total) * 1000) / 10 },
       { name: "Unemployed", value: Math.round(((employmentCounts['unemployed'] || 0) / total) * 1000) / 10 }
-    ]
+    ],
+    gamePartnerDistribution: Object.entries(gamePartnerCounts).map(([partner, count]) => ({
+      partner: formatGamePartnerName(partner),
+      value: Math.round(((count / total) * 1000)) / 10
+    }))
   }
 }
 
@@ -239,7 +245,7 @@ function generateCareerFlows(coaches, nodes, nodeMap) {
 function generateFlowDemographics(flowCoaches) {
   const demographics = {}
   
-  const demographicFields = ['gender', 'ethnicity', 'region', 'ageGroup', 'primaryCoachingRole', 'level', 'positionType', 'division', 'employmentStatus', 'uefaBadges']
+  const demographicFields = ['gender', 'ethnicity', 'region', 'ageGroup', 'primaryCoachingRole', 'level', 'positionType', 'division', 'employmentStatus', 'uefaBadges', 'gamePartners']
   
   demographicFields.forEach(field => {
     demographics[field] = countBy(flowCoaches, field)
@@ -292,7 +298,8 @@ function getEmptyAggregation() {
     employmentStatusDistribution: [
       { name: "Employed", value: 0 },
       { name: "Unemployed", value: 0 }
-    ]
+    ],
+    gamePartnerDistribution: []
   }
 }
 
@@ -336,4 +343,17 @@ function formatDivisionName(division) {
     'academy': 'Academy'
   }
   return divisionNames[division] || division
+}
+
+function formatGamePartnerName(partner) {
+  const partnerNames = {
+    'premier-league': 'Premier League',
+    'efl': 'English Football League (EFL)',
+    'fa': 'Football Association (FA)',
+    'womens-professional-game': "Women's Professional Game",
+    'pfa': 'Professional Footballers\' Association (PFA)',
+    'lma': 'League Managers Association (LMA)',
+    'lca': 'League Coaches Association (LCA)'
+  }
+  return partnerNames[partner] || partner
 }

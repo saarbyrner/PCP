@@ -9,6 +9,7 @@ import GeospatialDashboard from './pages/GeospatialDashboard'
 import CoachManagementDashboard from './pages/CoachManagementDashboard'
 import IndividualCoachProfileDashboard from './pages/IndividualCoachProfileDashboard'
 import EDIDashboard from './pages/EDIDashboard'
+import CompletenessQualityDashboard from './pages/CompletenessQualityDashboard'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/analysis/coach-management" element={<CoachManagementDashboard />} />
         <Route path="/analysis/individual-coach-profile" element={<IndividualCoachProfileDashboard />} />
         <Route path="/analysis/edi" element={<EDIDashboard />} />
+        <Route path="/analysis/completeness-quality" element={<CompletenessQualityDashboard />} />
         <Route path="/athlete" element={<Athletes />} />
         <Route path="/workloads" element={<SimplePage pageName="Workload" />} />
         <Route path="/questionnaires" element={<SimplePage pageName="Forms" />} />
