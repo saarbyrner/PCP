@@ -27,7 +27,7 @@ import {
   CheckCircleOutlined,
   ErrorOutlined
 } from '@mui/icons-material'
-import { PieChart, Pie, Cell, ResponsiveContainer, Bar, ComposedChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
+import { PieChart, Pie, Cell, ResponsiveContainer, Bar, BarChart, ComposedChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 import { liverpoolFCData } from '../data/liverpool-fc-coaches'
 import pcpData from '../data/pcp.json'
 
@@ -518,7 +518,7 @@ function CoachManagementDashboard() {
             >
               
               <ResponsiveContainer width="100%" height={270}>
-                <ComposedChart data={qualificationsChartData}>
+                <BarChart data={qualificationsChartData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis 
                     dataKey="qualification" 
@@ -531,7 +531,7 @@ function CoachManagementDashboard() {
                   <YAxis />
                   <Tooltip 
                     formatter={(value, name) => [
-                      name === 'Premier League Average' ? `${value} coaches` : value, 
+                      `${value} coaches`, 
                       name
                     ]}
                   />
@@ -544,23 +544,8 @@ function CoachManagementDashboard() {
                     formatter={(value) => <span style={{ color: 'var(--color-text-primary)', fontSize: '12px', fontWeight: '500' }}>{value}</span>}
                   />
                   <Bar dataKey="count" fill={currentTheme.primaryColor} name="Liverpool FC" />
-                  <Line 
-                    type="monotone" 
-                    dataKey="premierLeagueAverage" 
-                    stroke="var(--color-chart-2)" 
-                    strokeWidth={4}
-                    dot={{ r: 5, fill: "var(--color-chart-2)", stroke: "white", strokeWidth: 2 }}
-                    name="Premier League Average" 
-                  />
-                  <Legend 
-                    wrapperStyle={{ fontSize: '12px', color: 'var(--color-text-primary)', paddingTop: '15px' }} 
-                    iconType="rect"
-                    iconSize={12}
-                    verticalAlign="bottom"
-                    height={50}
-                    formatter={(value) => <span style={{ color: 'var(--color-text-primary)', fontSize: '12px', fontWeight: '500' }}>{value}</span>}
-                  />
-                </ComposedChart>
+                  <Bar dataKey="premierLeagueAverage" fill="var(--color-chart-2)" name="Premier League Average" />
+                </BarChart>
               </ResponsiveContainer>
             </DashboardCard>
           </Grid>
