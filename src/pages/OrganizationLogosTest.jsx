@@ -11,7 +11,7 @@ function OrganizationLogosTest() {
     { id: 'fa', name: 'Football Association (FA)' },
     { id: 'lca', name: 'League Coaches Association (LCA)' },
     { id: 'lma', name: 'League Managers Association (LMA)' },
-    { id: 'pfa', name: 'Professional Footballers\' Association (PFA)' },
+    { id: 'fip', name: 'Football Intelligence Platform (FiP)' },
     { id: 'premier-league', name: 'Premier League' },
     { id: 'womens-professional-game', name: 'Women\'s Professional Game' }
   ]

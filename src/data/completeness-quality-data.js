@@ -1,5 +1,5 @@
 // Completeness and Quality Data for Partner Organizations
-// Based on GitHub Issue #15 requirements
+// Updated to align with Kitman Labs software capabilities
 
 export const completenessQualityData = {
   organizations: [
@@ -8,15 +8,15 @@ export const completenessQualityData = {
       name: 'Premier League',
       logo: '/assets/logos/organizations/premier-league.png',
       metrics: [
-        { metric: 'ID', completeness: 98, outliers: 50, totalRecords: 10000 },
-        { metric: 'Club', completeness: 99, outliers: 20, totalRecords: 10000 },
-        { metric: 'Employment start date', completeness: 95, outliers: 150, totalRecords: 10000 },
-        { metric: 'Employment end date', completeness: 87, outliers: 200, totalRecords: 10000 },
-        { metric: 'Area_name', completeness: 92, outliers: 40, totalRecords: 10000 },
-        { metric: 'Position_type_name', completeness: 96, outliers: 35, totalRecords: 10000 },
-        { metric: 'Department_name', completeness: 89, outliers: 45, totalRecords: 10000 },
-        { metric: 'Age_groups', completeness: 97, outliers: 30, totalRecords: 10000 },
-        { metric: 'Club_job_title', completeness: 91, outliers: 40, totalRecords: 10000 }
+        { metric: 'Player Performance Data', completeness: 98, outliers: 45, totalRecords: 10000 },
+        { metric: 'Match Statistics', completeness: 99, outliers: 15, totalRecords: 10000 },
+        { metric: 'Training Load Metrics', completeness: 95, outliers: 120, totalRecords: 10000 },
+        { metric: 'Injury Records', completeness: 92, outliers: 180, totalRecords: 10000 },
+        { metric: 'GPS Tracking Data', completeness: 94, outliers: 85, totalRecords: 10000 },
+        { metric: 'Heart Rate Variability', completeness: 89, outliers: 220, totalRecords: 10000 },
+        { metric: 'Recovery Metrics', completeness: 87, outliers: 250, totalRecords: 10000 },
+        { metric: 'Nutrition Data', completeness: 85, outliers: 300, totalRecords: 10000 },
+        { metric: 'Sleep Quality Metrics', completeness: 82, outliers: 350, totalRecords: 10000 }
       ]
     },
     {
@@ -24,15 +24,15 @@ export const completenessQualityData = {
       name: 'English Football League (EFL)',
       logo: '/assets/logos/organizations/efl.png',
       metrics: [
-        { metric: 'ID', completeness: 96, outliers: 50, totalRecords: 10000 },
-        { metric: 'Club', completeness: 98, outliers: 20, totalRecords: 10000 },
-        { metric: 'Employment start date', completeness: 93, outliers: 150, totalRecords: 10000 },
-        { metric: 'Employment end date', completeness: 85, outliers: 200, totalRecords: 10000 },
-        { metric: 'Area_name', completeness: 90, outliers: 40, totalRecords: 10000 },
-        { metric: 'Position_type_name', completeness: 94, outliers: 35, totalRecords: 10000 },
-        { metric: 'Department_name', completeness: 87, outliers: 45, totalRecords: 10000 },
-        { metric: 'Age_groups', completeness: 95, outliers: 30, totalRecords: 10000 },
-        { metric: 'Club_job_title', completeness: 89, outliers: 40, totalRecords: 10000 }
+        { metric: 'Player Performance Data', completeness: 95, outliers: 60, totalRecords: 10000 },
+        { metric: 'Match Statistics', completeness: 97, outliers: 25, totalRecords: 10000 },
+        { metric: 'Training Load Metrics', completeness: 92, outliers: 150, totalRecords: 10000 },
+        { metric: 'Injury Records', completeness: 89, outliers: 200, totalRecords: 10000 },
+        { metric: 'GPS Tracking Data', completeness: 91, outliers: 110, totalRecords: 10000 },
+        { metric: 'Heart Rate Variability', completeness: 86, outliers: 250, totalRecords: 10000 },
+        { metric: 'Recovery Metrics', completeness: 84, outliers: 280, totalRecords: 10000 },
+        { metric: 'Nutrition Data', completeness: 82, outliers: 320, totalRecords: 10000 },
+        { metric: 'Sleep Quality Metrics', completeness: 79, outliers: 380, totalRecords: 10000 }
       ]
     },
     {
@@ -40,15 +40,15 @@ export const completenessQualityData = {
       name: 'Football Association (FA)',
       logo: '/assets/logos/organizations/fa.png',
       metrics: [
-        { metric: 'Qualification Name', completeness: 97, outliers: 75, totalRecords: 10000 },
-        { metric: 'Date Qualification Achieved', completeness: 96, outliers: 80, totalRecords: 10000 },
-        { metric: 'Gender', completeness: 99, outliers: 10, totalRecords: 10000 },
-        { metric: 'Age', completeness: 98, outliers: 30, totalRecords: 10000 },
-        { metric: 'Country of Nationality', completeness: 95, outliers: 60, totalRecords: 10000 },
-        { metric: 'Region', completeness: 94, outliers: 70, totalRecords: 10000 },
-        { metric: 'Place of Birth', completeness: 93, outliers: 80, totalRecords: 10000 },
-        { metric: 'Qualification Group', completeness: 97, outliers: 50, totalRecords: 10000 },
-        { metric: 'Qualification Sub Group', completeness: 96, outliers: 55, totalRecords: 10000 }
+        { metric: 'Coaching Qualifications', completeness: 97, outliers: 75, totalRecords: 10000 },
+        { metric: 'Performance Analytics Training', completeness: 94, outliers: 120, totalRecords: 10000 },
+        { metric: 'Sports Science Data', completeness: 91, outliers: 180, totalRecords: 10000 },
+        { metric: 'Player Development Metrics', completeness: 93, outliers: 140, totalRecords: 10000 },
+        { metric: 'Match Analysis Data', completeness: 96, outliers: 90, totalRecords: 10000 },
+        { metric: 'Talent Identification Metrics', completeness: 88, outliers: 220, totalRecords: 10000 },
+        { metric: 'Youth Development Data', completeness: 90, outliers: 200, totalRecords: 10000 },
+        { metric: 'Coaching Standards', completeness: 95, outliers: 100, totalRecords: 10000 },
+        { metric: 'Performance Benchmarking', completeness: 87, outliers: 240, totalRecords: 10000 }
       ]
     },
     {
@@ -56,25 +56,31 @@ export const completenessQualityData = {
       name: 'Women\'s Professional Game',
       logo: '/assets/logos/organizations/womens-professional-game.png',
       metrics: [
-        { metric: 'ID', completeness: 95, outliers: 50, totalRecords: 10000 },
-        { metric: 'Club', completeness: 97, outliers: 20, totalRecords: 10000 },
-        { metric: 'Employment start date', completeness: 91, outliers: 150, totalRecords: 10000 },
-        { metric: 'Employment end date', completeness: 83, outliers: 200, totalRecords: 10000 },
-        { metric: 'Area_name', completeness: 88, outliers: 40, totalRecords: 10000 },
-        { metric: 'Position_type_name', completeness: 92, outliers: 35, totalRecords: 10000 },
-        { metric: 'Department_name', completeness: 85, outliers: 45, totalRecords: 10000 },
-        { metric: 'Age_groups', completeness: 93, outliers: 30, totalRecords: 10000 },
-        { metric: 'Club_job_title', completeness: 87, outliers: 40, totalRecords: 10000 }
+        { metric: 'Player Performance Data', completeness: 93, outliers: 70, totalRecords: 10000 },
+        { metric: 'Match Statistics', completeness: 95, outliers: 35, totalRecords: 10000 },
+        { metric: 'Training Load Metrics', completeness: 89, outliers: 170, totalRecords: 10000 },
+        { metric: 'Injury Records', completeness: 86, outliers: 220, totalRecords: 10000 },
+        { metric: 'GPS Tracking Data', completeness: 88, outliers: 130, totalRecords: 10000 },
+        { metric: 'Heart Rate Variability', completeness: 83, outliers: 270, totalRecords: 10000 },
+        { metric: 'Recovery Metrics', completeness: 81, outliers: 300, totalRecords: 10000 },
+        { metric: 'Nutrition Data', completeness: 79, outliers: 340, totalRecords: 10000 },
+        { metric: 'Sleep Quality Metrics', completeness: 76, outliers: 400, totalRecords: 10000 }
       ]
     },
     {
-      id: 'pfa',
-      name: 'Professional Footballers\' Association (PFA)',
-      logo: '/assets/logos/organizations/pfa.png',
+      id: 'fip',
+      name: 'Football Intelligence Platform (FiP)',
+      logo: '/assets/logos/kitman-labs-base.png',
       metrics: [
-        { metric: 'Players coached', completeness: 70, outliers: 250, totalRecords: 10000 },
-        { metric: 'Sessions and drills coached', completeness: 68, outliers: 280, totalRecords: 10000 },
-        { metric: 'Results', completeness: 72, outliers: 230, totalRecords: 10000 }
+        { metric: 'Performance Analytics', completeness: 96, outliers: 80, totalRecords: 10000 },
+        { metric: 'Player Monitoring Data', completeness: 94, outliers: 120, totalRecords: 10000 },
+        { metric: 'Training Load Analysis', completeness: 92, outliers: 150, totalRecords: 10000 },
+        { metric: 'Injury Risk Assessment', completeness: 89, outliers: 200, totalRecords: 10000 },
+        { metric: 'Recovery Optimization', completeness: 91, outliers: 180, totalRecords: 10000 },
+        { metric: 'Match Performance Metrics', completeness: 97, outliers: 60, totalRecords: 10000 },
+        { metric: 'Talent Development Tracking', completeness: 88, outliers: 220, totalRecords: 10000 },
+        { metric: 'Sports Science Integration', completeness: 93, outliers: 140, totalRecords: 10000 },
+        { metric: 'Data Quality Assurance', completeness: 95, outliers: 100, totalRecords: 10000 }
       ]
     },
     {
@@ -82,12 +88,12 @@ export const completenessQualityData = {
       name: 'League Managers Association (LMA)',
       logo: '/assets/logos/organizations/lma.png',
       metrics: [
-        { metric: 'Disability', completeness: 85, outliers: 120, totalRecords: 10000 },
-        { metric: 'Ethnicity', completeness: 82, outliers: 150, totalRecords: 10000 },
-        { metric: 'Religion', completeness: 75, outliers: 250, totalRecords: 10000 },
-        { metric: 'Sexual Identity', completeness: 70, outliers: 300, totalRecords: 10000 },
-        { metric: 'LMA Programmes', completeness: 88, outliers: 90, totalRecords: 10000 },
-        { metric: 'Other (qualifications)', completeness: 80, outliers: 180, totalRecords: 10000 }
+        { metric: 'Performance Management Data', completeness: 88, outliers: 140, totalRecords: 10000 },
+        { metric: 'Team Analytics', completeness: 85, outliers: 180, totalRecords: 10000 },
+        { metric: 'Coaching Performance Metrics', completeness: 87, outliers: 160, totalRecords: 10000 },
+        { metric: 'Leadership Development Data', completeness: 82, outliers: 220, totalRecords: 10000 },
+        { metric: 'Strategic Planning Metrics', completeness: 84, outliers: 200, totalRecords: 10000 },
+        { metric: 'Performance Benchmarking', completeness: 86, outliers: 170, totalRecords: 10000 }
       ]
     },
     {
@@ -95,12 +101,12 @@ export const completenessQualityData = {
       name: 'League Coaches Association (LCA)',
       logo: '/assets/logos/organizations/lca.png',
       metrics: [
-        { metric: 'Disability', completeness: 78, outliers: 120, totalRecords: 10000 },
-        { metric: 'Ethnicity', completeness: 81, outliers: 150, totalRecords: 10000 },
-        { metric: 'Religion', completeness: 72, outliers: 250, totalRecords: 10000 },
-        { metric: 'Sexual Identity', completeness: 65, outliers: 300, totalRecords: 10000 },
-        { metric: 'LMA Programmes', completeness: 85, outliers: 90, totalRecords: 10000 },
-        { metric: 'Other (qualifications)', completeness: 77, outliers: 180, totalRecords: 10000 }
+        { metric: 'Coaching Performance Data', completeness: 85, outliers: 160, totalRecords: 10000 },
+        { metric: 'Player Development Metrics', completeness: 87, outliers: 140, totalRecords: 10000 },
+        { metric: 'Training Effectiveness', completeness: 83, outliers: 200, totalRecords: 10000 },
+        { metric: 'Skill Development Tracking', completeness: 86, outliers: 170, totalRecords: 10000 },
+        { metric: 'Performance Analytics Usage', completeness: 81, outliers: 240, totalRecords: 10000 },
+        { metric: 'Coaching Standards Compliance', completeness: 89, outliers: 120, totalRecords: 10000 }
       ]
     }
   ]

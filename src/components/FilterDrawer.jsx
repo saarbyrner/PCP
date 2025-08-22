@@ -32,7 +32,7 @@ function FilterDrawer({ open, onClose, onFiltersChange, filters = {}, filterConf
       { value: 'efl', label: 'English Football League (EFL)' },
       { value: 'fa', label: 'Football Association (FA)' },
       { value: 'womens-professional-game', label: "Women's Professional Game" },
-      { value: 'pfa', label: 'Professional Footballers\' Association (PFA)' },
+      { value: 'fip', label: 'Football Intelligence Platform (FiP)' },
       { value: 'lma', label: 'League Managers Association (LMA)' },
       { value: 'lca', label: 'League Coaches Association (LCA)' }
     ],

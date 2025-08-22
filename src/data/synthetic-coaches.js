@@ -70,7 +70,7 @@ export const generateCoachDataset = (numCoaches = 8450) => {
       'efl': 0.345,
       'fa': 0.200,
       'womens-professional-game': 0.109,
-      'pfa': 0.150,
+      'fip': 0.150,
       'lma': 0.080,
       'lca': 0.035
     }
@@ -152,9 +152,9 @@ export const generateCoachDataset = (numCoaches = 8450) => {
     // FA has broader reach across all levels
     gamePartnerProbs['fa'] *= 1.2
     
-    // PFA membership correlates with professional experience
+    // FiP membership correlates with professional experience
     if (coach.ageGroup === '26-35' || coach.ageGroup === '36-45') {
-      gamePartnerProbs['pfa'] *= 1.3
+      gamePartnerProbs['fip'] *= 1.3
     }
     
     coach.level = weightedRandom(normalizeProbs(levelProbs))

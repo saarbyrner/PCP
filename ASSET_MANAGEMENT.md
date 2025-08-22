@@ -7,7 +7,7 @@
 ```
 public/assets/
 ├── logos/
-│   ├── organizations/     # EFL, FA, LCA, LMA, PFA, Premier League, Women's Professional Game
+│   ├── organizations/     # EFL, FA, LCA, LMA, FiP, Premier League, Women's Professional Game
 │   ├── teams/
 │   │   ├── premier-league/    # Arsenal, Chelsea, Liverpool, etc.
 │   │   └── nba/              # Lakers, Warriors, Bulls, etc.
@@ -28,7 +28,7 @@ public/assets/
 - FA (Football Association) - PNG - 600x600 (Square)  
 - LCA (League Coaches Association) - PNG - 840x430 (Wide)
 - LMA (League Managers Association) - PNG - 284x111 (Very Wide)
-- PFA (Professional Footballers' Association) - JPEG - 1200x628 (Wide)
+- FiP (Football Intelligence Platform) - PNG - 1200x628 (Wide) - Uses Kitman Labs base logo
 - Premier League - PNG - 225x225 (Square)
 - Women's Professional Game - JPEG - 318x159 (Wide)
 
@@ -74,7 +74,7 @@ const logoDimensions = getOrganizationLogoDimensions('efl', 64)
 ## 🔧 Recent Fixes
 
 **Image Format Issues Resolved:**
-- ✅ PFA logo: Fixed JPEG with wrong PNG extension
+- ✅ FiP logo: Updated to use Kitman Labs base logo
 - ✅ Women's Professional Game: Updated to JPEG with correct extension and new dimensions (318x159)
 - ✅ All images now have correct file extensions
 - ✅ Component handles different aspect ratios properly
@@ -82,7 +82,7 @@ const logoDimensions = getOrganizationLogoDimensions('efl', 64)
 
 **Auto-sizing Improvements:**
 - ✅ Added automatic dimension calculation based on aspect ratios
-- ✅ Wide logos (LCA, PFA, LMA) now display at appropriate sizes
+- ✅ Wide logos (LCA, FiP, LMA) now display at appropriate sizes
 - ✅ Square logos maintain proper proportions
 - ✅ Dashboard uses optimal dimensions for each organization
 - ✅ Test page shows all logos with correct proportions

@@ -56,8 +56,10 @@ function UKMap({ data, width = 600, height = 400 }) {
     svg.selectAll("*").remove();
 
     // Set up dimensions and projection
+    // Account for zoom controls on the left (24px width + 20px margin = 44px total)
+    const controlSpace = 44
     const projection = d3.geoMercator()
-      .fitSize([width - 20, height - 40], geoData)
+      .fitSize([width - controlSpace, height - 40], geoData)
 
     const path = d3.geoPath().projection(projection)
 
@@ -67,7 +69,9 @@ function UKMap({ data, width = 600, height = 400 }) {
       .attr('height', height)
       .append('g')
 
+    // Center the map by translating the group to account for control space
     const g = container.append('g')
+      .attr('transform', `translate(${controlSpace / 2}, 0)`)
 
     // Set up zoom behavior with center-based zooming
     const zoom = d3.zoom()
@@ -182,25 +186,7 @@ function UKMap({ data, width = 600, height = 400 }) {
           .style('top', (event.pageY - 10) + 'px')
       })
 
-    // Add title
-    container.append('text')
-      .attr('x', width / 2)
-      .attr('y', 20)
-      .attr('text-anchor', 'middle')
-      .attr('font-size', '14px')
-      .attr('font-weight', '600')
-      .attr('fill', 'var(--color-text-primary)')
-      .style('pointer-events', 'none')
-      .text('UK Regional Distribution')
-
-    container.append('text')
-      .attr('x', width / 2)
-      .attr('y', 35)
-      .attr('text-anchor', 'middle')
-      .attr('font-size', '10px')
-      .attr('fill', 'var(--color-text-secondary)')
-      .style('pointer-events', 'none')
-      .text('Coach Distribution • Scroll to zoom • Hover for details')
+    // Title and subtitle removed - now handled by DashboardCard title
 
     // Add zoom controls - positioned to avoid filter drawer
     const controls = container.append('g')

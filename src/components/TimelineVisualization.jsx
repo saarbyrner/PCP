@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { Box, Button, ButtonGroup, Typography } from '@mui/material'
 import * as d3 from 'd3'
 
-function TimelineVisualization({ data, width = 800, height = 400, demographics = ['gender'], onDemographicsChange }) {
+function TimelineVisualization({ data, width = 800, height = 400, demographics = ['ethnicity'], onDemographicsChange }) {
   const svgRef = useRef()
-  const [timeScale, setTimeScale] = useState(15) // Default to 15 years
-  const [selectedMilestoneTypes, setSelectedMilestoneTypes] = useState(['badge', 'role']) // Default to badges and roles
+  const [timeScale, setTimeScale] = useState(25) // Default to 25 years per requirement
+  const [selectedMilestoneTypes, setSelectedMilestoneTypes] = useState(['role']) // Default to coach roles only
 
   useEffect(() => {
     if (!data || !data.coaches || data.coaches.length === 0) return
@@ -250,35 +250,55 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
     // Define realistic career progression timelines for different milestone types
     const careerProgressions = {
       // UEFA Badge progression - realistic timeframes with demographic correlations
+      // Add ethnicity differentials so White reaches badges earlier; others later
       'uefa-b': { 
         avgYears: 4, 
         correlations: { 
-          gender: { male: 1.0, female: 1.2 }, // Women take slightly longer due to barriers
-          level: { senior: 0.9, junior: 1.3 } 
+          gender: { male: 1.0, female: 1.2 },
+          level: { senior: 0.9, junior: 1.3 },
+          ethnicity: { white: 0.85, asian: 1.15, black: 1.25, mixed: 1.25, other: 1.20 }
         } 
       },
       'uefa-a': { 
         avgYears: 8, 
         correlations: { 
           gender: { male: 1.0, female: 1.4 },
-          level: { senior: 0.8, junior: 1.6 } 
+          level: { senior: 0.8, junior: 1.6 },
+          ethnicity: { white: 0.85, asian: 1.20, black: 1.30, mixed: 1.30, other: 1.25 }
         } 
       },
       'uefa-pro': { 
         avgYears: 15, 
         correlations: { 
           gender: { male: 1.0, female: 1.6 },
-          level: { senior: 0.9, junior: 2.2 } 
+          level: { senior: 0.9, junior: 2.2 },
+          ethnicity: { white: 0.80, asian: 1.25, black: 1.40, mixed: 1.40, other: 1.30 }
         } 
       },
       
       // All actual coaching roles from data
+      // Reduced role set per issue #23 (remove 1st team, goalkeeping, cross-club)
       'academy-coach': { avgYears: 3, correlations: { level: { senior: 1.2, junior: 0.8 } } },
-      'assistant-coach': { avgYears: 6, correlations: { level: { senior: 0.9, junior: 1.4 } } },
-      '1st-team-coach': { avgYears: 8, correlations: { level: { senior: 0.8, junior: 1.8 } } },
-      'goalkeeping-coach': { avgYears: 7, correlations: { level: { senior: 0.9, junior: 1.3 } } },
-      'head-coach': { avgYears: 12, correlations: { level: { senior: 0.7, junior: 2.5 } } },
-      'cross-club-coach': { avgYears: 10, correlations: { level: { senior: 0.8, junior: 1.8 } } },
+      // Rename label later to "Assistant 1st Team Coach" and delay black/mixed demographics 3-4y (multiplier ~1.5)
+      'assistant-coach': { 
+        avgYears: 6, 
+        correlations: { 
+          level: { senior: 0.9, junior: 1.4 },
+          // Target: Black & Mixed 3-4y later than White; White earlier than others
+          // White 0.6 => 3.6y, Asian/Other 1.0 => 6y, Black/Mixed 1.2 => 7.2y (≈3.6y gap from White)
+          ethnicity: { white: 0.6, asian: 1.0, other: 1.0, black: 1.2, mixed: 1.2 }
+        } 
+      },
+      // Head coach: delay black/mixed 5-6y (multiplier ~1.5 on 12y baseline)
+      'head-coach': { 
+        avgYears: 12, 
+        correlations: { 
+          level: { senior: 0.7, junior: 2.5 },
+          // Target: Black & Mixed 5-6y later than White; Asian & Other similar to each other and > White
+          // White 0.8 => 9.6y, Asian/Other 1.0 => 12y, Black/Mixed 1.3 => 15.6y (≈6y gap from White)
+          ethnicity: { white: 0.8, asian: 1.0, other: 1.0, black: 1.3, mixed: 1.3 }
+        } 
+      },
       
       // Level progression - should vary based on role and demographics
       'junior': { 
@@ -288,10 +308,7 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
           primaryCoachingRole: {
             'academy-coach': 0.8,
             'assistant-coach': 1.0,
-            '1st-team-coach': 1.2,
-            'goalkeeping-coach': 1.1,
-            'head-coach': 1.5,
-            'cross-club-coach': 1.3
+            'head-coach': 1.5
           }
         } 
       },
@@ -302,10 +319,7 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
           primaryCoachingRole: {
             'academy-coach': 0.7,
             'assistant-coach': 0.9,
-            '1st-team-coach': 1.0,
-            'goalkeeping-coach': 0.8,
-            'head-coach': 1.2,
-            'cross-club-coach': 1.1
+            'head-coach': 1.2
           }
         } 
       }
@@ -315,7 +329,15 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
     const demographicGroups = {}
     coaches.forEach(coach => {
       let groupKey = demographics.map(demo => {
-        const value = coach[demo]
+        let value = coach[demo]
+        // Normalise region codes to readable labels
+        if (demo === 'region' && value) {
+          value = value
+            .replace(/-/g,' ')
+            .replace('yorkshire humber','Yorkshire & Humber')
+            .replace('east england','East of England')
+            .replace(/\b([a-z])/g, c=>c.toUpperCase())
+        }
         return value ? (value.charAt(0).toUpperCase() + value.slice(1)) : 'Unknown'
       }).join('/')
       
@@ -379,7 +401,7 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
       
       // Process coaching roles (only if 'role' is selected) - ALL 6 roles from data
       if (milestoneTypes.includes('role')) {
-        const roles = ['academy-coach', 'assistant-coach', '1st-team-coach', 'goalkeeping-coach', 'head-coach', 'cross-club-coach']
+  const roles = ['academy-coach', 'assistant-coach', 'head-coach']
         roles.forEach(role => {
           const achievedCoaches = groupCoaches.filter(coach => coach.primaryCoachingRole === role)
           if (achievedCoaches.length > 0) {
@@ -392,10 +414,10 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
               return sum + (baseTime * correlationMultiplier)
             }, 0) / achievedCoaches.length
             
+            const rawLabel = role.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+            const label = role === 'assistant-coach' ? 'Assistant 1st Team Coach' : rawLabel
             results[group].push({
-              milestone: role.split('-').map(word => 
-                word.charAt(0).toUpperCase() + word.slice(1)
-              ).join(' '),
+              milestone: label,
               avgTime: Math.round(avgTime * 10) / 10,
               count: achievedCoaches.length,
               type: 'role'
@@ -428,6 +450,40 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
           }
         })
       }
+    })
+
+  // Post-process: ensure for ROLE milestones White is earliest and Black/Mixed are +4y later
+
+    // Collect role milestone names present
+    const roleMilestoneNames = new Set()
+    Object.values(results).forEach(arr => arr.forEach(m => { if (m.type === 'role') roleMilestoneNames.add(m.milestone) }))
+
+    roleMilestoneNames.forEach(roleName => {
+      // Find white group's time (group containing 'White')
+      let whiteEntry
+      Object.entries(results).forEach(([group, arr]) => {
+        if (group.includes('White')) {
+          const found = arr.find(m => m.type === 'role' && m.milestone === roleName)
+            if (found && (!whiteEntry || found.avgTime < whiteEntry.avgTime)) whiteEntry = found
+        }
+      })
+      if (!whiteEntry) return
+      const whiteTime = whiteEntry.avgTime
+      // Adjust black & mixed groups
+      Object.entries(results).forEach(([group, arr]) => {
+        const entry = arr.find(m => m.type === 'role' && m.milestone === roleName)
+        if (!entry) return
+        if (group.includes('Black') || group.includes('Mixed')) {
+          const target = whiteTime + 4
+          if (entry.avgTime < target) entry.avgTime = Math.round(target * 10) / 10
+        } else if (!group.includes('White')) {
+          // Ensure other groups not earlier than white
+            if (entry.avgTime <= whiteTime) entry.avgTime = Math.round((whiteTime + 1) * 10) / 10
+        } else {
+          // Ensure white remains the minimum
+          if (entry.avgTime > whiteTime) whiteEntry.avgTime = whiteTime
+        }
+      })
     })
 
     return results

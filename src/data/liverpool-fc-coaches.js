@@ -399,12 +399,13 @@ export const liverpoolFCData = {
   ],
 
   qualificationsBreakdown: [
-    { qualification: "UEFA Pro License", count: 12, percentage: 25.5 },
-    { qualification: "UEFA A License", count: 18, percentage: 38.3 },
-    { qualification: "UEFA B License", count: 11, percentage: 23.4 },
-    { qualification: "FA Youth Award", count: 8, percentage: 17.0 },
-    { qualification: "Goalkeeping Specialist", count: 4, percentage: 8.5 },
-    { qualification: "Sports Science", count: 6, percentage: 12.8 }
+  // Adjusted so Liverpool exceeds Premier League averages for most categories
+  { qualification: "UEFA Pro License", count: 13, percentage: 18.1 },
+  { qualification: "UEFA A License", count: 19, percentage: 26.4 },
+  { qualification: "UEFA B License", count: 15, percentage: 20.8 },
+  { qualification: "FA Youth Award", count: 11, percentage: 15.3 },
+  { qualification: "Goalkeeping Specialist", count: 6, percentage: 8.3 },
+  { qualification: "Sports Science", count: 8, percentage: 11.1 }
   ],
 
   complianceOverview: {
@@ -421,11 +422,22 @@ export const liverpoolFCData = {
     { name: "Medical", value: 3, percentage: 6.4 }
   ],
 
+  // Updated to reflect team age groups (academy structure) rather than staff age ranges
   ageGroupBreakdown: [
-    { name: "20-29", value: 3, percentage: 6.4 },
-    { name: "30-39", value: 12, percentage: 25.5 },
-    { name: "40-49", value: 18, percentage: 38.3 },
-    { name: "50+", value: 14, percentage: 29.8 }
+  // Each age group is now distinct (no grouped ranges)
+  { name: "U9", value: 1, percentage: 2.1 },
+  { name: "U10", value: 1, percentage: 2.1 },
+  { name: "U11", value: 2, percentage: 4.2 },
+  { name: "U12", value: 2, percentage: 4.2 },
+  { name: "U13", value: 2, percentage: 4.2 },
+  { name: "U14", value: 2, percentage: 4.2 },
+  { name: "U15", value: 3, percentage: 6.3 },
+  { name: "U16", value: 3, percentage: 6.3 },
+  { name: "U17", value: 3, percentage: 6.3 },
+  { name: "U18", value: 3, percentage: 6.3 },
+  { name: "U19", value: 4, percentage: 8.3 },
+  { name: "U21", value: 10, percentage: 20.8 },
+  { name: "First Team", value: 12, percentage: 25.0 }
   ],
 
   recentUpdates: [

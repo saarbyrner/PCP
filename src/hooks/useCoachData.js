@@ -351,7 +351,7 @@ function formatGamePartnerName(partner) {
     'efl': 'English Football League (EFL)',
     'fa': 'Football Association (FA)',
     'womens-professional-game': "Women's Professional Game",
-    'pfa': 'Professional Footballers\' Association (PFA)',
+    'fip': 'Football Intelligence Platform (FiP)',
     'lma': 'League Managers Association (LMA)',
     'lca': 'League Coaches Association (LCA)'
   }

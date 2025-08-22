@@ -92,6 +92,9 @@ function CoachManagementDashboard() {
     return combinedData
   }, [])
 
+  // Custom shape: draw a single horizontal (dashed) line segment at the Premier League average for each bar
+  // No custom overlay required for continuous line representation.
+
   // Filter coaches based on current filters
   const filteredCoaches = useMemo(() => {
     return liverpoolFCData.coaches.filter(coach => {
@@ -546,9 +549,16 @@ function CoachManagementDashboard() {
                     dataKey="premierLeagueAverage" 
                     stroke="var(--color-chart-2)" 
                     strokeWidth={4}
-                    strokeDasharray="5 5"
                     dot={{ r: 5, fill: "var(--color-chart-2)", stroke: "white", strokeWidth: 2 }}
                     name="Premier League Average" 
+                  />
+                  <Legend 
+                    wrapperStyle={{ fontSize: '12px', color: 'var(--color-text-primary)', paddingTop: '15px' }} 
+                    iconType="rect"
+                    iconSize={12}
+                    verticalAlign="bottom"
+                    height={50}
+                    formatter={(value) => <span style={{ color: 'var(--color-text-primary)', fontSize: '12px', fontWeight: '500' }}>{value}</span>}
                   />
                 </ComposedChart>
               </ResponsiveContainer>

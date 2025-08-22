@@ -1,67 +1,50 @@
-# Data Completeness & Quality Dashboard
+# Completeness & Quality Dashboard
 
 ## Overview
 
-The Data Completeness & Quality Dashboard is a comprehensive analytics tool designed to monitor and track data quality metrics across partner organizations in the Pro Coach Partnership (PCP) system. This dashboard provides real-time insights into data completeness, identifies outliers, and presents information using RAG (Red, Amber, Green) status indicators.
-
-## Features
-
-### 🎯 **Organization-Specific Views**
-- **Tabbed Interface**: Separate tabs for each partner organization
-- **Organization Logos**: Visual identification with organization branding
-- **Responsive Design**: Optimized for desktop and mobile viewing
-
-### 📊 **Data Quality Metrics**
-- **Completeness Percentage**: Real-time calculation of data completeness
-- **Outlier Detection**: Identification of data quality issues
-- **Progress Tracking**: Visual progress bars with color-coded status
-- **RAG Status Indicators**: 
-  - 🟢 **Green (90%+)**: Good data quality
-  - 🟡 **Amber (75-89%)**: Needs attention
-  - 🔴 **Red (<75%)**: Critical issues requiring immediate action
-
-### 📈 **Summary Statistics**
-- **Average Completeness**: Overall data quality score per organization
-- **Total Outliers**: Aggregate count of data quality issues
-- **Critical Issues**: Number of metrics below 75% completeness
-- **Good Status**: Number of metrics above 90% completeness
+The Completeness & Quality Dashboard provides comprehensive data quality insights across partner organizations, focusing on performance analytics, player monitoring, and sports science metrics that are core to Kitman Labs software capabilities.
 
 ## Partner Organizations
 
-The dashboard covers the following partner organizations as specified in GitHub Issue #15:
+### 1. **Premier League**
+   - Player performance data and match statistics
+   - Training load metrics and GPS tracking
+   - Injury records and recovery monitoring
+   - Heart rate variability and nutrition data
 
-1. **Premier League**
-   - ID, Club, Employment dates
-   - Area, Position, Department information
-   - Age groups, Club job titles
+### 2. **English Football League (EFL)**
+   - Performance analytics and match data
+   - Training load monitoring and injury tracking
+   - GPS and recovery metrics
+   - Sleep quality and nutrition monitoring
 
-2. **English Football League (EFL)**
-   - Same metrics as Premier League
-   - Employment and organizational data
+### 3. **Football Association (FA)**
+   - Coaching qualifications and performance analytics training
+   - Sports science data and player development metrics
+   - Match analysis and talent identification
+   - Youth development and coaching standards
 
-3. **Football Association (FA)**
-   - Qualification data and achievements
-   - Demographics (Gender, Age, Nationality)
-   - Geographic information (Region, Place of Birth)
-   - Qualification groupings
+### 4. **Women's Professional Game**
+   - Player performance and match statistics
+   - Training load and injury monitoring
+   - GPS tracking and recovery metrics
+   - Nutrition and sleep quality data
 
-4. **Women's Professional Game**
-   - Employment and organizational data
-   - Position and department information
+### 5. **Football Intelligence Platform (FiP)**
+   - Performance analytics and player monitoring
+   - Training load analysis and injury risk assessment
+   - Recovery optimization and match performance metrics
+   - Talent development tracking and sports science integration
 
-5. **Professional Footballers' Association (PFA)**
-   - Coaching performance metrics
-   - Players coached, Sessions and drills
-   - Results tracking
+### 6. **League Managers Association (LMA)**
+   - Performance management and team analytics
+   - Coaching performance metrics and leadership development
+   - Strategic planning and performance benchmarking
 
-6. **League Managers Association (LMA)**
-   - Diversity and inclusion metrics
-   - Disability, Ethnicity, Religion, Sexual Identity
-   - LMA Programmes and qualifications
-
-7. **League Coaches Association (LCA)**
-   - Same diversity metrics as LMA
-   - Professional development tracking
+### 7. **League Coaches Association (LCA)**
+   - Coaching performance and player development metrics
+   - Training effectiveness and skill development tracking
+   - Performance analytics usage and coaching standards compliance
 
 ## Technical Implementation
 
@@ -92,7 +75,7 @@ src/
 - **Responsive Design**: Adapts to different screen sizes
 
 #### completeness-quality-data.js
-- **Data Structure**: Organization and metric definitions
+- **Data Structure**: Organization and metric definitions aligned with Kitman Labs software
 - **Helper Functions**: RAG status calculation and color mapping
 - **Extensible Design**: Easy to add new organizations or metrics
 
@@ -111,10 +94,10 @@ src/
   logo: '/path/to/logo.png',
   metrics: [
     {
-      metric: 'Metric Name',
-      completeness: 95,        // Percentage (0-100)
-      outliers: 50,           // Number of outliers
-      totalRecords: 10000     // Total records in dataset
+      metric: 'Performance Analytics',     // Kitman Labs core capability
+      completeness: 96,                   // Percentage (0-100)
+      outliers: 80,                      // Number of outliers
+      totalRecords: 10000                // Total records in dataset
     }
   ]
 }
@@ -124,6 +107,25 @@ src/
 - **Green**: 90% and above
 - **Amber**: 75% to 89%
 - **Red**: Below 75%
+
+## Kitman Labs Software Alignment
+
+The dashboard metrics are specifically designed to align with Kitman Labs software capabilities:
+
+### Performance Analytics
+- Player performance data and match statistics
+- Training load analysis and monitoring
+- Recovery optimization and injury risk assessment
+
+### Player Monitoring
+- GPS tracking data and heart rate variability
+- Nutrition monitoring and sleep quality metrics
+- Injury records and return-to-play tracking
+
+### Sports Science Integration
+- Performance benchmarking and talent development
+- Coaching standards and analytics training
+- Data quality assurance and integration
 
 ## Usage Instructions
 
@@ -142,52 +144,21 @@ src/
 ### Taking Action
 - **Red Status**: Immediate attention required
 - **Amber Status**: Plan improvements
-- **Green Status**: Monitor for maintenance
+- **Green Status**: Maintain current standards
 
-## Future Enhancements
+## Data Quality Focus Areas
 
-### Planned Features
-- **Historical Tracking**: Trend analysis over time
-- **Export Functionality**: PDF/Excel report generation
-- **Alert System**: Automated notifications for critical issues
-- **Drill-Down Capability**: Detailed outlier analysis
-- **Custom Thresholds**: Organization-specific RAG criteria
+### High Priority Metrics
+- Performance Analytics (96%+ target)
+- Player Monitoring Data (94%+ target)
+- Match Performance Metrics (97%+ target)
 
-### Integration Opportunities
-- **API Integration**: Real-time data updates
-- **Dashboard Embedding**: Integration with external systems
-- **Mobile App**: Native mobile application
-- **Advanced Analytics**: Machine learning for outlier detection
+### Medium Priority Metrics
+- Training Load Analysis (92%+ target)
+- Recovery Optimization (91%+ target)
+- Sports Science Integration (93%+ target)
 
-## Maintenance
-
-### Adding New Organizations
-1. Update `completeness-quality-data.js`
-2. Add organization logo to `public/assets/logos/organizations/`
-3. Update routing if needed
-4. Test dashboard functionality
-
-### Adding New Metrics
-1. Define metric in organization data
-2. Ensure RAG calculation logic handles new metric
-3. Update documentation
-4. Test with sample data
-
-### Logo Management
-- **Format**: PNG recommended
-- **Size**: 32x32px minimum, 64x64px preferred
-- **Location**: `public/assets/logos/organizations/`
-- **Naming**: Use organization ID as filename
-
-## Support
-
-For technical support or feature requests, please refer to:
-- **GitHub Issues**: [PCP Repository Issues](https://github.com/saarbyrner/PCP/issues)
-- **Documentation**: This file and related technical docs
-- **Development Team**: Contact the development team for urgent issues
-
----
-
-**Last Updated**: January 2025
-**Version**: 1.0.0
-**Status**: Production Ready
+### Monitoring Metrics
+- Injury Risk Assessment (89%+ target)
+- Talent Development Tracking (88%+ target)
+- Data Quality Assurance (95%+ target)

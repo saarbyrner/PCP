@@ -5,7 +5,7 @@ import Athletes from './pages/Athletes'
 import AnalysisPage from './pages/AnalysisPage'
 import WorkforceOverviewDashboard from './pages/WorkforceOverviewDashboard'
 import CareerProgressionSankeyDashboard from './pages/CareerProgressionSankeyDashboard'
-import GeospatialDashboard from './pages/GeospatialDashboard'
+
 import CoachManagementDashboard from './pages/CoachManagementDashboard'
 import IndividualCoachProfileDashboard from './pages/IndividualCoachProfileDashboard'
 import EDIDashboard from './pages/EDIDashboard'
@@ -22,7 +22,7 @@ function App() {
         <Route path="/analysis" element={<AnalysisPage />} />
         <Route path="/analysis/workforce-overview" element={<WorkforceOverviewDashboard />} />
         <Route path="/analysis/career-progression-flow" element={<CareerProgressionSankeyDashboard />} />
-        <Route path="/analysis/geospatial" element={<GeospatialDashboard />} />
+
         <Route path="/analysis/coach-management" element={<CoachManagementDashboard />} />
         <Route path="/analysis/individual-coach-profile" element={<IndividualCoachProfileDashboard />} />
         <Route path="/analysis/edi" element={<EDIDashboard />} />

@@ -14,7 +14,6 @@ import {
   DashboardOutlined, 
   ArrowForwardOutlined,
   AccountTreeOutlined,
-  MapOutlined,
   PersonOutlined,
   AssignmentTurnedInOutlined,
   EqualizerOutlined,
@@ -358,10 +357,10 @@ function AnalysisPage() {
           {clubDashboards.map((dashboard) => {
             const IconComponent = dashboard.icon
             return (
-              <Grid item xs={12} md={6} key={dashboard.id}>
+              <Grid item xs={12} md={4} key={dashboard.id}>
                 <Card 
                   sx={{ 
-                    height: 240,
+                    height: 140,
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
                     border: '1px solid var(--color-border-primary)',
@@ -396,26 +395,21 @@ function AnalysisPage() {
                         lineHeight: 1.3, 
                         fontSize: '12px',
                         display: '-webkit-box',
-                        WebkitLineClamp: 2,
+                        WebkitLineClamp: 3,
                         WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden'
+                        overflow: 'hidden',
+                        flex: 1
                       }}
                     >
                       {dashboard.description}
                     </Typography>
-
-                    {/* Chart Preview */}
-                    <Box sx={{ mb: 0.5, minHeight: 100, flex: '0 0 100px' }}>
-                      {renderChart(dashboard.chartType, dashboard.chartData, currentTheme.primaryColor, dashboard.chartLabel)}
-                    </Box>
 
                     {/* Tags */}
                     <Box sx={{ 
                       display: 'flex', 
                       gap: 0.5, 
                       flexWrap: 'wrap',
-                      mt: 'auto',
-                      minHeight: '32px'
+                      mt: 'auto'
                     }}>
                       {dashboard.tags.slice(0, 3).map((tag, index) => (
                         <Chip 
@@ -482,20 +476,6 @@ function AnalysisPage() {
       ]
     },
     {
-      id: 'geospatial',
-      title: 'Regional Map',
-      description: 'Interactive UK coaching distribution with zoom controls',
-      icon: MapOutlined,
-      route: '/analysis/geospatial',
-      chartData: pcpData.leagueData.regionalDistribution?.slice(0, 8) || [],
-      chartType: 'bar',
-      chartLabel: 'UK Regional Map',
-      tags: [
-        { label: 'Geography', color: 'var(--color-chart-6)' },
-        { label: 'Interactive', color: 'var(--color-chart-4)' }
-      ]
-    },
-    {
       id: 'edi',
       title: 'EDI Dashboard',
       description: 'Equality, Diversity & Inclusion metrics with interactive demographic analysis',
@@ -553,10 +533,10 @@ function AnalysisPage() {
         {dashboards.map((dashboard) => {
           const IconComponent = dashboard.icon
           return (
-            <Grid item xs={12} md={6} key={dashboard.id}>
+            <Grid item xs={12} md={4} key={dashboard.id}>
               <Card 
                 sx={{ 
-                  height: 240,
+                  height: 140,
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   border: '1px solid var(--color-border-primary)',
@@ -591,26 +571,21 @@ function AnalysisPage() {
                       lineHeight: 1.3, 
                       fontSize: '12px',
                       display: '-webkit-box',
-                      WebkitLineClamp: 2,
+                      WebkitLineClamp: 3,
                       WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden'
+                      overflow: 'hidden',
+                      flex: 1
                     }}
                   >
                     {dashboard.description}
                   </Typography>
-
-                  {/* Chart Preview */}
-                  <Box sx={{ mb: 0.5, minHeight: 100, flex: '0 0 100px' }}>
-                    {renderChart(dashboard.chartType, dashboard.chartData, 'var(--color-primary)', dashboard.chartLabel)}
-                  </Box>
 
                   {/* Tags */}
                   <Box sx={{ 
                     display: 'flex', 
                     gap: 0.5, 
                     flexWrap: 'wrap',
-                    mt: 'auto',
-                    minHeight: '32px'
+                    mt: 'auto'
                   }}>
                     {dashboard.tags.slice(0, 3).map((tag, index) => (
                       <Chip 

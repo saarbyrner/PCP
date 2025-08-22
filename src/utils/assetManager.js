@@ -31,7 +31,7 @@ export const ORGANIZATION_DIMENSIONS = {
   'fa': { width: 600, height: 600, aspectRatio: 1 }, // Square
   'lca': { width: 840, height: 430, aspectRatio: 1.95 }, // Wide
   'lma': { width: 284, height: 111, aspectRatio: 2.56 }, // Very wide
-  'pfa': { width: 1200, height: 628, aspectRatio: 1.91 }, // Wide
+  'fip': { width: 1200, height: 628, aspectRatio: 1.91 }, // Wide - Football Intelligence Platform
   'premier-league': { width: 225, height: 225, aspectRatio: 1 }, // Square
   'womens-professional-game': { width: 318, height: 159, aspectRatio: 2 } // Wide
 }
@@ -95,9 +95,13 @@ export function getOrganizationLogo(logoName = 'kitman-labs-base') {
     return `${ASSET_PATHS.logos}/${logoName}.png`
   }
   
+  // Special case for FiP - use Kitman Labs base logo
+  if (logoName === 'fip') {
+    return `${ASSET_PATHS.logos}/kitman-labs-base.png`
+  }
+  
   // Special cases for different file formats
   const specialCases = {
-    'pfa': 'jpg',
     'womens-professional-game': 'jpg'
   }
   

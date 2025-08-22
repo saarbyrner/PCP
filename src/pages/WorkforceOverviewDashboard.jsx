@@ -11,6 +11,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, 
 import DashboardCard from '../components/DashboardCard'
 import FilterButton from '../components/FilterButton'
 import FilterDrawer from '../components/FilterDrawer'
+import UKMap from '../components/UKMap'
 import { useCoachData } from '../hooks/useCoachData'
 
 // Get design token colors for charts
@@ -137,7 +138,7 @@ function WorkforceOverviewDashboard() {
 
       <section aria-labelledby="charts-section-title">
         <Typography id="charts-section-title" variant="h6" sx={{ mb: 2, fontWeight: 600, fontSize: '16px', color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-          Demographic Analysis
+          Demographic Analysis & Regional Distribution
         </Typography>
         <Grid container spacing={2}>
         {/* Gender Distribution, Position Type Distribution, Employment Status Distribution */}
@@ -374,6 +375,20 @@ function WorkforceOverviewDashboard() {
             </ResponsiveContainer>
           </DashboardCard>
         </Grid>
+
+        {/* Regional Distribution Map */}
+        <Grid item xs={12}>
+          <DashboardCard title="Regional Distribution Map" height="520px">
+            <Box sx={{ height: '460px', width: '100%' }}>
+              <UKMap 
+                data={coachData.regionalDistribution} 
+                width={1200}
+                height={460}
+              />
+            </Box>
+          </DashboardCard>
+        </Grid>
+
       </Grid>
       </section>
       </Box>
