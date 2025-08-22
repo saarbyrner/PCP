@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useMemo, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import DashboardCard from '../components/DashboardCard'
 import RAGStatusChip from '../components/RAGStatusChip'
 import { completenessQualityData } from '../data/completeness-quality-data'
@@ -30,10 +30,45 @@ import { getOrganizationLogoDimensions } from '../utils/assetManager'
 
 function CompletenessQualityDashboard() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [selectedTab, setSelectedTab] = useState(0)
+
+  // Handle URL query parameters for organization selection and scroll to top
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search)
+    const orgParam = searchParams.get('org')
+    
+    if (orgParam) {
+      const orgIndex = completenessQualityData.organizations.findIndex(org => org.id === orgParam)
+      if (orgIndex !== -1) {
+        setSelectedTab(orgIndex)
+      }
+    }
+    
+    // Scroll to top when component mounts or URL changes
+    setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+    }, 100)
+  }, [location.search])
+
+  // Additional useEffect to ensure scroll to top on component mount
+  useEffect(() => {
+    // Multiple methods to ensure scroll to top works
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  }, [])
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue)
+    // Scroll to top when switching tabs
+    setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+    }, 100)
   }
 
   const selectedOrganization = completenessQualityData.organizations[selectedTab]
@@ -45,7 +80,9 @@ function CompletenessQualityDashboard() {
       selectedOrganization.metrics.length
     ),
     totalOutliers: selectedOrganization.metrics.reduce((sum, metric) => sum + metric.outliers, 0),
-    totalRecords: selectedOrganization.metrics[0]?.totalRecords || 0,
+    totalRecords: selectedOrganization.metrics.reduce((sum, metric) => sum + metric.totalRecords, 0),
+    // Calculate quality score based on outliers (inverse relationship - fewer outliers = better quality)
+    qualityScore: Math.max(0, Math.round(100 - (selectedOrganization.metrics.reduce((sum, metric) => sum + metric.outliers, 0) / selectedOrganization.metrics.reduce((sum, metric) => sum + metric.totalRecords, 0)) * 100)),
     criticalIssues: selectedOrganization.metrics.filter(m => m.completeness < 75).length,
     needsAttention: selectedOrganization.metrics.filter(m => m.completeness >= 75 && m.completeness < 90).length,
     goodStatus: selectedOrganization.metrics.filter(m => m.completeness >= 90).length
@@ -122,13 +159,21 @@ function CompletenessQualityDashboard() {
         <Grid item xs={12} sm={6} md={3}>
           <DashboardCard
             title="Average Completeness"
-            subtitle="Overall data quality score"
+            subtitle="Overall data completeness score"
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               <RAGStatusChip completeness={summaryStats.averageCompleteness} size="medium" />
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {summaryStats.averageCompleteness}%
-              </Typography>
+            </Box>
+          </DashboardCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={3}>
+          <DashboardCard
+            title="Data Quality Score"
+            subtitle="Based on outlier analysis"
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <RAGStatusChip completeness={summaryStats.qualityScore} size="medium" />
             </Box>
           </DashboardCard>
         </Grid>
@@ -141,9 +186,6 @@ function CompletenessQualityDashboard() {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               <Typography variant="h6" sx={{ fontWeight: 600, color: 'var(--color-error)' }}>
                 {summaryStats.totalOutliers.toLocaleString()}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                out of {summaryStats.totalRecords.toLocaleString()}
               </Typography>
             </Box>
           </DashboardCard>
@@ -165,21 +207,7 @@ function CompletenessQualityDashboard() {
           </DashboardCard>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
-          <DashboardCard
-            title="Good Status"
-            subtitle="Metrics above 90% completeness"
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Typography variant="h6" sx={{ fontWeight: 600, color: 'var(--color-success)' }}>
-                {summaryStats.goodStatus}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                metrics
-              </Typography>
-            </Box>
-          </DashboardCard>
-        </Grid>
+        
       </Grid>
 
       {/* Completeness Table */}
@@ -198,7 +226,9 @@ function CompletenessQualityDashboard() {
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
                   Completeness
                 </TableCell>
-
+                <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
+                  Quality
+                </TableCell>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
                   Outliers
                 </TableCell>
@@ -208,7 +238,11 @@ function CompletenessQualityDashboard() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {selectedOrganization.metrics.map((metric, index) => (
+              {selectedOrganization.metrics.map((metric, index) => {
+                // Calculate quality score for this metric
+                const qualityScore = Math.max(0, Math.round(100 - (metric.outliers / metric.totalRecords) * 100))
+                
+                return (
                 <TableRow key={index} sx={{ '&:hover': { backgroundColor: 'var(--color-background-secondary)' } }}>
                   <TableCell sx={{ fontWeight: 500 }}>
                     {metric.metric}
@@ -218,7 +252,15 @@ function CompletenessQualityDashboard() {
                       {metric.completeness}%
                     </Typography>
                   </TableCell>
-
+                  <TableCell>
+                    <Typography variant="body2" sx={{ 
+                      fontWeight: 600,
+                      color: qualityScore >= 90 ? 'var(--color-success)' : 
+                             qualityScore >= 75 ? 'var(--color-warning)' : 'var(--color-error)'
+                    }}>
+                      {qualityScore}%
+                    </Typography>
+                  </TableCell>
                   <TableCell>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <Typography variant="body2" sx={{ fontWeight: 500 }}>
@@ -252,7 +294,8 @@ function CompletenessQualityDashboard() {
                     </Box>
                   </TableCell>
                 </TableRow>
-              ))}
+                )
+              })}
             </TableBody>
           </Table>
         </TableContainer>
@@ -277,6 +320,9 @@ function CompletenessQualityDashboard() {
             <Typography variant="caption">Critical (&lt;75%)</Typography>
           </Box>
         </Stack>
+        <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+          Quality scores are calculated based on outlier analysis - fewer outliers indicate higher quality data.
+        </Typography>
       </Box>
     </Box>
   )

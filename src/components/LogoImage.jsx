@@ -58,7 +58,8 @@ function LogoImage({
     height: height,
     position: 'relative',
     overflow: 'hidden',
-    minWidth: type === 'organization' ? Math.max(width, 80) : width
+    minWidth: type === 'organization' ? Math.min(width, 60) : width,
+    maxWidth: type === 'organization' ? Math.max(width, 80) : width
   }
 
   const imageStyles = {
@@ -67,12 +68,12 @@ function LogoImage({
     width: 'auto',
     height: 'auto',
     objectFit: 'contain',
-    objectPosition: 'center',
+    objectPosition: 'left center',
     opacity: imageLoaded ? 1 : 0,
     transition: 'opacity 0.2s ease',
     display: 'block',
     borderRadius: type === 'organization' ? 'var(--radius-sm)' : '0',
-    minWidth: type === 'organization' ? '60px' : 'auto'
+    minWidth: type === 'organization' ? '40px' : 'auto'
   }
 
   // Fallback placeholder

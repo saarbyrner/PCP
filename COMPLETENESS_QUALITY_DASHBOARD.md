@@ -4,7 +4,7 @@
 
 The Completeness & Quality Dashboard provides comprehensive data quality insights across partner organizations, focusing on performance analytics, player monitoring, and sports science metrics that are core to Kitman Labs software capabilities.
 
-## Partner Organizations
+## Partner Organisations
 
 ### 1. **Premier League**
    - Player performance data and match statistics

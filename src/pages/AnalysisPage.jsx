@@ -8,7 +8,8 @@ import {
   CardContent, 
   Grid, 
   Chip,
-  IconButton
+  IconButton,
+  Divider
 } from '@mui/material'
 import { 
   DashboardOutlined, 
@@ -22,242 +23,15 @@ import {
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, LineChart, Line, Area, AreaChart } from 'recharts'
 import pcpData from '../data/pcp.json'
 import { liverpoolFCData } from '../data/liverpool-fc-coaches'
+import { completenessQualityData } from '../data/completeness-quality-data'
+import LogoImage from '../components/LogoImage'
+import { getOrganizationLogoDimensions } from '../utils/assetManager'
 
 function AnalysisPage() {
   const navigate = useNavigate()
   const { isLeagueView, currentTheme } = useView()
 
-  // Chart rendering helper
-  const renderChart = (chartType, data, primaryColor = 'var(--color-primary)', label = '') => {
-    const COLORS = [primaryColor, 'var(--color-chart-2)', 'var(--color-chart-3)', 'var(--color-chart-4)', 'var(--color-chart-5)', 'var(--color-chart-6)', 'var(--color-chart-7)', 'var(--color-chart-8)']
-    
-    switch (chartType) {
-      case 'pie':
-        return (
-          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <ResponsiveContainer width="100%" height={90}>
-              <PieChart>
-                <Pie
-                  data={data || []}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={15}
-                  outerRadius={40}
-                  fill={primaryColor}
-                >
-                  {(data || []).map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-            {label && (
-              <Typography variant="caption" sx={{ fontSize: '9px', color: 'text.secondary', textAlign: 'center', mt: 0.5 }}>
-                {label}
-              </Typography>
-            )}
-          </Box>
-        )
-      case 'timeline':
-        return (
-          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <Box sx={{ 
-              height: '60px',
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              px: 1
-            }}>
-              {/* Timeline line */}
-              <Box sx={{ 
-                position: 'absolute', 
-                top: '50%', 
-                left: '10px', 
-                right: '10px', 
-                height: '2px', 
-                backgroundColor: 'var(--color-border-primary)',
-                borderRadius: '1px'
-              }} />
-              
-              {/* Timeline points */}
-              {[20, 40, 60, 80].map((position, index) => (
-                <Box key={index} sx={{ 
-                  position: 'absolute', 
-                  left: `${position}%`, 
-                  top: '50%',
-                  transform: 'translateY(-50%)'
-                }}>
-                  <Box sx={{ 
-                    width: '8px', 
-                    height: '8px', 
-                    backgroundColor: index === 2 ? primaryColor : 'var(--color-border-primary)',
-                    borderRadius: '50%',
-                    border: `2px solid ${index === 2 ? 'var(--color-white)' : 'var(--color-background-tertiary)'}`,
-                    boxShadow: index === 2 ? '0 2px 4px rgba(0,0,0,0.2)' : 'none'
-                  }} />
-                  {index === 2 && (
-                    <Box sx={{ 
-                      position: 'absolute', 
-                      top: '-20px', 
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      backgroundColor: primaryColor,
-                      color: 'white',
-                      px: 0.5,
-                      py: 0.25,
-                      borderRadius: '2px',
-                      fontSize: '8px',
-                      whiteSpace: 'nowrap'
-                    }}>
-                      Current Role
-                    </Box>
-                  )}
-                </Box>
-              ))}
-            </Box>
-            {label && (
-              <Typography variant="caption" sx={{ fontSize: '9px', color: 'text.secondary', textAlign: 'center', mt: 0.5 }}>
-                {label}
-              </Typography>
-            )}
-          </Box>
-        )
-      case 'line':
-        return (
-          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <ResponsiveContainer width="100%" height={70}>
-              <LineChart data={data || []}>
-                <Line 
-                  type="monotone" 
-                  dataKey="value" 
-                  stroke={primaryColor} 
-                  strokeWidth={2}
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-            {label && (
-              <Typography variant="caption" sx={{ fontSize: '10px', color: 'text.secondary', textAlign: 'center', mt: 0.5 }}>
-                {label}
-              </Typography>
-            )}
-          </Box>
-        )
-      case 'area':
-        return (
-          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <ResponsiveContainer width="100%" height={70}>
-              <AreaChart data={data || []}>
-                <Area 
-                  type="monotone" 
-                  dataKey="value" 
-                  stroke={primaryColor} 
-                  fill={`${primaryColor}30`}
-                  strokeWidth={2}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-            {label && (
-              <Typography variant="caption" sx={{ fontSize: '10px', color: 'text.secondary', textAlign: 'center', mt: 0.5 }}>
-                {label}
-              </Typography>
-            )}
-          </Box>
-        )
-      case 'bar':
-        return (
-          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <ResponsiveContainer width="100%" height={70}>
-              <BarChart data={data || []}>
-                <Bar dataKey="coachesPerMillion" fill={primaryColor} radius={[2, 2, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-            {label && (
-              <Typography variant="caption" sx={{ fontSize: '10px', color: 'text.secondary', textAlign: 'center', mt: 0.5 }}>
-                {label}
-              </Typography>
-            )}
-          </Box>
-        )
-      case 'compliance':
-        return (
-          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <ResponsiveContainer width="100%" height={70}>
-              <BarChart data={Object.entries(data || {}).map(([key, value]) => ({ 
-                name: key.replace(/([A-Z])/g, ' $1').trim(), 
-                compliant: value?.compliant || 0,
-                total: value?.total || 0 
-              }))}>
-                <Bar dataKey="compliant" fill={primaryColor} radius={[2, 2, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-            {label && (
-              <Typography variant="caption" sx={{ fontSize: '10px', color: 'text.secondary', textAlign: 'center', mt: 0.5 }}>
-                {label}
-              </Typography>
-            )}
-          </Box>
-        )
-      case 'sankey':
-        return (
-          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <ResponsiveContainer width="100%" height={70}>
-              <AreaChart data={data || []}>
-                <Area 
-                  type="monotone" 
-                  dataKey="coaches" 
-                  stroke={primaryColor} 
-                  fill={`${primaryColor}30`}
-                  strokeWidth={2}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-            {label && (
-              <Typography variant="caption" sx={{ fontSize: '10px', color: 'text.secondary', textAlign: 'center', mt: 0.5 }}>
-                {label}
-              </Typography>
-            )}
-          </Box>
-        )
-      case 'heatmap':
-        return (
-          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <Box sx={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(3, 1fr)', 
-              gap: 1,
-              height: '70px',
-              alignItems: 'end'
-            }}>
-              {['UEFA B', 'UEFA A', 'UEFA Pro'].map((qual, index) => (
-                <Box key={index} sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-                  {['M', 'F'].map((gender, gIndex) => (
-                    <Box
-                      key={gIndex}
-                      sx={{
-                        height: gIndex === 0 ? '16px' : '4px',
-                        backgroundColor: `${primaryColor}${gIndex === 0 ? '' : '60'}`,
-                        borderRadius: '1px',
-                        opacity: index === 0 ? 1 : index === 1 ? 0.7 : 0.4
-                      }}
-                    />
-                  ))}
-                </Box>
-              ))}
-            </Box>
-            {label && (
-              <Typography variant="caption" sx={{ fontSize: '9px', color: 'text.secondary', textAlign: 'center', mt: 0.5 }}>
-                {label}
-              </Typography>
-            )}
-          </Box>
-        )
-      default:
-        return null
-    }
-  }
+
   
   // Club View Filter State
   const [filters, ] = useState({
@@ -496,7 +270,7 @@ function AnalysisPage() {
     {
       id: 'completeness-quality',
       title: 'Data Quality & Completeness',
-      description: 'Completeness and quality tables for partner organizations with RAG status indicators',
+      description: 'Completeness and quality tables for partner organisations with RAG status indicators',
       icon: AssessmentOutlined,
       route: '/analysis/completeness-quality',
       chartData: [
@@ -514,8 +288,48 @@ function AnalysisPage() {
     }
   ]
 
+  // Organization-specific dashboards
+  const organizationDashboards = completenessQualityData.organizations.map(org => {
+    // Calculate average completeness for the organization
+    const avgCompleteness = Math.round(
+      org.metrics.reduce((sum, metric) => sum + metric.completeness, 0) / org.metrics.length
+    )
+    
+    // Calculate quality score based on outliers (inverse relationship - fewer outliers = better quality)
+    const totalOutliers = org.metrics.reduce((sum, metric) => sum + metric.outliers, 0)
+    const totalRecords = org.metrics.reduce((sum, metric) => sum + metric.totalRecords, 0)
+    const outlierPercentage = (totalOutliers / totalRecords) * 100
+    const qualityScore = Math.max(0, Math.round(100 - outlierPercentage))
+    
+    // Calculate RAG status based on completeness
+    const ragStatus = avgCompleteness >= 90 ? 'green' : avgCompleteness >= 75 ? 'amber' : 'red'
+    
+    // Calculate quality RAG status
+    const qualityRagStatus = qualityScore >= 90 ? 'green' : qualityScore >= 75 ? 'amber' : 'red'
+    
+    return {
+      id: org.id,
+      title: org.name,
+      logo: org.logo,
+      route: `/analysis/completeness-quality?org=${org.id}`,
+      ragStatus,
+      avgCompleteness,
+      qualityScore,
+      qualityRagStatus,
+      tags: [
+        { label: 'Data Completeness', color: 'var(--color-chart-2)' },
+        { label: 'Data Quality', color: 'var(--color-chart-3)' },
+        { label: ragStatus === 'green' ? 'Good Status' : ragStatus === 'amber' ? 'Needs Attention' : 'Critical Status', color: ragStatus === 'green' ? 'var(--color-success)' : ragStatus === 'amber' ? 'var(--color-warning)' : 'var(--color-error)' }
+      ]
+    }
+  })
+
   const handleDashboardClick = (route) => {
     navigate(route)
+    // Scroll to top when navigating to a new page
+    setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+    }, 100)
   }
 
   return (
@@ -609,6 +423,126 @@ function AnalysisPage() {
             </Grid>
           )
         })}
+      </Grid>
+
+      {/* Divider */}
+      <Box sx={{ my: 4 }}>
+        <Divider sx={{ borderColor: 'var(--color-border-primary)' }}>
+          <Chip 
+            label="Partner Organisations" 
+            size="small" 
+            sx={{ 
+              backgroundColor: 'var(--color-background-secondary)',
+              color: 'var(--color-text-secondary)',
+              fontSize: '12px',
+              fontWeight: 500
+            }}
+          />
+        </Divider>
+      </Box>
+      <Grid container spacing={2}>
+        {organizationDashboards.map((dashboard) => (
+          <Grid item xs={12} md={4} key={dashboard.id}>
+                          <Card 
+                sx={{ 
+                  height: 140,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  border: '1px solid var(--color-border-primary)',
+                  '&:hover': {
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                    borderColor: 'var(--color-primary)'
+                  }
+                }}
+              onClick={() => handleDashboardClick(dashboard.route)}
+            >
+              <CardContent sx={{ p: 1.5, height: '100%', display: 'flex', flexDirection: 'column' }}>
+                {/* Header with Logo */}
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1.5 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, flex: 1, minWidth: 0 }}>
+                    <Box sx={{ 
+                      minWidth: 40,
+                      maxWidth: 80,
+                      height: 40, 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'flex-start',
+                      flexShrink: 0
+                    }}>
+                      {(() => {
+                        const logoDimensions = getOrganizationLogoDimensions(dashboard.id, 40)
+                        return (
+                          <LogoImage 
+                            type="organization"
+                            logoId={dashboard.id}
+                            width={logoDimensions.width}
+                            height={logoDimensions.height}
+                            alt={`${dashboard.title} logo`}
+                          />
+                        )
+                      })()}
+                    </Box>
+                    <Box sx={{ flex: 1, minWidth: 0 }}>
+                      <Typography 
+                        variant="h6" 
+                        sx={{ 
+                          fontWeight: 600, 
+                          fontSize: '16px', 
+                          lineHeight: 1.3,
+                          overflow: 'hidden',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          wordBreak: 'break-word'
+                        }}
+                      >
+                        {dashboard.title}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <IconButton size="small" sx={{ color: 'var(--color-text-secondary)', flexShrink: 0 }}>
+                    <ArrowForwardOutlined fontSize="small" />
+                  </IconButton>
+                </Box>
+
+                {/* Data Metrics */}
+                <Box sx={{ display: 'flex', gap: 1, mb: 1.5 }}>
+                  <Box sx={{ 
+                    flex: 1,
+                    backgroundColor: 'var(--color-background-tertiary)',
+                    borderRadius: 'var(--radius-sm)',
+                    p: 1,
+                    textAlign: 'center'
+                  }}>
+                    <Typography variant="caption" sx={{ fontSize: '9px', color: 'text.secondary', display: 'block' }}>
+                      Completeness
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '14px', color: dashboard.ragStatus === 'green' ? 'var(--color-success)' : dashboard.ragStatus === 'amber' ? 'var(--color-warning)' : 'var(--color-error)' }}>
+                      {dashboard.avgCompleteness}%
+                    </Typography>
+                  </Box>
+                  <Box sx={{ 
+                    flex: 1,
+                    backgroundColor: 'var(--color-background-tertiary)',
+                    borderRadius: 'var(--radius-sm)',
+                    p: 1,
+                    textAlign: 'center'
+                  }}>
+                    <Typography variant="caption" sx={{ fontSize: '9px', color: 'text.secondary', display: 'block' }}>
+                      Quality
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '14px', color: dashboard.qualityRagStatus === 'green' ? 'var(--color-success)' : dashboard.qualityRagStatus === 'amber' ? 'var(--color-warning)' : 'var(--color-error)' }}>
+                      {dashboard.qualityScore}%
+                    </Typography>
+                  </Box>
+                </Box>
+
+
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
     </Box>
   )
