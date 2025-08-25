@@ -221,13 +221,13 @@ function CompletenessQualityDashboard() {
             <TableHead>
               <TableRow sx={{ backgroundColor: 'var(--color-background-secondary)' }}>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
-                  Metric (what must be collected)
+                  Metric
                 </TableCell>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
                   Completeness
                 </TableCell>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
-                  Quality (consistency)
+                  Quality
                 </TableCell>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
                   Outliers
