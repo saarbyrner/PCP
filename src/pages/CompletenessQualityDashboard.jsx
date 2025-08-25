@@ -98,8 +98,8 @@ function CompletenessQualityDashboard() {
         >
           <ArrowBackOutlined />
         </IconButton>
-        <Typography variant="h4" sx={{ fontWeight: 600, color: 'text.primary' }}>
-          Data Completeness & Quality Dashboard
+        <Typography variant="h5" sx={{ fontWeight: 600, color: 'text.primary', fontSize: '20px' }}>
+          Partner Dashboards
         </Typography>
       </Box>
 
@@ -145,11 +145,11 @@ function CompletenessQualityDashboard() {
           )
         })()}
         <Box>
-          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '16px' }}>
             {selectedOrganization.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Data Quality & Completeness Overview
+            Equity of opportunity: hiring, shortlisting, panel diversity, outcomes
           </Typography>
         </Box>
       </Box>
@@ -158,8 +158,8 @@ function CompletenessQualityDashboard() {
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={3}>
           <DashboardCard
-            title="Average Completeness"
-            subtitle="Overall data completeness score"
+            title="Average EDI Data Completeness"
+            subtitle="Coverage across hiring/opportunity metrics"
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               <RAGStatusChip completeness={summaryStats.averageCompleteness} size="medium" />
@@ -170,7 +170,7 @@ function CompletenessQualityDashboard() {
         <Grid item xs={12} sm={6} md={3}>
           <DashboardCard
             title="Data Quality Score"
-            subtitle="Based on outlier analysis"
+            subtitle="EDI reporting consistency"
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               <RAGStatusChip completeness={summaryStats.qualityScore} size="medium" />
@@ -180,8 +180,8 @@ function CompletenessQualityDashboard() {
 
         <Grid item xs={12} sm={6} md={3}>
           <DashboardCard
-            title="Total Outliers"
-            subtitle="Data quality issues detected"
+            title="Total Anomalies"
+            subtitle="Inconsistent/missing values in EDI reporting"
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               <Typography variant="h6" sx={{ fontWeight: 600, color: 'var(--color-error)' }}>
@@ -193,8 +193,8 @@ function CompletenessQualityDashboard() {
 
         <Grid item xs={12} sm={6} md={3}>
           <DashboardCard
-            title="Critical Issues"
-            subtitle="Metrics below 75% completeness"
+            title="Critical Gaps"
+            subtitle="EDI metrics below 75% completeness"
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               <Typography variant="h6" sx={{ fontWeight: 600, color: 'var(--color-error)' }}>
@@ -212,8 +212,8 @@ function CompletenessQualityDashboard() {
 
       {/* Completeness Table */}
       <DashboardCard
-        title="Data Completeness & Quality Metrics"
-        subtitle={`Detailed breakdown for ${selectedOrganization.name}`}
+        title="EDI Hiring & Opportunity Metrics"
+        subtitle={`Accountability breakdown for ${selectedOrganization.name}`}
         height="auto"
       >
         <TableContainer component={Paper} sx={{ boxShadow: 'none', border: '1px solid var(--color-border-primary)' }}>
@@ -221,13 +221,13 @@ function CompletenessQualityDashboard() {
             <TableHead>
               <TableRow sx={{ backgroundColor: 'var(--color-background-secondary)' }}>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
-                  Metric
+                  Metric (what must be collected)
                 </TableCell>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
                   Completeness
                 </TableCell>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
-                  Quality
+                  Quality (consistency)
                 </TableCell>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
                   Outliers

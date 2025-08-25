@@ -269,8 +269,8 @@ function AnalysisPage() {
     },
     {
       id: 'completeness-quality',
-      title: 'Data Quality & Completeness',
-      description: 'Completeness and quality tables for partner organisations with RAG status indicators',
+      title: 'Partner Dashboards',
+      description: 'Hiring, shortlisting, panel diversity and outcomes data completeness with RAG status',
       icon: AssessmentOutlined,
       route: '/analysis/completeness-quality',
       chartData: [
@@ -279,11 +279,11 @@ function AnalysisPage() {
         { name: 'Critical', value: 15 }
       ],
       chartType: 'pie',
-      chartLabel: 'Data Quality Status',
+      chartLabel: 'EDI Reporting Status',
       tags: [
-        { label: 'Quality', color: 'var(--color-success)' },
-        { label: 'RAG Status', color: 'var(--color-warning)' },
-        { label: 'Organizations', color: 'var(--color-error)' }
+        { label: 'EDI', color: 'var(--color-success)' },
+        { label: 'Accountability', color: 'var(--color-warning)' },
+        { label: 'Hiring Data', color: 'var(--color-error)' }
       ]
     }
   ]

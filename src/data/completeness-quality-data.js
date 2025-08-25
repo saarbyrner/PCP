@@ -8,15 +8,15 @@ export const completenessQualityData = {
       name: 'Premier League',
       logo: '/assets/logos/organizations/premier-league.png',
       metrics: [
-        { metric: 'Player Performance Data', completeness: 98, outliers: 180, totalRecords: 10000 },
-        { metric: 'Match Statistics', completeness: 99, outliers: 60, totalRecords: 10000 },
-        { metric: 'Training Load Metrics', completeness: 95, outliers: 480, totalRecords: 10000 },
-        { metric: 'Injury Records', completeness: 92, outliers: 720, totalRecords: 10000 },
-        { metric: 'GPS Tracking Data', completeness: 94, outliers: 340, totalRecords: 10000 },
-        { metric: 'Heart Rate Variability', completeness: 89, outliers: 880, totalRecords: 10000 },
-        { metric: 'Recovery Metrics', completeness: 87, outliers: 1000, totalRecords: 10000 },
-        { metric: 'Nutrition Data', completeness: 85, outliers: 1200, totalRecords: 10000 },
-        { metric: 'Sleep Quality Metrics', completeness: 82, outliers: 1400, totalRecords: 10000 }
+        { metric: 'Job Posts with EDI Statement', completeness: 90, outliers: 800, totalRecords: 10000 },
+        { metric: 'Demographic Data on Applicants', completeness: 88, outliers: 950, totalRecords: 10000 },
+        { metric: 'Shortlist Diversity Disclosure', completeness: 84, outliers: 1200, totalRecords: 10000 },
+        { metric: 'Interview Panel Diversity', completeness: 80, outliers: 1500, totalRecords: 10000 },
+        { metric: 'Final Round Diversity Disclosure', completeness: 86, outliers: 1100, totalRecords: 10000 },
+        { metric: 'Hires by Ethnicity (Reported)', completeness: 92, outliers: 700, totalRecords: 10000 },
+        { metric: 'Progression Outcomes by Ethnicity', completeness: 85, outliers: 1300, totalRecords: 10000 },
+        { metric: 'Pay Band Transparency (Coaching)', completeness: 78, outliers: 1600, totalRecords: 10000 },
+        { metric: 'Retention by Ethnicity (12m)', completeness: 83, outliers: 1400, totalRecords: 10000 }
       ]
     },
     {
@@ -24,15 +24,15 @@ export const completenessQualityData = {
       name: 'English Football League (EFL)',
       logo: '/assets/logos/organizations/efl.png',
       metrics: [
-        { metric: 'Player Performance Data', completeness: 95, outliers: 240, totalRecords: 10000 },
-        { metric: 'Match Statistics', completeness: 97, outliers: 100, totalRecords: 10000 },
-        { metric: 'Training Load Metrics', completeness: 92, outliers: 600, totalRecords: 10000 },
-        { metric: 'Injury Records', completeness: 89, outliers: 800, totalRecords: 10000 },
-        { metric: 'GPS Tracking Data', completeness: 91, outliers: 440, totalRecords: 10000 },
-        { metric: 'Heart Rate Variability', completeness: 86, outliers: 1000, totalRecords: 10000 },
-        { metric: 'Recovery Metrics', completeness: 84, outliers: 1120, totalRecords: 10000 },
-        { metric: 'Nutrition Data', completeness: 82, outliers: 1280, totalRecords: 10000 },
-        { metric: 'Sleep Quality Metrics', completeness: 79, outliers: 1520, totalRecords: 10000 }
+        { metric: 'Job Posts with EDI Statement', completeness: 88, outliers: 900, totalRecords: 10000 },
+        { metric: 'Demographic Data on Applicants', completeness: 85, outliers: 1150, totalRecords: 10000 },
+        { metric: 'Shortlist Diversity Disclosure', completeness: 80, outliers: 1400, totalRecords: 10000 },
+        { metric: 'Interview Panel Diversity', completeness: 76, outliers: 1700, totalRecords: 10000 },
+        { metric: 'Final Round Diversity Disclosure', completeness: 82, outliers: 1350, totalRecords: 10000 },
+        { metric: 'Hires by Ethnicity (Reported)', completeness: 89, outliers: 950, totalRecords: 10000 },
+        { metric: 'Progression Outcomes by Ethnicity', completeness: 81, outliers: 1450, totalRecords: 10000 },
+        { metric: 'Pay Band Transparency (Coaching)', completeness: 74, outliers: 1800, totalRecords: 10000 },
+        { metric: 'Retention by Ethnicity (12m)', completeness: 79, outliers: 1600, totalRecords: 10000 }
       ]
     },
     {
@@ -40,15 +40,15 @@ export const completenessQualityData = {
       name: 'Football Association (FA)',
       logo: '/assets/logos/organizations/fa.png',
       metrics: [
-        { metric: 'Coaching Qualifications', completeness: 97, outliers: 300, totalRecords: 10000 },
-        { metric: 'Performance Analytics Training', completeness: 94, outliers: 480, totalRecords: 10000 },
-        { metric: 'Sports Science Data', completeness: 91, outliers: 720, totalRecords: 10000 },
-        { metric: 'Player Development Metrics', completeness: 93, outliers: 560, totalRecords: 10000 },
-        { metric: 'Match Analysis Data', completeness: 96, outliers: 360, totalRecords: 10000 },
-        { metric: 'Talent Identification Metrics', completeness: 88, outliers: 880, totalRecords: 10000 },
-        { metric: 'Youth Development Data', completeness: 90, outliers: 800, totalRecords: 10000 },
-        { metric: 'Coaching Standards', completeness: 95, outliers: 400, totalRecords: 10000 },
-        { metric: 'Performance Benchmarking', completeness: 87, outliers: 960, totalRecords: 10000 }
+        { metric: 'Job Posts with EDI Statement', completeness: 92, outliers: 700, totalRecords: 10000 },
+        { metric: 'Demographic Data on Applicants', completeness: 90, outliers: 850, totalRecords: 10000 },
+        { metric: 'Shortlist Diversity Disclosure', completeness: 86, outliers: 1000, totalRecords: 10000 },
+        { metric: 'Interview Panel Diversity', completeness: 84, outliers: 1200, totalRecords: 10000 },
+        { metric: 'Final Round Diversity Disclosure', completeness: 89, outliers: 900, totalRecords: 10000 },
+        { metric: 'Hires by Ethnicity (Reported)', completeness: 94, outliers: 600, totalRecords: 10000 },
+        { metric: 'Progression Outcomes by Ethnicity', completeness: 88, outliers: 950, totalRecords: 10000 },
+        { metric: 'Pay Band Transparency (Coaching)', completeness: 80, outliers: 1400, totalRecords: 10000 },
+        { metric: 'Retention by Ethnicity (12m)', completeness: 85, outliers: 1200, totalRecords: 10000 }
       ]
     },
     {
@@ -56,15 +56,15 @@ export const completenessQualityData = {
       name: 'Women\'s Professional Game',
       logo: '/assets/logos/organizations/womens-professional-game.png',
       metrics: [
-        { metric: 'Player Performance Data', completeness: 93, outliers: 280, totalRecords: 10000 },
-        { metric: 'Match Statistics', completeness: 95, outliers: 140, totalRecords: 10000 },
-        { metric: 'Training Load Metrics', completeness: 89, outliers: 680, totalRecords: 10000 },
-        { metric: 'Injury Records', completeness: 86, outliers: 880, totalRecords: 10000 },
-        { metric: 'GPS Tracking Data', completeness: 88, outliers: 520, totalRecords: 10000 },
-        { metric: 'Heart Rate Variability', completeness: 83, outliers: 1080, totalRecords: 10000 },
-        { metric: 'Recovery Metrics', completeness: 81, outliers: 1200, totalRecords: 10000 },
-        { metric: 'Nutrition Data', completeness: 79, outliers: 1360, totalRecords: 10000 },
-        { metric: 'Sleep Quality Metrics', completeness: 76, outliers: 1600, totalRecords: 10000 }
+        { metric: 'Job Posts with EDI Statement', completeness: 89, outliers: 800, totalRecords: 10000 },
+        { metric: 'Demographic Data on Applicants', completeness: 86, outliers: 1000, totalRecords: 10000 },
+        { metric: 'Shortlist Diversity Disclosure', completeness: 82, outliers: 1250, totalRecords: 10000 },
+        { metric: 'Interview Panel Diversity', completeness: 78, outliers: 1550, totalRecords: 10000 },
+        { metric: 'Final Round Diversity Disclosure', completeness: 84, outliers: 1200, totalRecords: 10000 },
+        { metric: 'Hires by Ethnicity (Reported)', completeness: 90, outliers: 900, totalRecords: 10000 },
+        { metric: 'Progression Outcomes by Ethnicity', completeness: 83, outliers: 1300, totalRecords: 10000 },
+        { metric: 'Pay Band Transparency (Coaching)', completeness: 76, outliers: 1650, totalRecords: 10000 },
+        { metric: 'Retention by Ethnicity (12m)', completeness: 81, outliers: 1500, totalRecords: 10000 }
       ]
     },
     {
@@ -72,15 +72,15 @@ export const completenessQualityData = {
       name: 'Football Intelligence Platform (FiP)',
       logo: '/assets/logos/kitman-labs-base.png',
       metrics: [
-        { metric: 'Performance Analytics', completeness: 96, outliers: 320, totalRecords: 10000 },
-        { metric: 'Player Monitoring Data', completeness: 94, outliers: 480, totalRecords: 10000 },
-        { metric: 'Training Load Analysis', completeness: 92, outliers: 600, totalRecords: 10000 },
-        { metric: 'Injury Risk Assessment', completeness: 89, outliers: 800, totalRecords: 10000 },
-        { metric: 'Recovery Optimization', completeness: 91, outliers: 720, totalRecords: 10000 },
-        { metric: 'Match Performance Metrics', completeness: 97, outliers: 240, totalRecords: 10000 },
-        { metric: 'Talent Development Tracking', completeness: 88, outliers: 880, totalRecords: 10000 },
-        { metric: 'Sports Science Integration', completeness: 93, outliers: 560, totalRecords: 10000 },
-        { metric: 'Data Quality Assurance', completeness: 95, outliers: 400, totalRecords: 10000 }
+        { metric: 'Job Posts with EDI Statement', completeness: 91, outliers: 750, totalRecords: 10000 },
+        { metric: 'Demographic Data on Applicants', completeness: 89, outliers: 900, totalRecords: 10000 },
+        { metric: 'Shortlist Diversity Disclosure', completeness: 85, outliers: 1100, totalRecords: 10000 },
+        { metric: 'Interview Panel Diversity', completeness: 82, outliers: 1300, totalRecords: 10000 },
+        { metric: 'Final Round Diversity Disclosure', completeness: 88, outliers: 950, totalRecords: 10000 },
+        { metric: 'Hires by Ethnicity (Reported)', completeness: 93, outliers: 650, totalRecords: 10000 },
+        { metric: 'Progression Outcomes by Ethnicity', completeness: 86, outliers: 1050, totalRecords: 10000 },
+        { metric: 'Pay Band Transparency (Coaching)', completeness: 79, outliers: 1500, totalRecords: 10000 },
+        { metric: 'Retention by Ethnicity (12m)', completeness: 84, outliers: 1300, totalRecords: 10000 }
       ]
     },
     {
@@ -88,12 +88,12 @@ export const completenessQualityData = {
       name: 'League Managers Association (LMA)',
       logo: '/assets/logos/organizations/lma.png',
       metrics: [
-        { metric: 'Performance Management Data', completeness: 88, outliers: 560, totalRecords: 10000 },
-        { metric: 'Team Analytics', completeness: 85, outliers: 720, totalRecords: 10000 },
-        { metric: 'Coaching Performance Metrics', completeness: 87, outliers: 640, totalRecords: 10000 },
-        { metric: 'Leadership Development Data', completeness: 82, outliers: 880, totalRecords: 10000 },
-        { metric: 'Strategic Planning Metrics', completeness: 84, outliers: 800, totalRecords: 10000 },
-        { metric: 'Performance Benchmarking', completeness: 86, outliers: 680, totalRecords: 10000 }
+        { metric: 'Job Posts with EDI Statement', completeness: 86, outliers: 1000, totalRecords: 10000 },
+        { metric: 'Demographic Data on Applicants', completeness: 83, outliers: 1200, totalRecords: 10000 },
+        { metric: 'Shortlist Diversity Disclosure', completeness: 78, outliers: 1450, totalRecords: 10000 },
+        { metric: 'Interview Panel Diversity', completeness: 75, outliers: 1650, totalRecords: 10000 },
+        { metric: 'Final Round Diversity Disclosure', completeness: 80, outliers: 1400, totalRecords: 10000 },
+        { metric: 'Hires by Ethnicity (Reported)', completeness: 88, outliers: 1000, totalRecords: 10000 }
       ]
     },
     {
@@ -101,12 +101,12 @@ export const completenessQualityData = {
       name: 'League Coaches Association (LCA)',
       logo: '/assets/logos/organizations/lca.png',
       metrics: [
-        { metric: 'Coaching Performance Data', completeness: 85, outliers: 640, totalRecords: 10000 },
-        { metric: 'Player Development Metrics', completeness: 87, outliers: 560, totalRecords: 10000 },
-        { metric: 'Training Effectiveness', completeness: 83, outliers: 800, totalRecords: 10000 },
-        { metric: 'Skill Development Tracking', completeness: 86, outliers: 680, totalRecords: 10000 },
-        { metric: 'Performance Analytics Usage', completeness: 81, outliers: 960, totalRecords: 10000 },
-        { metric: 'Coaching Standards Compliance', completeness: 89, outliers: 480, totalRecords: 10000 }
+        { metric: 'Job Posts with EDI Statement', completeness: 84, outliers: 1100, totalRecords: 10000 },
+        { metric: 'Demographic Data on Applicants', completeness: 82, outliers: 1300, totalRecords: 10000 },
+        { metric: 'Shortlist Diversity Disclosure', completeness: 77, outliers: 1500, totalRecords: 10000 },
+        { metric: 'Interview Panel Diversity', completeness: 74, outliers: 1700, totalRecords: 10000 },
+        { metric: 'Final Round Diversity Disclosure', completeness: 79, outliers: 1550, totalRecords: 10000 },
+        { metric: 'Hires by Ethnicity (Reported)', completeness: 87, outliers: 1200, totalRecords: 10000 }
       ]
     }
   ]
