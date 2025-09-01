@@ -267,25 +267,7 @@ function AnalysisPage() {
         { label: 'Interactive', color: 'var(--color-chart-4)' }
       ]
     },
-    {
-      id: 'completeness-quality',
-      title: 'Partner Dashboards',
-      description: 'Hiring, shortlisting, panel diversity and outcomes data completeness with RAG status',
-      icon: AssessmentOutlined,
-      route: '/analysis/completeness-quality',
-      chartData: [
-        { name: 'Good', value: 60 },
-        { name: 'Needs Attention', value: 25 },
-        { name: 'Critical', value: 15 }
-      ],
-      chartType: 'pie',
-      chartLabel: 'EDI Reporting Status',
-      tags: [
-        { label: 'EDI', color: 'var(--color-success)' },
-        { label: 'Accountability', color: 'var(--color-warning)' },
-        { label: 'Hiring Data', color: 'var(--color-error)' }
-      ]
-    }
+
   ]
 
   // Organization-specific dashboards
@@ -441,6 +423,105 @@ function AnalysisPage() {
         </Divider>
       </Box>
       <Grid container spacing={2}>
+        {/* Partner Dashboards Card - First in Partner Organisations section */}
+        <Grid item xs={12} md={4}>
+          <Card 
+            sx={{ 
+              height: 140,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              border: '1px solid var(--color-border-primary)',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                borderColor: 'var(--color-primary)'
+              }
+            }}
+            onClick={() => handleDashboardClick('/analysis/completeness-quality')}
+          >
+            <CardContent sx={{ p: 1.5, height: '100%', display: 'flex', flexDirection: 'column' }}>
+              {/* Header */}
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                  <AssessmentOutlined sx={{ color: 'var(--color-primary)', fontSize: 24 }} />
+                  <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '16px', lineHeight: 1.2 }}>
+                    Partner Dashboards
+                  </Typography>
+                </Box>
+                <IconButton size="small" sx={{ color: 'var(--color-text-secondary)' }}>
+                  <ArrowForwardOutlined fontSize="small" />
+                </IconButton>
+              </Box>
+
+              {/* Description */}
+              <Typography 
+                variant="body2" 
+                color="text.secondary" 
+                sx={{ 
+                  mb: 1, 
+                  lineHeight: 1.3, 
+                  fontSize: '12px',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                  flex: 1
+                }}
+              >
+                Hiring, shortlisting, panel diversity and outcomes data completeness with RAG status
+              </Typography>
+
+              {/* Tags */}
+              <Box sx={{ 
+                display: 'flex', 
+                gap: 0.5, 
+                flexWrap: 'wrap',
+                mt: 'auto'
+              }}>
+                <Chip 
+                  label="EDI"
+                  size="small"
+                  variant="filled"
+                  sx={{ 
+                    fontSize: '10px',
+                    height: '20px',
+                    backgroundColor: 'var(--color-success)',
+                    color: 'var(--color-white)',
+                    fontWeight: 500,
+                    flexShrink: 0
+                  }}
+                />
+                <Chip 
+                  label="Accountability"
+                  size="small"
+                  variant="filled"
+                  sx={{ 
+                    fontSize: '10px',
+                    height: '20px',
+                    backgroundColor: 'var(--color-warning)',
+                    color: 'var(--color-white)',
+                    fontWeight: 500,
+                    flexShrink: 0
+                  }}
+                />
+                <Chip 
+                  label="Hiring Data"
+                  size="small"
+                  variant="filled"
+                  sx={{ 
+                    fontSize: '10px',
+                    height: '20px',
+                    backgroundColor: 'var(--color-error)',
+                    color: 'var(--color-white)',
+                    fontWeight: 500,
+                    flexShrink: 0
+                  }}
+                />
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        
         {organizationDashboards.map((dashboard) => (
           <Grid item xs={12} md={4} key={dashboard.id}>
                           <Card 

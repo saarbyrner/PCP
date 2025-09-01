@@ -224,6 +224,9 @@ function CompletenessQualityDashboard() {
                   Metric
                 </TableCell>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
+                  Category
+                </TableCell>
+                <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
                   Completeness
                 </TableCell>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
@@ -246,6 +249,11 @@ function CompletenessQualityDashboard() {
                 <TableRow key={index} sx={{ '&:hover': { backgroundColor: 'var(--color-background-secondary)' } }}>
                   <TableCell sx={{ fontWeight: 500 }}>
                     {metric.metric}
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="body2" sx={{ fontWeight: 500, color: 'text.secondary' }}>
+                      {metric.category}
+                    </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" sx={{ fontWeight: 600 }}>

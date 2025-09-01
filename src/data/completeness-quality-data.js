@@ -8,15 +8,15 @@ export const completenessQualityData = {
       name: 'Premier League',
       logo: '/assets/logos/organizations/premier-league.png',
       metrics: [
-        { metric: 'Job Posts with EDI Statement', completeness: 90, outliers: 800, totalRecords: 10000 },
-        { metric: 'Demographic Data on Applicants', completeness: 88, outliers: 950, totalRecords: 10000 },
-        { metric: 'Shortlist Diversity Disclosure', completeness: 84, outliers: 1200, totalRecords: 10000 },
-        { metric: 'Interview Panel Diversity', completeness: 80, outliers: 1500, totalRecords: 10000 },
-        { metric: 'Final Round Diversity Disclosure', completeness: 86, outliers: 1100, totalRecords: 10000 },
-        { metric: 'Hires by Ethnicity (Reported)', completeness: 92, outliers: 700, totalRecords: 10000 },
-        { metric: 'Progression Outcomes by Ethnicity', completeness: 85, outliers: 1300, totalRecords: 10000 },
-        { metric: 'Pay Band Transparency (Coaching)', completeness: 78, outliers: 1600, totalRecords: 10000 },
-        { metric: 'Retention by Ethnicity (12m)', completeness: 83, outliers: 1400, totalRecords: 10000 }
+        { metric: 'ID', category: 'Workforce Overview', completeness: 95, outliers: 250, totalRecords: 5000 },
+        { metric: 'Club', category: 'Workforce Overview', completeness: 98, outliers: 100, totalRecords: 5000 },
+        { metric: 'Employment Start Date', category: 'Workforce Overview', completeness: 92, outliers: 400, totalRecords: 5000 },
+        { metric: 'Employment End Date', category: 'Workforce Overview', completeness: 88, outliers: 600, totalRecords: 5000 },
+        { metric: 'Area Name', category: 'Coach Development', completeness: 90, outliers: 500, totalRecords: 5000 },
+        { metric: 'Position Type Name', category: 'Coach Development', completeness: 87, outliers: 650, totalRecords: 5000 },
+        { metric: 'Department Name', category: 'Coach Development', completeness: 85, outliers: 750, totalRecords: 5000 },
+        { metric: 'Age Groups', category: 'Coach Development', completeness: 82, outliers: 900, totalRecords: 5000 },
+        { metric: 'Club Job Title', category: 'Coach Development', completeness: 89, outliers: 550, totalRecords: 5000 }
       ]
     },
     {
@@ -24,15 +24,15 @@ export const completenessQualityData = {
       name: 'English Football League (EFL)',
       logo: '/assets/logos/organizations/efl.png',
       metrics: [
-        { metric: 'Job Posts with EDI Statement', completeness: 88, outliers: 900, totalRecords: 10000 },
-        { metric: 'Demographic Data on Applicants', completeness: 85, outliers: 1150, totalRecords: 10000 },
-        { metric: 'Shortlist Diversity Disclosure', completeness: 80, outliers: 1400, totalRecords: 10000 },
-        { metric: 'Interview Panel Diversity', completeness: 76, outliers: 1700, totalRecords: 10000 },
-        { metric: 'Final Round Diversity Disclosure', completeness: 82, outliers: 1350, totalRecords: 10000 },
-        { metric: 'Hires by Ethnicity (Reported)', completeness: 89, outliers: 950, totalRecords: 10000 },
-        { metric: 'Progression Outcomes by Ethnicity', completeness: 81, outliers: 1450, totalRecords: 10000 },
-        { metric: 'Pay Band Transparency (Coaching)', completeness: 74, outliers: 1800, totalRecords: 10000 },
-        { metric: 'Retention by Ethnicity (12m)', completeness: 79, outliers: 1600, totalRecords: 10000 }
+        { metric: 'ID', category: 'Workforce Overview', completeness: 93, outliers: 350, totalRecords: 5000 },
+        { metric: 'Club', category: 'Workforce Overview', completeness: 96, outliers: 200, totalRecords: 5000 },
+        { metric: 'Employment Start Date', category: 'Workforce Overview', completeness: 89, outliers: 550, totalRecords: 5000 },
+        { metric: 'Employment End Date', category: 'Workforce Overview', completeness: 85, outliers: 750, totalRecords: 5000 },
+        { metric: 'Area Name', category: 'Coach Development', completeness: 87, outliers: 650, totalRecords: 5000 },
+        { metric: 'Position Type Name', category: 'Coach Development', completeness: 84, outliers: 800, totalRecords: 5000 },
+        { metric: 'Department Name', category: 'Coach Development', completeness: 82, outliers: 900, totalRecords: 5000 },
+        { metric: 'Age Groups', category: 'Coach Development', completeness: 79, outliers: 1050, totalRecords: 5000 },
+        { metric: 'Club Job Title', category: 'Coach Development', completeness: 86, outliers: 700, totalRecords: 5000 }
       ]
     },
     {
@@ -40,15 +40,15 @@ export const completenessQualityData = {
       name: 'Football Association (FA)',
       logo: '/assets/logos/organizations/fa.png',
       metrics: [
-        { metric: 'Job Posts with EDI Statement', completeness: 92, outliers: 700, totalRecords: 10000 },
-        { metric: 'Demographic Data on Applicants', completeness: 90, outliers: 850, totalRecords: 10000 },
-        { metric: 'Shortlist Diversity Disclosure', completeness: 86, outliers: 1000, totalRecords: 10000 },
-        { metric: 'Interview Panel Diversity', completeness: 84, outliers: 1200, totalRecords: 10000 },
-        { metric: 'Final Round Diversity Disclosure', completeness: 89, outliers: 900, totalRecords: 10000 },
-        { metric: 'Hires by Ethnicity (Reported)', completeness: 94, outliers: 600, totalRecords: 10000 },
-        { metric: 'Progression Outcomes by Ethnicity', completeness: 88, outliers: 950, totalRecords: 10000 },
-        { metric: 'Pay Band Transparency (Coaching)', completeness: 80, outliers: 1400, totalRecords: 10000 },
-        { metric: 'Retention by Ethnicity (12m)', completeness: 85, outliers: 1200, totalRecords: 10000 }
+        { metric: 'Qualification Name', category: 'Workforce Overview', completeness: 94, outliers: 300, totalRecords: 5000 },
+        { metric: 'Date Qualification Achieved', category: 'Workforce Overview', completeness: 91, outliers: 450, totalRecords: 5000 },
+        { metric: 'Gender', category: 'Demographics', completeness: 96, outliers: 200, totalRecords: 5000 },
+        { metric: 'Age', category: 'Demographics', completeness: 93, outliers: 350, totalRecords: 5000 },
+        { metric: 'Country of Nationality', category: 'Demographics', completeness: 89, outliers: 550, totalRecords: 5000 },
+        { metric: 'Region', category: 'Demographics', completeness: 87, outliers: 650, totalRecords: 5000 },
+        { metric: 'Place of Birth', category: 'Demographics', completeness: 85, outliers: 750, totalRecords: 5000 },
+        { metric: 'Qualification Group', category: 'Coach Development', completeness: 92, outliers: 400, totalRecords: 5000 },
+        { metric: 'Qualification Sub Group', category: 'Coach Development', completeness: 88, outliers: 600, totalRecords: 5000 }
       ]
     },
     {
@@ -56,15 +56,10 @@ export const completenessQualityData = {
       name: 'Women\'s Professional Game',
       logo: '/assets/logos/organizations/womens-professional-game.png',
       metrics: [
-        { metric: 'Job Posts with EDI Statement', completeness: 89, outliers: 800, totalRecords: 10000 },
-        { metric: 'Demographic Data on Applicants', completeness: 86, outliers: 1000, totalRecords: 10000 },
-        { metric: 'Shortlist Diversity Disclosure', completeness: 82, outliers: 1250, totalRecords: 10000 },
-        { metric: 'Interview Panel Diversity', completeness: 78, outliers: 1550, totalRecords: 10000 },
-        { metric: 'Final Round Diversity Disclosure', completeness: 84, outliers: 1200, totalRecords: 10000 },
-        { metric: 'Hires by Ethnicity (Reported)', completeness: 90, outliers: 900, totalRecords: 10000 },
-        { metric: 'Progression Outcomes by Ethnicity', completeness: 83, outliers: 1300, totalRecords: 10000 },
-        { metric: 'Pay Band Transparency (Coaching)', completeness: 76, outliers: 1650, totalRecords: 10000 },
-        { metric: 'Retention by Ethnicity (12m)', completeness: 81, outliers: 1500, totalRecords: 10000 }
+        { metric: 'ID', category: 'Workforce Overview', completeness: 92, outliers: 400, totalRecords: 5000 },
+        { metric: 'Club', category: 'Workforce Overview', completeness: 95, outliers: 250, totalRecords: 5000 },
+        { metric: 'Employment Start Date', category: 'Workforce Overview', completeness: 88, outliers: 600, totalRecords: 5000 },
+        { metric: 'Employment End Date', category: 'Workforce Overview', completeness: 84, outliers: 800, totalRecords: 5000 }
       ]
     },
     {
@@ -72,15 +67,9 @@ export const completenessQualityData = {
       name: 'Football Intelligence Platform (FiP)',
       logo: '/assets/logos/kitman-labs-base.png',
       metrics: [
-        { metric: 'Job Posts with EDI Statement', completeness: 91, outliers: 750, totalRecords: 10000 },
-        { metric: 'Demographic Data on Applicants', completeness: 89, outliers: 900, totalRecords: 10000 },
-        { metric: 'Shortlist Diversity Disclosure', completeness: 85, outliers: 1100, totalRecords: 10000 },
-        { metric: 'Interview Panel Diversity', completeness: 82, outliers: 1300, totalRecords: 10000 },
-        { metric: 'Final Round Diversity Disclosure', completeness: 88, outliers: 950, totalRecords: 10000 },
-        { metric: 'Hires by Ethnicity (Reported)', completeness: 93, outliers: 650, totalRecords: 10000 },
-        { metric: 'Progression Outcomes by Ethnicity', completeness: 86, outliers: 1050, totalRecords: 10000 },
-        { metric: 'Pay Band Transparency (Coaching)', completeness: 79, outliers: 1500, totalRecords: 10000 },
-        { metric: 'Retention by Ethnicity (12m)', completeness: 84, outliers: 1300, totalRecords: 10000 }
+        { metric: 'Players Coached', category: 'Coach Development', completeness: 96, outliers: 200, totalRecords: 5000 },
+        { metric: 'Sessions and Drills Coached', category: 'Coach Development', completeness: 94, outliers: 300, totalRecords: 5000 },
+        { metric: 'Results', category: 'Coach Development', completeness: 91, outliers: 450, totalRecords: 5000 }
       ]
     },
     {
@@ -88,12 +77,12 @@ export const completenessQualityData = {
       name: 'League Managers Association (LMA)',
       logo: '/assets/logos/organizations/lma.png',
       metrics: [
-        { metric: 'Job Posts with EDI Statement', completeness: 86, outliers: 1000, totalRecords: 10000 },
-        { metric: 'Demographic Data on Applicants', completeness: 83, outliers: 1200, totalRecords: 10000 },
-        { metric: 'Shortlist Diversity Disclosure', completeness: 78, outliers: 1450, totalRecords: 10000 },
-        { metric: 'Interview Panel Diversity', completeness: 75, outliers: 1650, totalRecords: 10000 },
-        { metric: 'Final Round Diversity Disclosure', completeness: 80, outliers: 1400, totalRecords: 10000 },
-        { metric: 'Hires by Ethnicity (Reported)', completeness: 88, outliers: 1000, totalRecords: 10000 }
+        { metric: 'Disability', category: 'Demographics', completeness: 78, outliers: 1100, totalRecords: 5000 },
+        { metric: 'Ethnicity', category: 'Demographics', completeness: 82, outliers: 900, totalRecords: 5000 },
+        { metric: 'Religion', category: 'Demographics', completeness: 75, outliers: 1250, totalRecords: 5000 },
+        { metric: 'Sexual Identity', category: 'Demographics', completeness: 73, outliers: 1350, totalRecords: 5000 },
+        { metric: 'LMA Programmes', category: 'Coach Development', completeness: 89, outliers: 550, totalRecords: 5000 },
+        { metric: 'Other (Qualifications)', category: 'Coach Development', completeness: 86, outliers: 700, totalRecords: 5000 }
       ]
     },
     {
@@ -101,12 +90,12 @@ export const completenessQualityData = {
       name: 'League Coaches Association (LCA)',
       logo: '/assets/logos/organizations/lca.png',
       metrics: [
-        { metric: 'Job Posts with EDI Statement', completeness: 84, outliers: 1100, totalRecords: 10000 },
-        { metric: 'Demographic Data on Applicants', completeness: 82, outliers: 1300, totalRecords: 10000 },
-        { metric: 'Shortlist Diversity Disclosure', completeness: 77, outliers: 1500, totalRecords: 10000 },
-        { metric: 'Interview Panel Diversity', completeness: 74, outliers: 1700, totalRecords: 10000 },
-        { metric: 'Final Round Diversity Disclosure', completeness: 79, outliers: 1550, totalRecords: 10000 },
-        { metric: 'Hires by Ethnicity (Reported)', completeness: 87, outliers: 1200, totalRecords: 10000 }
+        { metric: 'Disability', category: 'Demographics', completeness: 76, outliers: 1200, totalRecords: 5000 },
+        { metric: 'Ethnicity', category: 'Demographics', completeness: 80, outliers: 1000, totalRecords: 5000 },
+        { metric: 'Religion', category: 'Demographics', completeness: 73, outliers: 1350, totalRecords: 5000 },
+        { metric: 'Sexual Identity', category: 'Demographics', completeness: 71, outliers: 1450, totalRecords: 5000 },
+        { metric: 'LMA Programmes', category: 'Coach Development', completeness: 87, outliers: 650, totalRecords: 5000 },
+        { metric: 'Other (Qualifications)', category: 'Coach Development', completeness: 84, outliers: 800, totalRecords: 5000 }
       ]
     }
   ]
