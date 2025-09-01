@@ -698,7 +698,14 @@ function TimelineVisualization({ data, width = 800, height = 400, demographics =
       
       {/* Timeline Visualization */}
       {demographics.length > 0 ? (
-        <svg ref={svgRef}></svg>
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center',
+          width: '100%'
+        }}>
+          <svg ref={svgRef}></svg>
+        </Box>
       ) : (
         <Box sx={{ 
           height: '400px', 
